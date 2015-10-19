@@ -20,14 +20,16 @@ if (process.argv.length < 3 || defined(argv.h) || defined(argv.help)) {
     console.log('  -o, --output            Directory or filename for the exported glTF file');
     console.log('  -b, --binary            Output binary glTF');
     console.log('  -c  --combine           Combine glTF resources into a single file');
+    console.log('  -t  --technique         Shading technique. Possible values are lambert, phong, blinn, constant');
     console.log('  -h, --help              Display this help');
     process.exit(0);
 }
 
 var objFile = defaultValue(argv._[0], defaultValue(argv.i, argv.input));
-var outputPath = defaultValue(defaultValue(argv.o, argv.output));
+var outputPath = defaultValue(argv._[1], defaultValue(argv.o, argv.output));
 var binary = defaultValue(defaultValue(argv.b, argv.binary), false);
 var combine = defaultValue(defaultValue(argv.c, argv.combine), false);
+var technique = defaultValue(argv.t, argv.technique);
 
 if (!defined(objFile)) {
     console.error('-i or --input argument is required.  See --help for details.');
@@ -36,6 +38,13 @@ if (!defined(objFile)) {
 
 if (!defined(outputPath)) {
     outputPath = path.dirname(objFile);
+}
+
+if (defined(technique)) {
+    technique = technique.toUpperCase();
+    if ((technique !== 'LAMBERT') && (technique !== 'PHONG') && (technique !== 'BLINN') && (technique !== 'CONSTANT')) {
+        console.log('Unrecognized technique \'' + technique + '\'. Using default instead.');
+    }
 }
 
 var inputPath = path.dirname(objFile);
@@ -53,7 +62,7 @@ fs.mkdir(outputPath, function(){
     parseObj(objFile, inputPath, function(data) {
         console.timeEnd('Parse Obj');
         console.time('Create glTF');
-        createGltf(data, modelName, inputPath, outputPath, binary, combine, function() {
+        createGltf(data, modelName, inputPath, outputPath, binary, combine, technique, function() {
             console.timeEnd('Create glTF');
             console.timeEnd('Total');
         });
