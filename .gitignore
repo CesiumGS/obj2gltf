@@ -1,12 +1,3 @@
-*.sdf
-*.opensdf
-*.suo
-*.csproj.user
-*.vcxproj.user
-*.log
-x64
 **/node_modules
-
-# WebStorm user-specific
-.idea/
-data/
+.DS_Store
+Thumbs.db
