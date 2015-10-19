@@ -18,8 +18,8 @@ if (process.argv.length < 3 || defined(argv.h) || defined(argv.help)) {
     console.log('  -i, --input             Path to obj file');
     console.log('  -o, --output            Directory or filename for the exported glTF file');
     console.log('  -b, --binary            Output binary glTF');
-    console.log('  -c  --combine           Combine glTF resources into a single file');
-    console.log('  -t  --technique         Shading technique. Possible values are lambert, phong, blinn, constant');
+    console.log('  -c, --combine           Combine glTF resources into a single file');
+    console.log('  -t, --technique         Shading technique. Possible values are lambert, phong, blinn, constant');
     console.log('  -h, --help              Display this help');
     process.exit(0);
 }
