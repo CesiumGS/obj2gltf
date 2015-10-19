@@ -1,0 +1,10 @@
+{
+  "name": "obj2gltf",
+  "version": "1.0.0",
+  "dependencies": {
+    "async": "^1.4.2",
+    "fs-extra": "^0.24.0",
+    "minimist": "^1.2.0",
+    "path": "^0.12.7"
+  }
+}
