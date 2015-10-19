@@ -13,7 +13,6 @@ var defaultValue = util.defaultValue;
 // TODO : add command line flag for y-up to z-up
 // TODO : support zlib
 // TODO : support binary export
-// TODO : generate normals if they don't exist
 if (process.argv.length < 3 || defined(argv.h) || defined(argv.help)) {
     console.log('Usage: ./bin/obj2gltf.js [INPUT] [OPTIONS]\n');
     console.log('  -i, --input             Path to obj file');
@@ -32,7 +31,7 @@ var combine = defaultValue(defaultValue(argv.c, argv.combine), false);
 var technique = defaultValue(argv.t, argv.technique);
 
 if (!defined(objFile)) {
-    console.error('-i or --input argument is required.  See --help for details.');
+    console.error('-i or --input argument is required. See --help for details.');
     process.exit(1);
 }
 
