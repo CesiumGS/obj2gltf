@@ -9,8 +9,6 @@ var util = require('../lib/util');
 var defined = util.defined;
 var defaultValue = util.defaultValue;
 
-// TODO : assuming all paths in obj are relative, but should consider absolute paths
-// TODO : add command line flag for y-up to z-up
 // TODO : support zlib
 // TODO : support binary export
 if (process.argv.length < 3 || defined(argv.h) || defined(argv.help)) {
