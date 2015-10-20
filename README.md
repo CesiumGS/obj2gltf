@@ -37,6 +37,8 @@ Run `node bin/obj2gltf.js` and pass it the path to an OBJ file.
 
 This tool is still in development. We plan on adding additional features like gzip compression, binary glTF export, and a testing suite.
 
+## Contributions
+
 Pull requests are appreciated.  Please use the same [Contributor License Agreement (CLA)](https://github.com/AnalyticalGraphicsInc/cesium/blob/master/CONTRIBUTING.md) used for [Cesium](http://cesiumjs.org/).
 
 ---
