@@ -25,13 +25,13 @@ Run `node bin/obj2gltf.js` and pass it the path to an OBJ file.
 
 ###Examples:
 
-`node ./bin/obj2gltf.js model.obj`
+`node bin/obj2gltf.js model.obj`
 
-`node ./bin/obj2gltf.js model.obj model.gltf`
+`node bin/obj2gltf.js model.obj model.gltf`
 
-`node ./bin/obj2gltf.js -i model.obj -o model.gltf`
+`node bin/obj2gltf.js -i model.obj -o model.gltf`
 
-`node ./bin/obj2gltf.js -i model.obj -o model.gltf -c -t phong`
+`node bin/obj2gltf.js -i model.obj -o model.gltf -c -t phong`
 
 ## Limitations
 
