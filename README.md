@@ -1,6 +1,6 @@
 # OBJ2GLTF
 
-Convert OBJ assets to [glTF](https://www.khronos.org/gltf).
+Convert OBJ assets to [glTF](https://www.khronos.org/gltf) 1.0.
 
 ## Getting Started
 
@@ -20,7 +20,7 @@ Run `node bin/obj2gltf.js` and pass it the path to an OBJ file.
 |`-i`|Path to the input OBJ file.| :white_check_mark: Yes|
 |`-o`|Directory or filename for the exported glTF file.|No|
 |`-c`|Combine glTF resources, including images, into the exported glTF file.|No, default `false`|
-|`-t`|Shading technique. Possible values are `lambert`, `phong`, `blinn`, and `constant`. The shading technique is typically determined by the MTL file, but this is good for more explicit control.|No|
+|`-t`|Shading technique. Possible values are `lambert`, `phong`, `blinn`, and `constant`. The shading technique is typically determined by the MTL file, but this allows more explicit control.|No|
 |`-h`|Display help|No|
 
 ###Examples:
