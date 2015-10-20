@@ -9,7 +9,7 @@ Install [Node.js](https://nodejs.org/en/) if you don't already have it, clone th
 cd OBJ2GLTF
 npm install
 ```
-Run `node ./bin/obj2gltf.js` and pass it the path to an OBJ file.
+Run `node bin/obj2gltf.js` and pass it the path to an OBJ file.
 
 ## Usage
 
