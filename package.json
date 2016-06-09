@@ -1,41 +1,39 @@
 {
-    "name": "obj2gltf",
-    "version": "0.0.1",
-    "description": "Convert OBJ model format to glTF",
-    "license": "Apache-2.0",
-    "author": {
-        "name": "Sean Lilley",
-        "email": "slilley@agi.com"
-    },
-    "keywords": [
-        "obj",
-        "gltf"
-    ],
-    "homepage": "https://github.com/AnalyticalGraphicsInc/OBJ2GLTF",
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:AnalyticalGraphicsInc/OBJ2GLTF.git"
-    },
-    "bugs": {
-        "url": "https://github.com/AnalyticalGraphicsInc/OBJ2GLTF/issues"
-    },
-    "scripts": {
-        "jshint": "./node_modules/jshint/bin/jshint bin/*.js lib/*.js"
-    },
-    "directories": {
-        "bin": "./bin",
-        "lib": "./lib"
-    },
-    "dependencies": {
-	    "async": "^1.4.2",
-	    "fs-extra": "^0.24.0",
-	    "minimist": "^1.2.0",
-	    "path": "^0.12.7"
-	},
-    "devDependencies": {
-        "jshint": "^2.6.0"
-    },
-    "jshintConfig": {
-        "node": true
-    }
+  "name": "obj2gltf",
+  "version": "0.0.1",
+  "description": "Convert OBJ model format to glTF",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Sean Lilley",
+    "email": "slilley@agi.com"
+  },
+  "keywords": [
+    "obj",
+    "gltf"
+  ],
+  "homepage": "https://github.com/AnalyticalGraphicsInc/OBJ2GLTF",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:AnalyticalGraphicsInc/OBJ2GLTF.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AnalyticalGraphicsInc/OBJ2GLTF/issues"
+  },
+  "scripts": {
+    "jsHint": "gulp jsHint",
+    "jsHint-watch": "gulp jsHint-watch"
+  },
+  "dependencies": {
+    "async": "^1.4.2",
+    "cesium": "^1.22.0",
+    "fs-extra": "^0.30.0",
+    "path": "^0.12.7",
+    "yargs": "^4.7.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.1",
+    "jshint": "^2.6.0",
+    "jshint-stylish": "^2.2.0"
+  }
 }

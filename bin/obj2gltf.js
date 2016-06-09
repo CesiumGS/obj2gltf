@@ -1,67 +1,37 @@
 #!/usr/bin/env node
 "use strict";
-var fs = require('fs');
-var path = require('path');
-var argv = require('minimist')(process.argv.slice(2));
-var parseObj = require('../lib/obj');
-var createGltf = require('../lib/gltf');
-var util = require('../lib/util');
-var defined = util.defined;
-var defaultValue = util.defaultValue;
+var argv = require('yargs').argv;
+var Cesium = require('Cesium');
+var defined = Cesium.defined;
+var defaultValue = Cesium.defaultValue;
+var convert = require('../lib/convert');
 
-// TODO : support zlib
-// TODO : support binary export
 if (process.argv.length < 3 || defined(argv.h) || defined(argv.help)) {
-    console.log('Usage: ./bin/obj2gltf.js [INPUT] [OPTIONS]\n');
+    console.log('Usage: ./bin/obj2gltf.js [INPUT] [OPTIONS]');
     console.log('  -i, --input             Path to obj file');
     console.log('  -o, --output            Directory or filename for the exported glTF file');
     console.log('  -b, --binary            Output binary glTF');
     console.log('  -e, --embed             Embed glTF resources into a single file');
-    console.log('  -t, --technique         Shading technique. Possible values are lambert, phong, blinn, constant');
     console.log('  -h, --help              Display this help');
     process.exit(0);
 }
 
 var objFile = defaultValue(argv._[0], defaultValue(argv.i, argv.input));
 var outputPath = defaultValue(argv._[1], defaultValue(argv.o, argv.output));
-var binary = defaultValue(defaultValue(argv.b, argv.binary), false);
-var embed = defaultValue(defaultValue(argv.e, argv.embed), false);
-var technique = defaultValue(argv.t, argv.technique);
+var binary = defaultValue(argv.b, argv.binary);
+var embed = defaultValue(argv.e, argv.embed);
 
 if (!defined(objFile)) {
-    console.error('-i or --input argument is required. See --help for details.');
-    process.exit(1);
+    throw new Error('-i or --input argument is required. See --help for details.');
 }
 
-if (!defined(outputPath)) {
-    outputPath = path.dirname(objFile);
-}
+console.time('Total');
 
-if (defined(technique)) {
-    technique = technique.toUpperCase();
-    if ((technique !== 'LAMBERT') && (technique !== 'PHONG') && (technique !== 'BLINN') && (technique !== 'CONSTANT')) {
-        console.log('Unrecognized technique \'' + technique + '\'. Using default instead.');
-    }
-}
+var options = {
+    binary : binary,
+    embed : embed
+};
 
-var inputPath = path.dirname(objFile);
-var modelName = path.basename(objFile, '.obj');
-
-var outputIsGltf = /.gltf$/.test(outputPath);
-if (outputIsGltf) {
-    modelName = path.basename(outputPath, '.gltf');
-    outputPath = path.dirname(outputPath);
-}
-
-fs.mkdir(outputPath, function(){
-    console.time('Total');
-    console.time('Parse Obj');
-    parseObj(objFile, inputPath, function(data) {
-        console.timeEnd('Parse Obj');
-        console.time('Create glTF');
-        createGltf(data, modelName, inputPath, outputPath, binary, embed, technique, function() {
-            console.timeEnd('Create glTF');
-            console.timeEnd('Total');
-        });
-    });
+convert(objFile, outputPath, options, function() {
+    console.timeEnd('Total');
 });
