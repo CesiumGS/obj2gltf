@@ -27,6 +27,7 @@
     "async": "^1.4.2",
     "cesium": "^1.22.0",
     "fs-extra": "^0.30.0",
+    "gltf-pipeline": "git://github.com/AnalyticalGraphicsInc/gltf-pipeline.git",
     "path": "^0.12.7",
     "yargs": "^4.7.1"
   },
