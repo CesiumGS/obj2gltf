@@ -8,7 +8,6 @@
   "immed": true,
   "latedef": "nofunc",
   "noarg": true,
-  "noempty": true,
   "nonbsp": true,
   "nonew": true,
   "plusplus": false,
