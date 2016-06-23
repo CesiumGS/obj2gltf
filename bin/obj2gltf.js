@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 var argv = require('yargs').argv;
-var Cesium = require('Cesium');
+var Cesium = require('cesium');
 var defined = Cesium.defined;
 var defaultValue = Cesium.defaultValue;
 var convert = require('../lib/convert');
