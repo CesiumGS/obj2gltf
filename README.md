@@ -30,11 +30,7 @@ Run `node bin/obj2gltf.js` and pass it the path to an OBJ file.
 
 `node bin/obj2gltf.js -i model.obj -o model.gltf`
 
-`node bin/obj2gltf.js -i model.obj -o model.gltf -c -t phong`
-
-## Limitations
-
-This tool is still in development. We plan on adding additional features like gzip compression, binary glTF export, and a testing suite.
+`node bin/obj2gltf.js -i model.obj -o model.gltf -e`
 
 ## Contributions
 
