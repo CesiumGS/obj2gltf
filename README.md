@@ -20,7 +20,6 @@ Run `node bin/obj2gltf.js` and pass it the path to an OBJ file.
 |`-i`|Path to the input OBJ file.| :white_check_mark: Yes|
 |`-o`|Directory or filename for the exported glTF file.|No|
 |`-e`|Embed glTF resources, including images, into the exported glTF file.|No, default `false`|
-|`-t`|Shading technique. Possible values are `lambert`, `phong`, `blinn`, and `constant`. The shading technique is typically determined by the MTL file, but this allows more explicit control.|No|
 |`-h`|Display help|No|
 
 ###Examples:
