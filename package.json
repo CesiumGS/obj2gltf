@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "async": "^1.4.2",
+    "byline": "^4.2.1",
     "cesium": "^1.22.0",
     "fs-extra": "^0.30.0",
     "gltf-pipeline": "git://github.com/AnalyticalGraphicsInc/gltf-pipeline.git",
