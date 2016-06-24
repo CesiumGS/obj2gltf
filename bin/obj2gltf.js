@@ -18,8 +18,8 @@ if (process.argv.length < 3 || defined(argv.h) || defined(argv.help)) {
 
 var objFile = defaultValue(argv._[0], defaultValue(argv.i, argv.input));
 var outputPath = defaultValue(argv._[1], defaultValue(argv.o, argv.output));
-var binary = defaultValue(argv.b, argv.binary);
-var embed = defaultValue(argv.e, argv.embed);
+var binary = defaultValue(defaultValue(argv.b, argv.binary), false);
+var embed = defaultValue(defaultValue(argv.e, argv.embed), false);
 
 if (!defined(objFile)) {
     throw new Error('-i or --input argument is required. See --help for details.');
