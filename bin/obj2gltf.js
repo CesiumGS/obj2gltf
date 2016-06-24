@@ -20,6 +20,7 @@ var objFile = defaultValue(argv._[0], defaultValue(argv.i, argv.input));
 var outputPath = defaultValue(argv._[1], defaultValue(argv.o, argv.output));
 var binary = defaultValue(defaultValue(argv.b, argv.binary), false);
 var embed = defaultValue(defaultValue(argv.e, argv.embed), false);
+var quantize = defaultValue(defaultValue(argv.q, argv.quantize), false); // Undocumented option
 
 if (!defined(objFile)) {
     throw new Error('-i or --input argument is required. See --help for details.');
@@ -29,7 +30,8 @@ console.time('Total');
 
 var options = {
     binary : binary,
-    embed : embed
+    embed : embed,
+    quantize : quantize
 };
 
 convert(objFile, outputPath, options, function() {
