@@ -19,6 +19,9 @@
   "bugs": {
     "url": "https://github.com/AnalyticalGraphicsInc/OBJ2GLTF/issues"
   },
+  "engines": {
+    "node": ">=4.0.0"
+  },
   "scripts": {
     "jsHint": "gulp jsHint",
     "jsHint-watch": "gulp jsHint-watch"
