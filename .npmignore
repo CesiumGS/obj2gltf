@@ -1,8 +1,8 @@
-node_modules
-npm-debug.log
 .idea
-.DS_Store
-Thumbs.db
-.npmignore
-gulpfile.js
 .jshintrc
+.npmignore
+.travis.yml
+gulpfile.js
+test
+specs
+TypeScriptDefinitions
