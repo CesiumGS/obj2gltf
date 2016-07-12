@@ -1,8 +1,8 @@
-.idea
+/.idea
 .jshintrc
 .npmignore
 .travis.yml
 gulpfile.js
-test
-specs
-TypeScriptDefinitions
+/test
+/specs
+/TypeScriptDefinitions
