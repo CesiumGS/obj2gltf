@@ -2,6 +2,7 @@
 /specs
 /test
 /TypeScriptDefinitions
+/coverage
 .jshintrc
 .npmignore
 .travis.yml
