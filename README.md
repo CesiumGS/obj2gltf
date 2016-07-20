@@ -4,12 +4,31 @@ Convert OBJ assets to [glTF](https://www.khronos.org/gltf) 1.0.
 
 ## Getting Started
 
-Install [Node.js](https://nodejs.org/en/) if you don't already have it, clone this repo, and then:
+Install [Node.js](https://nodejs.org/en/) if you don't already have it, and then:
 ```
-cd OBJ2GLTF
-npm install
+npm install --save obj2gltf
 ```
-Run `node bin/obj2gltf.js` and pass it the path to an OBJ file.
+Using obj2gltf as a library:
+```javascript
+var obj2gltf = require('obj2gltf');
+var convert = obj2gltf.convert;
+var options = {
+    embedImage : false // Don't embed image in the converted glTF
+}
+convert('model.obj', 'model.gltf', options, function() {
+    console.log('Converted model');
+});
+```
+Using obj2gltf as a command-line tool:
+
+`node bin/obj2gltf.js model.obj`
+
+`node bin/obj2gltf.js model.obj model.gltf`
+
+`node bin/obj2gltf.js -i model.obj -o model.gltf`
+
+`node bin/obj2gltf.js -i model.obj -o model.gltf -s`
+
 
 ## Usage
 
@@ -19,18 +38,11 @@ Run `node bin/obj2gltf.js` and pass it the path to an OBJ file.
 |----|-----------|--------|
 |`-i`|Path to the input OBJ file.| :white_check_mark: Yes|
 |`-o`|Directory or filename for the exported glTF file.|No|
-|`-e`|Embed glTF resources, including images, into the exported glTF file.|No, default `false`|
+|`-b`|Output binary glTF.|No, default `false`|
+|`-s`|Writes out separate geometry/animation data files, shader files, and textures instead of embedding them in the glTF file.|No, default `false`|
+|`-t`|Write out separate textures only.|No, default `false`|
+|`--ao`|Apply ambient occlusion to the converted model.|No, default `false`|
 |`-h`|Display help|No|
-
-###Examples:
-
-`node bin/obj2gltf.js model.obj`
-
-`node bin/obj2gltf.js model.obj model.gltf`
-
-`node bin/obj2gltf.js -i model.obj -o model.gltf`
-
-`node bin/obj2gltf.js -i model.obj -o model.gltf -e`
 
 ## Contributions
 
