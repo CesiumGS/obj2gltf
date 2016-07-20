@@ -1,12 +1,14 @@
 {
   "name": "obj2gltf",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Convert OBJ model format to glTF",
   "license": "Apache-2.0",
-  "author": {
-    "name": "Sean Lilley",
-    "email": "slilley@agi.com"
-  },
+  "contributors": [
+    {
+      "name": "Analytical Graphics, Inc., and Contributors",
+      "url": "https://github.com/AnalyticalGraphicsInc/OBJ2GLTF/graphs/contributors"
+    }
+  ],
   "keywords": [
     "obj",
     "gltf"
@@ -19,26 +21,39 @@
   "bugs": {
     "url": "https://github.com/AnalyticalGraphicsInc/OBJ2GLTF/issues"
   },
+  "main": "index.js",
   "engines": {
     "node": ">=4.0.0"
   },
-  "scripts": {
-    "jsHint": "gulp jsHint",
-    "jsHint-watch": "gulp jsHint-watch"
-  },
   "dependencies": {
-    "async": "^1.4.2",
-    "byline": "^4.2.1",
-    "cesium": "^1.22.0",
-    "fs-extra": "^0.30.0",
-    "gltf-pipeline": "git://github.com/AnalyticalGraphicsInc/gltf-pipeline.git",
-    "path": "^0.12.7",
-    "yargs": "^4.7.1"
+    "async": "2.0.0-rc.6",
+    "byline": "4.2.1",
+    "cesium": "1.23.0",
+    "fs-extra": "0.30.0",
+    "gltf-pipeline": "0.1.0-alpha1",
+    "yargs": "4.7.1"
   },
   "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-jshint": "^2.0.1",
-    "jshint": "^2.6.0",
-    "jshint-stylish": "^2.2.0"
+    "gulp": "3.9.1",
+    "gulp-jshint": "2.0.1",
+    "istanbul": "0.4.4",
+    "jasmine": "2.4.1",
+    "jasmine-spec-reporter": "2.5.0",
+    "jshint": "2.9.2",
+    "jshint-stylish": "2.2.0",
+    "open": "0.0.5",
+    "request": "2.72.0",
+    "requirejs": "2.2.0"
+  },
+  "scripts": {
+    "jsHint": "gulp jsHint",
+    "jsHint-watch": "gulp jsHint-watch",
+    "test": "gulp test",
+    "test-watch": "gulp test-watch",
+    "coverage": "gulp coverage",
+    "update-ts-definitions": "gulp update-ts-definitions"
+  },
+  "bin": {
+    "obj2gltf": "./bin/obj2gltf.js"
   }
 }

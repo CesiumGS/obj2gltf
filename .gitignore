@@ -1,6 +1,11 @@
+# NPM
 node_modules
 npm-debug.log
+
+# WebStorm user-specific
 .idea/workspace.xml
 .idea/tasks.xml
-.DS_Store
-Thumbs.db
+
+# Generate data
+test
+coverage
