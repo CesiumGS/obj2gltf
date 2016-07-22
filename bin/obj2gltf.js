@@ -43,4 +43,7 @@ var options = {
 convert(objFile, outputPath, options)
     .then(function() {
         console.timeEnd('Total');
+    })
+    .catch(function(err) {
+        console.log(err);
     });
