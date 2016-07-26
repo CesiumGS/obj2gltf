@@ -15,6 +15,7 @@ if (process.argv.length < 3 || defined(argv.h) || defined(argv.help)) {
     console.log('  -t --separateImage      Write out separate textures only.');
     console.log('  -h, --help              Display this help');
     console.log('      --ao                Apply ambient occlusion to the converted model');
+    console.log('      --cesium            Optimize the glTF for Cesium by using the sun as a default light source.');
     process.exit(0);
 }
 
@@ -25,6 +26,7 @@ var separate = defaultValue(defaultValue(argv.s, argv.separate), false);
 var separateImage = defaultValue(defaultValue(argv.t, argv.separateImage), false);
 var quantize = defaultValue(defaultValue(argv.q, argv.quantize), false); // Undocumented option
 var ao = defaultValue(argv.ao, false);
+var optimizeForCesium = defaultValue(argv.cesium, false);
 
 if (!defined(objFile)) {
     throw new Error('-i or --input argument is required. See --help for details.');
@@ -37,7 +39,8 @@ var options = {
     embed : !separate,
     embedImage : !separateImage,
     quantize : quantize,
-    ao : ao
+    ao : ao,
+    optimizeForCesium : optimizeForCesium
 };
 
 convert(objFile, outputPath, options)
