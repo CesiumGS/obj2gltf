@@ -15,9 +15,10 @@ var convert = obj2gltf.convert;
 var options = {
     embedImage : false // Don't embed image in the converted glTF
 }
-convert('model.obj', 'model.gltf', options, function() {
-    console.log('Converted model');
-});
+convert('model.obj', 'model.gltf', options)
+    .then(function() {
+        console.log('Converted model');
+    });
 ```
 Using obj2gltf as a command-line tool:
 

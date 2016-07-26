@@ -40,6 +40,10 @@ var options = {
     ao : ao
 };
 
-convert(objFile, outputPath, options, function() {
-    console.timeEnd('Total');
-});
+convert(objFile, outputPath, options)
+    .then(function() {
+        console.timeEnd('Total');
+    })
+    .catch(function(err) {
+        console.log(err);
+    });
