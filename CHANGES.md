@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### 0.1.3 - 2016-08-08
+
+* Fixed a bug causing models with no mtl file to not convert.
+
 ### 0.1.2 - 2016-07-25
 
 * Converted the API to now use promises instead of callbacks. [#21](https://github.com/AnalyticalGraphicsInc/OBJ2GLTF/pull/21)
