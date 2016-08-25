@@ -13,6 +13,7 @@ if (process.argv.length < 3 || defined(argv.h) || defined(argv.help)) {
     console.log('  -b, --binary            Output binary glTF');
     console.log('  -s --separate           Writes out separate geometry/animation data files, shader files, and textures instead of embedding them in the glTF file.');
     console.log('  -t --separateImage      Write out separate textures only.');
+    console.log('  -c --compress           Quantize positions, compress texture coordinates, and oct-encode normals.');
     console.log('  -h, --help              Display this help');
     console.log('      --ao                Apply ambient occlusion to the converted model');
     console.log('      --cesium            Optimize the glTF for Cesium by using the sun as a default light source.');
@@ -24,7 +25,7 @@ var outputPath = defaultValue(argv._[1], defaultValue(argv.o, argv.output));
 var binary = defaultValue(defaultValue(argv.b, argv.binary), false);
 var separate = defaultValue(defaultValue(argv.s, argv.separate), false);
 var separateImage = defaultValue(defaultValue(argv.t, argv.separateImage), false);
-var quantize = defaultValue(defaultValue(argv.q, argv.quantize), false); // Undocumented option
+var compress = defaultValue(defaultValue(argv.c, argv.compress), false);
 var ao = defaultValue(argv.ao, false);
 var optimizeForCesium = defaultValue(argv.cesium, false);
 
@@ -38,7 +39,7 @@ var options = {
     binary : binary,
     embed : !separate,
     embedImage : !separateImage,
-    quantize : quantize,
+    compress : compress,
     ao : ao,
     optimizeForCesium : optimizeForCesium
 };
