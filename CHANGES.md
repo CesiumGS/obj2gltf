@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### 0.1.5 2016-08-26
+
+* Fixed incorrect parameter to the gltf-pipeline.
+
 ### 0.1.4 2016-08-25
 
 * Added compression flag for quantizing positions, compressing texture coordinates, and oct-encoding normals.
