@@ -1,7 +1,7 @@
 'use strict';
 var Promise = require('bluebird');
 
-var gltfPipeline = require('gltf-pipeline').gltfPipeline;
+var GltfPipeline = require('gltf-pipeline').Pipeline;
 var path = require('path');
 var convert = require('../../lib/convert');
 
@@ -10,7 +10,7 @@ var gltfFile = './specs/data/BoxTextured/BoxTextured.gltf';
 
 describe('convert', function() {
     it('converts an obj to gltf', function(done) {
-        var spy = spyOn(gltfPipeline, 'processJSONToDisk').and.callFake(function(gltf, outputPath, options, callback) {
+        var spy = spyOn(GltfPipeline, 'processJSONToDisk').and.callFake(function(gltf, outputPath, options, callback) {
             return;
         });
         expect(convert(objFile, gltfFile, {})

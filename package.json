@@ -1,6 +1,6 @@
 {
   "name": "obj2gltf",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Convert OBJ model format to glTF",
   "license": "Apache-2.0",
   "contributors": [
@@ -31,7 +31,7 @@
     "byline": "4.2.1",
     "cesium": "1.23.0",
     "fs-extra": "0.30.0",
-    "gltf-pipeline": "0.1.0-alpha3",
+    "gltf-pipeline": "0.1.0-alpha4",
     "yargs": "4.7.1"
   },
   "devDependencies": {

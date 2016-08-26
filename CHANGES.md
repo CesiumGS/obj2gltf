@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### 0.1.4 2016-08-25
+
+* Added compression flag for quantizing positions, compressing texture coordinates, and oct-encoding normals.
+
 ### 0.1.3 - 2016-08-08
 
 * Fixed a bug causing models with no mtl file to not convert.
