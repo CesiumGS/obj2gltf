@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### 0.1.6 2016-09-07
+
+* Changed obj2gltf.js line endings from CRLF to LF in npm package.
+
 ### 0.1.5 2016-08-26
 
 * Fixed incorrect parameter to the gltf-pipeline.
