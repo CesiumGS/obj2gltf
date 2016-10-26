@@ -1,9 +1,12 @@
 /.idea
+/doc
 /specs
 /test
-/TypeScriptDefinitions
+/typings
 /coverage
 .jshintrc
 .npmignore
 .travis.yml
 gulpfile.js
+typings.json
+*.tgz

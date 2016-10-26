@@ -26,33 +26,33 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
-    "async": "2.0.0-rc.6",
-    "bluebird": "^3.4.1",
-    "byline": "4.2.1",
-    "cesium": "1.23.0",
+    "async": "2.1.2",
+    "bluebird": "3.4.6",
+    "byline": "5.0.0",
+    "cesium": "1.26.0",
     "fs-extra": "0.30.0",
     "gltf-pipeline": "0.1.0-alpha4",
-    "yargs": "4.7.1"
+    "yargs": "6.3.0"
   },
   "devDependencies": {
     "gulp": "3.9.1",
-    "gulp-jshint": "2.0.1",
-    "istanbul": "0.4.4",
-    "jasmine": "2.4.1",
-    "jasmine-spec-reporter": "2.5.0",
-    "jshint": "2.9.2",
-    "jshint-stylish": "2.2.0",
+    "gulp-jshint": "2.0.2",
+    "istanbul": "0.4.5",
+    "jasmine": "2.5.2",
+    "jasmine-spec-reporter": "2.7.0",
+    "jshint": "2.9.4",
+    "jshint-stylish": "2.2.1",
     "open": "0.0.5",
-    "request": "2.72.0",
-    "requirejs": "2.2.0"
+    "requirejs": "2.3.2",
+    "typings": "1.4.0"
   },
   "scripts": {
+    "prepublish": "typings install",
     "jsHint": "gulp jsHint",
     "jsHint-watch": "gulp jsHint-watch",
     "test": "gulp test",
     "test-watch": "gulp test-watch",
-    "coverage": "gulp coverage",
-    "update-ts-definitions": "gulp update-ts-definitions"
+    "coverage": "gulp coverage"
   },
   "bin": {
     "obj2gltf": "./bin/obj2gltf.js"
