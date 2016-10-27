@@ -6,6 +6,10 @@ npm-debug.log
 .idea/workspace.xml
 .idea/tasks.xml
 
+# TypeScript definitions
+typings
+
 # Generate data
 test
 coverage
+*.tgz
