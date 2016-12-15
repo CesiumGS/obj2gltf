@@ -31,7 +31,7 @@
     "byline": "5.0.0",
     "cesium": "1.26.0",
     "fs-extra": "0.30.0",
-    "gltf-pipeline": "0.1.0-alpha4",
+    "gltf-pipeline": "0.1.0-alpha8",
     "yargs": "6.3.0"
   },
   "devDependencies": {
