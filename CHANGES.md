@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+### 0.1.7 2017-01-03
+
+* Update gltf-pipeline to 0.1.0-alpha9
+* Added command to generate documentation (npm run jsdoc)
+
 ### 0.1.6 2016-09-07
 
 * Changed obj2gltf.js line endings from CRLF to LF in npm package.
