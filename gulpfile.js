@@ -20,8 +20,8 @@ var environmentSeparator = process.platform === 'win32' ? ';' : ':';
 var nodeBinaries = path.join(__dirname, 'node_modules', '.bin');
 process.env.PATH += environmentSeparator + nodeBinaries;
 
-var jsHintFiles = ['**/*.js', '!node_modules/**', '!coverage/**'];
-var specFiles = ['**/*.js', '!node_modules/**', '!coverage/**'];
+var jsHintFiles = ['**/*.js', '!node_modules/**', '!coverage/**', '!doc/**'];
+var specFiles = ['**/*.js', '!node_modules/**', '!coverage/**', '!doc/**'];
 
 gulp.task('jsHint', function () {
     var stream = gulp.src(jsHintFiles)
@@ -71,7 +71,7 @@ gulp.task('coverage', function () {
         ' cover' +
         ' --include-all-sources' +
         ' --dir coverage' +
-        ' -x "specs/** coverage/** index.js gulpfile.js"' +
+        ' -x "specs/** coverage/** doc/** index.js gulpfile.js"' +
         ' node_modules/jasmine/bin/jasmine.js' +
         ' JASMINE_CONFIG_PATH=specs/jasmine.json', {
         stdio: [process.stdin, process.stdout, process.stderr]
