@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-### 0.1.7 2017-01-03
+### 0.1.7 2017-01-06
 
 * Update gltf-pipeline to 0.1.0-alpha9
 * Added command to generate documentation (npm run jsdoc)
