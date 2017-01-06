@@ -92,5 +92,5 @@ Pull requests are appreciated.  Please use the same [Contributor License Agreeme
 
 Developed by the Cesium team.
 <p align="center">
-<a href="http://cesiumjs.org/"><img src="doc/cesium.png" /></a>
+<a href="http://cesiumjs.org/"><img src="doc/cesium.png" onerror="this.src='cesium.png'"/></a>
 </p>
