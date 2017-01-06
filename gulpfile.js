@@ -6,7 +6,7 @@ var fsExtra = require('fs-extra');
 var gulp = require('gulp');
 var gulpJshint = require('gulp-jshint');
 var Jasmine = require('jasmine');
-var JasmineSpecReporter = require('jasmine-spec-reporter');
+var SpecReporter = require('jasmine-spec-reporter').SpecReporter;
 var open = require('open');
 var path = require('path');
 var yargs = require('yargs');
@@ -20,7 +20,7 @@ var environmentSeparator = process.platform === 'win32' ? ';' : ':';
 var nodeBinaries = path.join(__dirname, 'node_modules', '.bin');
 process.env.PATH += environmentSeparator + nodeBinaries;
 
-var jsHintFiles = ['**/*.js', '!node_modules/**', '!coverage/**'];
+var jsHintFiles = ['**/*.js', '!node_modules/**', '!coverage/**', '!doc/**'];
 var specFiles = ['**/*.js', '!node_modules/**', '!coverage/**'];
 
 gulp.task('jsHint', function () {
@@ -42,7 +42,7 @@ gulp.task('jsHint-watch', function () {
 gulp.task('test', function (done) {
     var jasmine = new Jasmine();
     jasmine.loadConfigFile('specs/jasmine.json');
-    jasmine.addReporter(new JasmineSpecReporter({
+    jasmine.addReporter(new SpecReporter({
         displaySuccessfulSpec: !defined(argv.suppressPassed) || !argv.suppressPassed
     }));
     jasmine.execute();
