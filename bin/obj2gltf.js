@@ -49,6 +49,12 @@ var argv = yargs
             describe: 'Quantize positions, compress texture coordinates, and oct-encode normals.',
             type: 'boolean'
         },
+        'optimize': {
+            alias: 'p',
+            default: false,
+            describe: 'Turn the optimization pipeline stages on/off to preserve the original glTF hierarchy.',
+            type: 'boolean'
+        },
         'cesium': {
             describe: 'Optimize the glTF for Cesium by using the sun as a default light source.',
             type: 'boolean'
@@ -83,6 +89,7 @@ var options = {
     embed : !argv.s,
     embedImage : !argv.t,
     compress : argv.c,
+    optimize : argv.optimize,
     ao : argv.ao,
     generateNormals : argv.generateNormals,
     optimizeForCesium : argv.cesium
