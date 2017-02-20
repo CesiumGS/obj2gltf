@@ -42,6 +42,7 @@ Using obj2gltf as a command-line tool:
 |`-b`|Output binary glTF.|No, default `false`|
 |`-s`|Writes out separate geometry/animation data files, shader files, and textures instead of embedding them in the glTF file.|No, default `false`|
 |`-t`|Write out separate textures only.|No, default `false`|
+|`-z`|Use the optimization stages in the glTF pipeline|No, default `false`|
 |`--ao`|Apply ambient occlusion to the converted model.|No, default `false`|
 |`-h`|Display help|No|
 
