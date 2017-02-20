@@ -50,9 +50,9 @@ var argv = yargs
             type: 'boolean'
         },
         'optimize': {
-            alias: 'p',
+            alias: 'z',
             default: false,
-            describe: 'Turn the optimization pipeline stages on/off to preserve the original glTF hierarchy.',
+            describe: 'Use the optimization stages in the glTF pipeline.',
             type: 'boolean'
         },
         'cesium': {
