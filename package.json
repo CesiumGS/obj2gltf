@@ -6,45 +6,44 @@
   "contributors": [
     {
       "name": "Analytical Graphics, Inc., and Contributors",
-      "url": "https://github.com/AnalyticalGraphicsInc/OBJ2GLTF/graphs/contributors"
+      "url": "https://github.com/AnalyticalGraphicsInc/obj2gltf/graphs/contributors"
     }
   ],
   "keywords": [
     "obj",
     "gltf"
   ],
-  "homepage": "https://github.com/AnalyticalGraphicsInc/OBJ2GLTF",
+  "homepage": "https://github.com/AnalyticalGraphicsInc/obj2gltf",
   "repository": {
     "type": "git",
-    "url": "git@github.com:AnalyticalGraphicsInc/OBJ2GLTF.git"
+    "url": "git@github.com:AnalyticalGraphicsInc/obj2gltf.git"
   },
   "bugs": {
-    "url": "https://github.com/AnalyticalGraphicsInc/OBJ2GLTF/issues"
+    "url": "https://github.com/AnalyticalGraphicsInc/obj2gltf/issues"
   },
   "main": "index.js",
   "engines": {
     "node": ">=4.0.0"
   },
   "dependencies": {
-    "async": "2.1.2",
-    "bluebird": "3.4.6",
-    "byline": "5.0.0",
-    "cesium": "1.26.0",
-    "fs-extra": "0.30.0",
-    "gltf-pipeline": "0.1.0-alpha8",
-    "yargs": "6.3.0"
+    "bluebird": "^3.4.7",
+    "cesium": "^1.31.0",
+    "event-stream": "^3.3.4",
+    "fs-extra": "^2.0.0",
+    "gltf-pipeline": "^0.1.0-alpha11",
+    "yargs": "^7.0.1"
   },
   "devDependencies": {
-    "gulp": "3.9.1",
-    "gulp-jshint": "2.0.2",
-    "istanbul": "0.4.5",
-    "jasmine": "2.5.2",
-    "jasmine-spec-reporter": "2.7.0",
-    "jshint": "2.9.4",
-    "jshint-stylish": "2.2.1",
-    "open": "0.0.5",
-    "requirejs": "2.3.2",
-    "typings": "1.4.0"
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.4",
+    "istanbul": "^0.4.5",
+    "jasmine": "^2.5.3",
+    "jasmine-spec-reporter": "^3.2.0",
+    "jshint": "^2.9.4",
+    "jshint-stylish": "^2.2.1",
+    "open": "^0.0.5",
+    "requirejs": "^2.3.3",
+    "typings": "^2.1.0"
   },
   "scripts": {
     "prepublish": "typings install",

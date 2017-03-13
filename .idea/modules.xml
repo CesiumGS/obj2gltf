@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/OBJ2GLTF.iml" filepath="$PROJECT_DIR$/.idea/OBJ2GLTF.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/obj2gltf.iml" filepath="$PROJECT_DIR$/.idea/obj2gltf.iml" />
     </modules>
   </component>
 </project>

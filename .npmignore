@@ -2,6 +2,7 @@
 /doc
 /specs
 /test
+/output
 /typings
 /coverage
 .jshintrc

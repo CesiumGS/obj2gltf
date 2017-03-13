@@ -13,7 +13,7 @@ Using obj2gltf as a library:
 var obj2gltf = require('obj2gltf');
 var convert = obj2gltf.convert;
 var options = {
-    embedImage : false // Don't embed image in the converted glTF
+    separateTextures : true // Don't embed textures in the converted glTF
 }
 convert('model.obj', 'model.gltf', options)
     .then(function() {
@@ -30,20 +30,24 @@ Using obj2gltf as a command-line tool:
 
 `node bin/obj2gltf.js -i model.obj -o model.gltf -s`
 
-
 ## Usage
 
 ###Command line flags:
 
 |Flag|Description|Required|
 |----|-----------|--------|
-|`-i`|Path to the input OBJ file.| :white_check_mark: Yes|
-|`-o`|Directory or filename for the exported glTF file.|No|
-|`-b`|Output binary glTF.|No, default `false`|
+|`-h`|Display help.|No|
+|`-i`|Path to the obj file.| :white_check_mark: Yes|
+|`-o`|Path of the converted glTF file.|No|
+|`-b`|Save as binary glTF.|No, default `false`|
 |`-s`|Writes out separate geometry/animation data files, shader files, and textures instead of embedding them in the glTF file.|No, default `false`|
 |`-t`|Write out separate textures only.|No, default `false`|
+|`-c`|Quantize positions, compress texture coordinates, and oct-encode normals.|No, default `false`|
+|`-z`|Use the optimization stages in the glTF pipeline.|No, default `false`|
+|`-n`|Generate normals if they are missing.|No, default `false`|
+|`--cesium`|Optimize the glTF for Cesium by using the sun as a default light source.|No, default `false`|
 |`--ao`|Apply ambient occlusion to the converted model.|No, default `false`|
-|`-h`|Display help|No|
+|`--bypassPipeline`|Bypass the gltf-pipeline for debugging purposes. This option overrides many of the options above and will save the glTF with the KHR_materials_common extension.|No, default `false`|
 
 ## Contributions
 
@@ -53,5 +57,5 @@ Pull requests are appreciated.  Please use the same [Contributor License Agreeme
 
 Developed by the Cesium team.
 <p align="center">
-<a href="http://cesiumjs.org/"><img src="doc/cesium.png" /></a>
+<a href="http://cesiumjs.org/"><img src="doc/cesium.png" onerror="this.src='cesium.png'"/></a>
 </p>
