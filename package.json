@@ -1,6 +1,6 @@
 {
   "name": "obj2gltf",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Convert OBJ model format to glTF",
   "license": "Apache-2.0",
   "contributors": [
@@ -47,11 +47,13 @@
   },
   "scripts": {
     "prepublish": "typings install",
+    "jsdoc": "jsdoc ./lib -R ./README.md -d doc",
     "jsHint": "gulp jsHint",
     "jsHint-watch": "gulp jsHint-watch",
     "test": "gulp test",
     "test-watch": "gulp test-watch",
-    "coverage": "gulp coverage"
+    "coverage": "gulp coverage",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
   },
   "bin": {
     "obj2gltf": "./bin/obj2gltf.js"

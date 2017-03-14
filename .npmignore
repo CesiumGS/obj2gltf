@@ -1,10 +1,11 @@
 /.idea
+/coverage
 /doc
+/output
 /specs
 /test
 /output
 /typings
-/coverage
 .jshintrc
 .npmignore
 .travis.yml
