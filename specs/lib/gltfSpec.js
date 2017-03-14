@@ -19,6 +19,19 @@ var groupGltfUrl = 'specs/data/box-objects-groups-materials/box-objects-groups-m
 var diffuseTextureUrl = 'specs/data/box-textured/cesium.png';
 var transparentDiffuseTextureUrl = 'specs/data/box-complex-material/diffuse.png';
 
+function deleteExtras(gltf) {
+    var buffer = gltf.buffers[Object.keys(gltf.buffers)[0]];
+    delete buffer.extras;
+
+    var images = gltf.images;
+    for (var id in images) {
+        if (images.hasOwnProperty(id)) {
+            var image = images[id];
+            delete image.extras;
+        }
+    }
+}
+
 describe('gltf', function() {
     var boxObjData;
     var groupObjData;
@@ -59,12 +72,14 @@ describe('gltf', function() {
     it('simple gltf', function() {
         var objData = clone(boxObjData, true);
         var gltf = createGltf(objData);
+        deleteExtras(gltf);
         expect(gltf).toEqual(boxGltf);
     });
 
     it('multiple nodes, meshes, and primitives', function() {
         var objData = clone(groupObjData, true);
         var gltf = createGltf(objData);
+        deleteExtras(gltf);
         expect(gltf).toEqual(groupGltf);
 
         expect(Object.keys(gltf.materials).length).toBe(3);

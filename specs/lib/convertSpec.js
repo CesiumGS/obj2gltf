@@ -47,7 +47,8 @@ describe('convert', function() {
     });
 
     it('sets options', function(done) {
-        var spy = spyOn(GltfPipeline, 'processJSONToDisk');
+        var spy1 = spyOn(GltfPipeline, 'processJSONToDisk');
+        var spy2 = spyOn(convert, '_outputFile');
         var textureCompressionOptions = {
             format : 'dxt1',
             quality : 10
@@ -66,7 +67,7 @@ describe('convert', function() {
 
         expect(convert(objPath, gltfPath, options)
             .then(function() {
-                var args = spy.calls.first().args;
+                var args = spy1.calls.first().args;
                 var options = args[2];
                 expect(options).toEqual({
                     createDirectory : false,
@@ -83,6 +84,7 @@ describe('convert', function() {
                     textureCompressionOptions : textureCompressionOptions,
                     preserve : false
                 });
+                expect(spy2.calls.count()).toBe(2); // Saves out .png and .bin
             }), done).toResolve();
     });
 

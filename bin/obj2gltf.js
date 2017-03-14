@@ -37,11 +37,11 @@ var argv = yargs
         },
         'separate': {
             alias: 's',
-            describe: 'Write separate geometry/animation data files, shader files, and textures instead of embedding them in the glTF.',
+            describe: 'Write separate geometry data files, shader files, and textures instead of embedding them in the glTF.',
             type: 'boolean',
             default: false
         },
-        'separateTexture': {
+        'separateTextures': {
             alias: 't',
             describe: 'Write out separate textures only.',
             type: 'boolean',

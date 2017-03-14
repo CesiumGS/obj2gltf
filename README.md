@@ -40,7 +40,7 @@ Using obj2gltf as a command-line tool:
 |`-i`|Path to the obj file.| :white_check_mark: Yes|
 |`-o`|Path of the converted glTF file.|No|
 |`-b`|Save as binary glTF.|No, default `false`|
-|`-s`|Writes out separate geometry/animation data files, shader files, and textures instead of embedding them in the glTF file.|No, default `false`|
+|`-s`|Writes out separate geometry data files, shader files, and textures instead of embedding them in the glTF file.|No, default `false`|
 |`-t`|Write out separate textures only.|No, default `false`|
 |`-c`|Quantize positions, compress texture coordinates, and oct-encode normals.|No, default `false`|
 |`-z`|Use the optimization stages in the glTF pipeline.|No, default `false`|
