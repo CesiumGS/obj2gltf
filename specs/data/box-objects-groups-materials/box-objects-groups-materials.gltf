@@ -278,6 +278,8 @@
       "extensions": {
         "KHR_materials_common": {
           "technique": "PHONG",
+          "transparent": false,
+          "doubleSided": false,
           "values": {
             "ambient": [
               0,
@@ -315,6 +317,8 @@
       "extensions": {
         "KHR_materials_common": {
           "technique": "PHONG",
+          "transparent": false,
+          "doubleSided": false,
           "values": {
             "ambient": [
               0,
@@ -352,6 +356,8 @@
       "extensions": {
         "KHR_materials_common": {
           "technique": "PHONG",
+          "transparent": false,
+          "doubleSided": false,
           "values": {
             "ambient": [
               0,

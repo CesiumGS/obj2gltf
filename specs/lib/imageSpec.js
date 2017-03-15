@@ -11,6 +11,7 @@ var jpegImage = 'specs/data/box-complex-material/specular.jpeg';
 var gifImage = 'specs/data/box-complex-material/ambient.gif';
 var grayscaleImage = 'specs/data/box-complex-material/alpha.png';
 var transparentImage = 'specs/data/box-complex-material/diffuse.png';
+var opaqueAlphaImage = 'specs/data/box-complex-material/bump.png';
 var invalidImage = 'invalid.png';
 
 describe('image', function() {
@@ -18,7 +19,6 @@ describe('image', function() {
         expect(loadImage(pngImage)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
-                expect(info.channels).toBe(3);
                 expect(info.data).toBeDefined();
                 expect(info.uri.indexOf('data:image/png') === 0).toBe(true);
                 expect(info.format).toBe(WebGLConstants.RGB);
@@ -29,7 +29,6 @@ describe('image', function() {
         expect(loadImage(jpgImage)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
-                expect(info.channels).toBe(3);
                 expect(info.data).toBeDefined();
                 expect(info.uri.indexOf('data:image/jpeg') === 0).toBe(true);
                 expect(info.format).toBe(WebGLConstants.RGB);
@@ -40,7 +39,6 @@ describe('image', function() {
         expect(loadImage(jpegImage)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
-                expect(info.channels).toBe(3);
                 expect(info.data).toBeDefined();
                 expect(info.uri.indexOf('data:image/jpeg') === 0).toBe(true);
                 expect(info.format).toBe(WebGLConstants.RGB);
@@ -51,7 +49,6 @@ describe('image', function() {
         expect(loadImage(gifImage)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
-                expect(info.channels).toBe(3);
                 expect(info.data).toBeDefined();
                 expect(info.uri.indexOf('data:image/gif') === 0).toBe(true);
                 expect(info.format).toBe(WebGLConstants.RGB);
@@ -62,18 +59,26 @@ describe('image', function() {
         expect(loadImage(grayscaleImage)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
-                expect(info.channels).toBe(1);
                 expect(info.data).toBeDefined();
                 expect(info.uri.indexOf('data:image/png') === 0).toBe(true);
                 expect(info.format).toBe(WebGLConstants.ALPHA);
             }), done).toResolve();
     });
 
-    it('loads transparentImage image', function(done) {
+    it('loads transparent image', function(done) {
         expect(loadImage(transparentImage)
             .then(function(info) {
                 expect(info.transparent).toBe(true);
-                expect(info.channels).toBe(4);
+                expect(info.data).toBeDefined();
+                expect(info.uri.indexOf('data:image/png') === 0).toBe(true);
+                expect(info.format).toBe(WebGLConstants.RGBA);
+            }), done).toResolve();
+    });
+
+    it('loads image with fully opaque alpha channel', function(done) {
+        expect(loadImage(opaqueAlphaImage)
+            .then(function(info) {
+                expect(info.transparent).toBe(false);
                 expect(info.data).toBeDefined();
                 expect(info.uri.indexOf('data:image/png') === 0).toBe(true);
                 expect(info.format).toBe(WebGLConstants.RGBA);

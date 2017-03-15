@@ -31,6 +31,7 @@
     "event-stream": "^3.3.4",
     "fs-extra": "^2.0.0",
     "gltf-pipeline": "^0.1.0-alpha11",
+    "pngjs": "^3.0.1",
     "yargs": "^7.0.1"
   },
   "devDependencies": {
