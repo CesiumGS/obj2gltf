@@ -5,10 +5,8 @@
 /specs
 /test
 /output
-/typings
 .jshintrc
 .npmignore
 .travis.yml
 gulpfile.js
-typings.json
 *.tgz
