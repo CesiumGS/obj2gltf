@@ -128,16 +128,6 @@ describe('obj', function() {
             }), done).toResolve();
     });
 
-    it('loads obj with triangle faces', function(done) {
-        expect(loadObj(objTrianglesUrl)
-            .then(function(data) {
-                var mesh = getMeshes(data)[0];
-                var primitive = getPrimitives(data)[0];
-                expect(mesh.positions.length / 3).toBe(24);
-                expect(primitive.indices.length).toBe(36);
-            }), done).toResolve();
-    });
-
     it('loads obj with objects', function(done) {
         expect(loadObj(objObjectsUrl)
             .then(function(data) {
