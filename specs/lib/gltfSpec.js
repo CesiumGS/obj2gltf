@@ -7,6 +7,7 @@ var clone = require('../../lib/clone.js');
 var createGltf = require('../../lib/gltf.js');
 var loadImage = require('../../lib/image.js');
 var loadObj = require('../../lib/obj.js');
+var writeUris = require('../../lib/writeUris.js');
 
 var WebGLConstants = Cesium.WebGLConstants;
 
@@ -18,19 +19,6 @@ var boxGltfUrl = 'specs/data/box/box.gltf';
 var groupGltfUrl = 'specs/data/box-objects-groups-materials/box-objects-groups-materials.gltf';
 var diffuseTextureUrl = 'specs/data/box-textured/cesium.png';
 var transparentDiffuseTextureUrl = 'specs/data/box-complex-material/diffuse.png';
-
-function deleteExtras(gltf) {
-    var buffer = gltf.buffers[Object.keys(gltf.buffers)[0]];
-    delete buffer.extras;
-
-    var images = gltf.images;
-    for (var id in images) {
-        if (images.hasOwnProperty(id)) {
-            var image = images[id];
-            delete image.extras;
-        }
-    }
-}
 
 describe('gltf', function() {
     var boxObjData;
@@ -72,14 +60,14 @@ describe('gltf', function() {
     it('simple gltf', function() {
         var objData = clone(boxObjData, true);
         var gltf = createGltf(objData);
-        deleteExtras(gltf);
+        writeUris(gltf, boxGltfUrl, false, false);
         expect(gltf).toEqual(boxGltf);
     });
 
     it('multiple nodes, meshes, and primitives', function() {
         var objData = clone(groupObjData, true);
         var gltf = createGltf(objData);
-        deleteExtras(gltf);
+        writeUris(gltf, groupGltfUrl, false, false);
         expect(gltf).toEqual(groupGltf);
 
         expect(Object.keys(gltf.materials).length).toBe(3);
@@ -141,7 +129,8 @@ describe('gltf', function() {
 
         expect(image).toBeDefined();
         expect(image.name).toBe('cesium');
-        expect(image.uri.indexOf('data:image/png;base64,') >= 0).toBe(true);
+        expect(image.extras._obj2gltf.source).toBeDefined();
+        expect(image.extras._obj2gltf.extension).toBe('.png');
 
         expect(gltf.samplers.sampler).toEqual({
             magFilter : WebGLConstants.LINEAR,

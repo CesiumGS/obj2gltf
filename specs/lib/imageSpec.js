@@ -19,9 +19,9 @@ describe('image', function() {
         expect(loadImage(pngImage)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
-                expect(info.data).toBeDefined();
-                expect(info.uri.indexOf('data:image/png') === 0).toBe(true);
                 expect(info.format).toBe(WebGLConstants.RGB);
+                expect(info.source).toBeDefined();
+                expect(info.extension).toBe('.png');
             }), done).toResolve();
     });
 
@@ -29,9 +29,9 @@ describe('image', function() {
         expect(loadImage(jpgImage)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
-                expect(info.data).toBeDefined();
-                expect(info.uri.indexOf('data:image/jpeg') === 0).toBe(true);
                 expect(info.format).toBe(WebGLConstants.RGB);
+                expect(info.source).toBeDefined();
+                expect(info.extension).toBe('.jpg');
             }), done).toResolve();
     });
 
@@ -39,9 +39,9 @@ describe('image', function() {
         expect(loadImage(jpegImage)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
-                expect(info.data).toBeDefined();
-                expect(info.uri.indexOf('data:image/jpeg') === 0).toBe(true);
                 expect(info.format).toBe(WebGLConstants.RGB);
+                expect(info.source).toBeDefined();
+                expect(info.extension).toBe('.jpeg');
             }), done).toResolve();
     });
 
@@ -49,9 +49,9 @@ describe('image', function() {
         expect(loadImage(gifImage)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
-                expect(info.data).toBeDefined();
-                expect(info.uri.indexOf('data:image/gif') === 0).toBe(true);
                 expect(info.format).toBe(WebGLConstants.RGB);
+                expect(info.source).toBeDefined();
+                expect(info.extension).toBe('.gif');
             }), done).toResolve();
     });
 
@@ -59,9 +59,9 @@ describe('image', function() {
         expect(loadImage(grayscaleImage)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
-                expect(info.data).toBeDefined();
-                expect(info.uri.indexOf('data:image/png') === 0).toBe(true);
                 expect(info.format).toBe(WebGLConstants.ALPHA);
+                expect(info.source).toBeDefined();
+                expect(info.extension).toBe('.png');
             }), done).toResolve();
     });
 
@@ -69,9 +69,9 @@ describe('image', function() {
         expect(loadImage(transparentImage)
             .then(function(info) {
                 expect(info.transparent).toBe(true);
-                expect(info.data).toBeDefined();
-                expect(info.uri.indexOf('data:image/png') === 0).toBe(true);
                 expect(info.format).toBe(WebGLConstants.RGBA);
+                expect(info.source).toBeDefined();
+                expect(info.extension).toBe('.png');
             }), done).toResolve();
     });
 
@@ -79,9 +79,9 @@ describe('image', function() {
         expect(loadImage(opaqueAlphaImage)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
-                expect(info.data).toBeDefined();
-                expect(info.uri.indexOf('data:image/png') === 0).toBe(true);
                 expect(info.format).toBe(WebGLConstants.RGBA);
+                expect(info.source).toBeDefined();
+                expect(info.extension).toBe('.png');
             }), done).toResolve();
     });
 

@@ -1,8 +1,8 @@
 'use strict';
-var fsExtra = require('fs-extra');
 var GltfPipeline = require('gltf-pipeline').Pipeline;
 var path = require('path');
 var convert = require('../../lib/convert');
+var writeUris = require('../../lib/writeUris');
 
 var objPath = 'specs/data/box-textured/box-textured.obj';
 var gltfPath = 'specs/data/box-textured/box-textured.gltf';
@@ -48,7 +48,7 @@ describe('convert', function() {
 
     it('sets options', function(done) {
         var spy1 = spyOn(GltfPipeline, 'processJSONToDisk');
-        var spy2 = spyOn(convert, '_outputFile');
+        var spy2 = spyOn(writeUris, '_outputFile');
         var textureCompressionOptions = {
             format : 'dxt1',
             quality : 10
