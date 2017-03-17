@@ -78,10 +78,17 @@ describe('image', function() {
     it('loads image with fully opaque alpha channel', function(done) {
         expect(loadImage(opaqueAlphaImage)
             .then(function(info) {
+                expect(info.transparent).toBe(true);
+            }), done).toResolve();
+    });
+
+    it('loads image with fully opaque alpha channel with checkTextureAlpha flag', function(done) {
+        var options = {
+            checkTextureAlpha : true
+        };
+        expect(loadImage(opaqueAlphaImage, options)
+            .then(function(info) {
                 expect(info.transparent).toBe(false);
-                expect(info.format).toBe(WebGLConstants.RGBA);
-                expect(info.source).toBeDefined();
-                expect(info.extension).toBe('.png');
             }), done).toResolve();
     });
 

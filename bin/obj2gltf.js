@@ -79,6 +79,11 @@ var argv = yargs
             describe: 'Bypass the gltf-pipeline for debugging purposes. This option overrides many of the options above and will save the glTF with the KHR_materials_common extension.',
             type: 'boolean',
             default: false
+        },
+        'checkTextureAlpha': {
+            describe: 'Do a more exhaustive check for texture transparency by looking at the alpha channel of each pixel. By default textures with an alpha channel are considered to be transparent.',
+            type: 'boolean',
+            default: false
         }
     }).parse(args);
 
@@ -105,7 +110,8 @@ var options = {
     generateNormals : argv.n,
     ao : argv.ao,
     optimizeForCesium : argv.cesium,
-    bypassPipeline : argv.bypassPipeline
+    bypassPipeline : argv.bypassPipeline,
+    checkTextureAlpha : argv.checkTextureAlpha
 };
 
 console.time('Total');

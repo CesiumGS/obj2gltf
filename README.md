@@ -48,6 +48,7 @@ Using obj2gltf as a command-line tool:
 |`--cesium`|Optimize the glTF for Cesium by using the sun as a default light source.|No, default `false`|
 |`--ao`|Apply ambient occlusion to the converted model.|No, default `false`|
 |`--bypassPipeline`|Bypass the gltf-pipeline for debugging purposes. This option overrides many of the options above and will save the glTF with the KHR_materials_common extension.|No, default `false`|
+|`--checkTextureAlpha`|Do a more exhaustive check for texture transparency by looking at the alpha channel of each pixel. By default textures with an alpha channel are considered to be transparent.|No, default `false`|
 
 ## Build Instructions
 
