@@ -80,7 +80,7 @@ var argv = yargs
             type: 'boolean',
             default: false
         },
-        'checkTextureAlpha': {
+        'hasTransparency': {
             describe: 'Do a more exhaustive check for texture transparency by looking at the alpha channel of each pixel. By default textures with an alpha channel are considered to be transparent.',
             type: 'boolean',
             default: false
@@ -111,7 +111,7 @@ var options = {
     ao : argv.ao,
     optimizeForCesium : argv.cesium,
     bypassPipeline : argv.bypassPipeline,
-    checkTextureAlpha : argv.checkTextureAlpha
+    hasTransparency : argv.hasTransparency
 };
 
 console.time('Total');

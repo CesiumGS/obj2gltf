@@ -57,30 +57,34 @@ describe('gltf', function() {
         ]).then(done);
     });
 
-    it('simple gltf', function() {
+    it('simple gltf', function(done) {
         var objData = clone(boxObjData, true);
         var gltf = createGltf(objData);
-        writeUris(gltf, boxGltfUrl, false, false);
-        expect(gltf).toEqual(boxGltf);
+        expect(writeUris(gltf, boxGltfUrl, false, false)
+            .then(function() {
+                expect(gltf).toEqual(boxGltf);
+            }), done).toResolve();
     });
 
-    it('multiple nodes, meshes, and primitives', function() {
+    it('multiple nodes, meshes, and primitives', function(done) {
         var objData = clone(groupObjData, true);
         var gltf = createGltf(objData);
-        writeUris(gltf, groupGltfUrl, false, false);
-        expect(gltf).toEqual(groupGltf);
 
-        expect(Object.keys(gltf.materials).length).toBe(3);
-        expect(Object.keys(gltf.nodes).length).toBe(1);
-        expect(Object.keys(gltf.meshes).length).toBe(3);
+        expect(writeUris(gltf, groupGltfUrl, false, false)
+            .then(function() {
+                expect(gltf).toEqual(groupGltf);
+                expect(Object.keys(gltf.materials).length).toBe(3);
+                expect(Object.keys(gltf.nodes).length).toBe(1);
+                expect(Object.keys(gltf.meshes).length).toBe(3);
 
-        // Check for two primitives in each mesh
-        for (var id in gltf.meshes) {
-            if (gltf.meshes.hasOwnProperty(id)) {
-                var mesh = gltf.meshes[id];
-                expect(mesh.primitives.length).toBe(2);
-            }
-        }
+                // Check for two primitives in each mesh
+                for (var id in gltf.meshes) {
+                    if (gltf.meshes.hasOwnProperty(id)) {
+                        var mesh = gltf.meshes[id];
+                        expect(mesh.primitives.length).toBe(2);
+                    }
+                }
+            }), done).toResolve();
     });
 
     it('sets default material values', function() {

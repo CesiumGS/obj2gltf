@@ -82,9 +82,9 @@ describe('image', function() {
             }), done).toResolve();
     });
 
-    it('loads image with fully opaque alpha channel with checkTextureAlpha flag', function(done) {
+    it('loads image with fully opaque alpha channel with hasTransparency flag', function(done) {
         var options = {
-            checkTextureAlpha : true
+            hasTransparency : true
         };
         expect(loadImage(opaqueAlphaImage, options)
             .then(function(info) {
