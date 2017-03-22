@@ -36,6 +36,7 @@
     "yargs": "^7.0.1"
   },
   "devDependencies": {
+    "coveralls": "^2.12.0",
     "gulp": "^3.9.1",
     "gulp-jshint": "^2.0.4",
     "istanbul": "^0.4.5",
