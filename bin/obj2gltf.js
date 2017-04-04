@@ -75,6 +75,11 @@ var argv = yargs
             type: 'boolean',
             default: false
         },
+        kmc : {
+            describe: 'Output glTF with the KHR_materials_common extension.',
+            type: 'boolean',
+            default: false
+        },
         bypassPipeline : {
             describe: 'Bypass the gltf-pipeline for debugging purposes. This option overrides many of the options above and will save the glTF with the KHR_materials_common extension.',
             type: 'boolean',
