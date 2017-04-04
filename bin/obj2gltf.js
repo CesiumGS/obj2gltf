@@ -17,70 +17,70 @@ var argv = yargs
     .help('h')
     .alias('h', 'help')
     .options({
-        'input': {
+        input : {
             alias: 'i',
             describe: 'Path to the obj file.',
             type: 'string',
             normalize: true
         },
-        'output': {
+        output : {
             alias: 'o',
             describe: 'Path of the converted glTF file.',
             type: 'string',
             normalize: true
         },
-        'binary': {
+        binary : {
             alias: 'b',
             describe: 'Save as binary glTF.',
             type: 'boolean',
             default: false
         },
-        'separate': {
+        separate : {
             alias: 's',
             describe: 'Write separate geometry data files, shader files, and textures instead of embedding them in the glTF.',
             type: 'boolean',
             default: false
         },
-        'separateTextures': {
+        separateTextures : {
             alias: 't',
             describe: 'Write out separate textures only.',
             type: 'boolean',
             default: false
         },
-        'compress': {
+        compress : {
             alias: 'c',
             describe: 'Quantize positions, compress texture coordinates, and oct-encode normals.',
             type: 'boolean',
             default: false
         },
-        'optimize': {
+        optimize : {
             alias: 'z',
             describe: 'Use the optimization stages in the glTF pipeline.',
             type: 'boolean',
             default: false
         },
-        'cesium': {
+        cesium : {
             describe: 'Optimize the glTF for Cesium by using the sun as a default light source.',
             type: 'boolean',
             default: false
         },
-        'generateNormals': {
+        generateNormals : {
             alias: 'n',
             describe: 'Generate normals if they are missing.',
             type: 'boolean',
             default: false
         },
-        'ao': {
+        ao : {
             describe: 'Apply ambient occlusion to the converted model.',
             type: 'boolean',
             default: false
         },
-        'bypassPipeline': {
+        bypassPipeline : {
             describe: 'Bypass the gltf-pipeline for debugging purposes. This option overrides many of the options above and will save the glTF with the KHR_materials_common extension.',
             type: 'boolean',
             default: false
         },
-        'hasTransparency': {
+        hasTransparency : {
             describe: 'Do a more exhaustive check for texture transparency by looking at the alpha channel of each pixel. By default textures with an alpha channel are considered to be transparent.',
             type: 'boolean',
             default: false
