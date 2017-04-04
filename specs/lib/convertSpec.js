@@ -8,6 +8,8 @@ var objPath = 'specs/data/box-textured/box-textured.obj';
 var gltfPath = 'specs/data/box-textured/box-textured.gltf';
 var glbPath = 'specs/data/box-textured/box-textured.glb';
 
+var objExternalResourcesPath = 'specs/data/box-external-resources/box-external-resources.obj';
+
 describe('convert', function() {
     it('converts an obj to gltf', function(done) {
         var spy = spyOn(GltfPipeline, 'processJSONToDisk');
@@ -108,6 +110,21 @@ describe('convert', function() {
             .then(function() {
                 expect(spy1.calls.count()).toBe(1);
                 expect(spy2.calls.count()).toBe(0);
+            }), done).toResolve();
+    });
+
+    it('Uses a custom logger', function(done) {
+        var spy = spyOn(GltfPipeline, 'processJSONToDisk');
+        var logCount = 0;
+        var options = {
+            secure : true, // Needs to be set to trigger messages
+            logger : function() {
+                logCount++;
+            }
+        };
+        expect(convert(objExternalResourcesPath, gltfPath, options)
+            .then(function() {
+                expect(logCount).toEqual(2);
             }), done).toResolve();
     });
 
