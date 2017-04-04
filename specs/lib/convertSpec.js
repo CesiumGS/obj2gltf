@@ -40,6 +40,7 @@ describe('convert', function() {
                     quantize : false,
                     compressTextureCoordinates : false,
                     aoOptions : undefined,
+                    kmcOptions : undefined,
                     smoothNormals : false,
                     optimizeForCesium : false,
                     textureCompressionOptions : undefined,
@@ -63,6 +64,7 @@ describe('convert', function() {
             optimize : true,
             generateNormals : true,
             ao : true,
+            kmc : true,
             optimizeForCesium : true,
             textureCompressionOptions : textureCompressionOptions
         };
@@ -81,6 +83,7 @@ describe('convert', function() {
                     quantize : true,
                     compressTextureCoordinates : true,
                     aoOptions : {},
+                    kmcOptions : {},
                     smoothNormals : true,
                     optimizeForCesium : true,
                     textureCompressionOptions : textureCompressionOptions,
