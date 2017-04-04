@@ -41,13 +41,4 @@ describe('mtl', function() {
                 expect(materials.Blue.diffuseColor).toEqual([0.0, 0.0, 0.64, 1.0]);
             }), done).toResolve();
     });
-
-    it('handles invalid mtl file', function(done) {
-        spyOn(console, 'log');
-        expect(loadMtl(invalidMaterialUrl)
-            .then(function(materials) {
-                expect(materials).toEqual({});
-                expect(console.log.calls.argsFor(0)[0].indexOf('Could not read material file') >= 0).toBe(true);
-            }), done).toResolve();
-    });
 });

@@ -21,6 +21,7 @@ var objMultipleMaterialsUrl = 'specs/data/box-multiple-materials/box-multiple-ma
 var objUncleanedUrl = 'specs/data/box-uncleaned/box-uncleaned.obj';
 var objMtllibUrl = 'specs/data/box-mtllib/box-mtllib.obj';
 var objMissingMtllibUrl = 'specs/data/box-missing-mtllib/box-missing-mtllib.obj';
+var objExternalResourcesUrl = 'specs/data/box-external-resources/box-external-resources.obj';
 var objTexturedUrl = 'specs/data/box-textured/box-textured.obj';
 var objMissingTextureUrl = 'specs/data/box-missing-texture/box-missing-texture.obj';
 var objSubdirectoriesUrl = 'specs/data/box-subdirectories/box-textured.obj';
@@ -269,6 +270,32 @@ describe('obj', function() {
         expect(loadObj(objMissingMtllibUrl)
             .then(function(data) {
                 expect(data.materials).toEqual({});
+                expect(console.log.calls.argsFor(0)[0].indexOf('Could not read mtl file') >= 0).toBe(true);
+            }), done).toResolve();
+    });
+
+    it('loads resources outside of the obj directory', function(done) {
+        expect(loadObj(objExternalResourcesUrl)
+            .then(function(data) {
+                var imagePath = getImagePath(objTexturedUrl, 'cesium.png');
+                expect(data.images[imagePath]).toBeDefined();
+                expect(data.materials.MaterialTextured.diffuseColorMap).toEqual(imagePath);
+            }), done).toResolve();
+    });
+
+    it('does not load resources outside of the obj directory when secure is true', function(done) {
+        spyOn(console, 'log');
+        var options = {
+            secure : true
+        };
+        expect(loadObj(objExternalResourcesUrl, options)
+            .then(function(data) {
+                var imagePath = getImagePath(objMissingTextureUrl, 'cesium.png');
+                expect(data.images[imagePath]).toBeUndefined();
+                expect(data.materials.MaterialTextured).toBeDefined();
+                expect(data.materials.Material).toBeUndefined(); // Not in directory, so not included
+                expect(console.log.calls.argsFor(0)[0].indexOf('Could not read mtl file') >= 0).toBe(true);
+                expect(console.log.calls.argsFor(1)[0].indexOf('Could not read image file') >= 0).toBe(true);
             }), done).toResolve();
     });
 
@@ -288,6 +315,7 @@ describe('obj', function() {
                 var imagePath = getImagePath(objMissingTextureUrl, 'cesium.png');
                 expect(data.images[imagePath]).toBeUndefined();
                 expect(data.materials.Material.diffuseColorMap).toEqual(imagePath);
+                expect(console.log.calls.argsFor(0)[0].indexOf('Could not read image file') >= 0).toBe(true);
             }), done).toResolve();
     });
 

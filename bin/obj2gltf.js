@@ -84,6 +84,11 @@ var argv = yargs
             describe: 'Do a more exhaustive check for texture transparency by looking at the alpha channel of each pixel. By default textures with an alpha channel are considered to be transparent.',
             type: 'boolean',
             default: false
+        },
+        secure : {
+            describe: 'Prevent the converter from reading image or mtl files outside of the input obj directory.',
+            type: 'boolean',
+            default: false
         }
     }).parse(args);
 
@@ -111,7 +116,8 @@ var options = {
     ao : argv.ao,
     optimizeForCesium : argv.cesium,
     bypassPipeline : argv.bypassPipeline,
-    hasTransparency : argv.hasTransparency
+    hasTransparency : argv.hasTransparency,
+    secure : argv.secure
 };
 
 console.time('Total');

@@ -49,6 +49,7 @@ Using obj2gltf as a command-line tool:
 |`--ao`|Apply ambient occlusion to the converted model.|No, default `false`|
 |`--bypassPipeline`|Bypass the gltf-pipeline for debugging purposes. This option overrides many of the options above and will save the glTF with the KHR_materials_common extension.|No, default `false`|
 |`--hasTransparency`|Do a more exhaustive check for texture transparency by looking at the alpha channel of each pixel. By default textures with an alpha channel are considered to be transparent.|No, default `false`|
+|`--secure`|Prevent the converter from reading image or mtl files outside of the input obj directory.|No, default `false`|
 
 ## Build Instructions
 

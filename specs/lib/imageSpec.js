@@ -91,13 +91,4 @@ describe('image', function() {
                 expect(info.transparent).toBe(false);
             }), done).toResolve();
     });
-
-    it('handles invalid image file', function(done) {
-        spyOn(console, 'log');
-        expect(loadImage(invalidImage)
-            .then(function(image) {
-                expect(image).toBeUndefined();
-                expect(console.log.calls.argsFor(0)[0].indexOf('Could not read image file') >= 0).toBe(true);
-            }), done).toResolve();
-    });
 });
