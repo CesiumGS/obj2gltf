@@ -1,12 +1,19 @@
 'use strict';
+var Cesium = require('cesium');
 var GltfPipeline = require('gltf-pipeline').Pipeline;
 var path = require('path');
 var convert = require('../../lib/convert');
 var writeUris = require('../../lib/writeUris');
 
+var DeveloperError = Cesium.DeveloperError;
+
 var objPath = 'specs/data/box-textured/box-textured.obj';
 var gltfPath = 'specs/data/box-textured/box-textured.gltf';
 var glbPath = 'specs/data/box-textured/box-textured.glb';
+var objPathInvalid = 'invalid/';
+var gltfPathInvalid = 'invalid/model.invalid';
+var objPathNonExistent = 'specs/data/non-existent.obj';
+var gltfPathNonExistent = 'specs/data/non-existent.gltf';
 
 var objExternalResourcesPath = 'specs/data/box-external-resources/box-external-resources.obj';
 
@@ -116,7 +123,7 @@ describe('convert', function() {
             }), done).toResolve();
     });
 
-    it('Uses a custom logger', function(done) {
+    it('uses a custom logger', function(done) {
         var spy = spyOn(GltfPipeline, 'processJSONToDisk');
         var logCount = 0;
         var options = {
@@ -131,15 +138,23 @@ describe('convert', function() {
             }), done).toResolve();
     });
 
-    it('throws if objPath is undefined', function() {
-        expect(function() {
-            convert(undefined, gltfPath);
-        }).toThrowDeveloperError();
+    it('rejects if objPath is undefined', function(done) {
+        expect(convert(undefined, gltfPath), done).toRejectWith(DeveloperError);
     });
 
-    it('throws if gltfPath is undefined', function() {
-        expect(function() {
-            convert(objPath, undefined);
-        }).toThrowDeveloperError();
+    it('rejects if gltfPath is undefined', function(done) {
+        expect(convert(objPath, undefined), done).toRejectWith(DeveloperError);
+    });
+
+    it('rejects if obj path is invalid', function(done) {
+        expect(convert(objPathInvalid, gltfPath), done).toRejectWith(DeveloperError);
+    });
+
+    it('rejects if gltf path is invalid', function(done) {
+        expect(convert(objPath, gltfPathInvalid), done).toRejectWith(DeveloperError);
+    });
+
+    it('rejects if obj path does not exist', function(done) {
+        expect(convert(objPathNonExistent, gltfPath), done).toRejectWith(Error);
     });
 });

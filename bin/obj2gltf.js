@@ -130,4 +130,7 @@ console.time('Total');
 convert(objPath, gltfPath, options)
     .then(function() {
         console.timeEnd('Total');
+    })
+    .catch(function(error) {
+        console.log(error.message);
     });
