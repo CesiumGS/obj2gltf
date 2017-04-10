@@ -1,20 +1,13 @@
 'use strict';
-var Cesium = require('cesium');
 var GltfPipeline = require('gltf-pipeline').Pipeline;
 var path = require('path');
 var convert = require('../../lib/convert');
 var writeUris = require('../../lib/writeUris');
 
-var DeveloperError = Cesium.DeveloperError;
-
 var objPath = 'specs/data/box-textured/box-textured.obj';
 var gltfPath = 'specs/data/box-textured/box-textured.gltf';
 var glbPath = 'specs/data/box-textured/box-textured.glb';
-var objPathInvalid = 'invalid/';
-var gltfPathInvalid = 'invalid/model.invalid';
 var objPathNonExistent = 'specs/data/non-existent.obj';
-var gltfPathNonExistent = 'specs/data/non-existent.gltf';
-
 var objExternalResourcesPath = 'specs/data/box-external-resources/box-external-resources.obj';
 
 describe('convert', function() {
@@ -57,8 +50,8 @@ describe('convert', function() {
     });
 
     it('sets options', function(done) {
-        var spy1 = spyOn(GltfPipeline, 'processJSONToDisk');
-        var spy2 = spyOn(writeUris, '_outputFile');
+        var spy = spyOn(GltfPipeline, 'processJSONToDisk');
+        spyOn(writeUris, '_outputFile');
         var textureCompressionOptions = {
             format : 'dxt1',
             quality : 10
@@ -69,16 +62,19 @@ describe('convert', function() {
             separateTextures : true,
             compress : true,
             optimize : true,
+            optimizeForCesium : true,
             generateNormals : true,
             ao : true,
             kmc : true,
-            optimizeForCesium : true,
-            textureCompressionOptions : textureCompressionOptions
+            textureCompressionOptions : textureCompressionOptions,
+            checkTransparency : true,
+            secure : true,
+            logger : convert.defaults.logger
         };
 
         expect(convert(objPath, gltfPath, options)
             .then(function() {
-                var args = spy1.calls.first().args;
+                var args = spy.calls.first().args;
                 var options = args[2];
                 expect(options).toEqual({
                     createDirectory : false,
@@ -96,7 +92,7 @@ describe('convert', function() {
                     textureCompressionOptions : textureCompressionOptions,
                     preserve : false
                 });
-                expect(spy2.calls.count()).toBe(2); // Saves out .png and .bin
+                expect(writeUris._outputFile.calls.count()).toBe(2); // Saves out .png and .bin
             }), done).toResolve();
     });
 
@@ -111,50 +107,31 @@ describe('convert', function() {
     });
 
     it('bypassPipeline flag bypasses gltf-pipeline', function(done) {
-        var spy1 = spyOn(convert, '_outputJson');
-        var spy2 = spyOn(GltfPipeline, 'processJSONToDisk');
+        spyOn(convert, '_outputJson');
+        spyOn(GltfPipeline, 'processJSONToDisk');
         var options = {
             bypassPipeline : true
         };
         expect(convert(objPath, gltfPath, options)
             .then(function() {
-                expect(spy1.calls.count()).toBe(1);
-                expect(spy2.calls.count()).toBe(0);
+                expect(convert._outputJson).toHaveBeenCalled();
+                expect(GltfPipeline.processJSONToDisk).not.toHaveBeenCalled();
             }), done).toResolve();
-    });
-
-    it('uses a custom logger', function(done) {
-        var spy = spyOn(GltfPipeline, 'processJSONToDisk');
-        var logCount = 0;
-        var options = {
-            secure : true, // Needs to be set to trigger messages
-            logger : function() {
-                logCount++;
-            }
-        };
-        expect(convert(objExternalResourcesPath, gltfPath, options)
-            .then(function() {
-                expect(logCount).toEqual(2);
-            }), done).toResolve();
-    });
-
-    it('rejects if objPath is undefined', function(done) {
-        expect(convert(undefined, gltfPath), done).toRejectWith(DeveloperError);
-    });
-
-    it('rejects if gltfPath is undefined', function(done) {
-        expect(convert(objPath, undefined), done).toRejectWith(DeveloperError);
-    });
-
-    it('rejects if obj path is invalid', function(done) {
-        expect(convert(objPathInvalid, gltfPath), done).toRejectWith(DeveloperError);
-    });
-
-    it('rejects if gltf path is invalid', function(done) {
-        expect(convert(objPath, gltfPathInvalid), done).toRejectWith(DeveloperError);
     });
 
     it('rejects if obj path does not exist', function(done) {
         expect(convert(objPathNonExistent, gltfPath), done).toRejectWith(Error);
+    });
+
+    it('throws if objPath is undefined', function() {
+        expect(function() {
+            convert(undefined, gltfPath);
+        }).toThrowDeveloperError();
+    });
+
+    it('rejects if gltfPath is undefined', function() {
+        expect(function() {
+            convert(objPath, undefined);
+        }).toThrowDeveloperError();
     });
 });

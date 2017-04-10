@@ -1,3 +1,1 @@
-module.exports = {
-    convert : require('./lib/convert')
-};
+module.exports = require('./lib/convert');

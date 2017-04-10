@@ -5,11 +5,11 @@ var path = require('path');
 var yargs = require('yargs');
 var convert = require('../lib/convert');
 
-var defaultValue = Cesium.defaultValue;
 var defined = Cesium.defined;
 
+var defaults = convert.defaults;
+
 var args = process.argv;
-args = args.slice(2, args.length);
 
 var argv = yargs
     .usage('Usage: node $0 -i inputPath -o outputPath')
@@ -21,7 +21,8 @@ var argv = yargs
             alias: 'i',
             describe: 'Path to the obj file.',
             type: 'string',
-            normalize: true
+            normalize: true,
+            demandOption: true
         },
         output : {
             alias: 'o',
@@ -33,77 +34,72 @@ var argv = yargs
             alias: 'b',
             describe: 'Save as binary glTF.',
             type: 'boolean',
-            default: false
+            default: defaults.binary
         },
         separate : {
             alias: 's',
             describe: 'Write separate geometry data files, shader files, and textures instead of embedding them in the glTF.',
             type: 'boolean',
-            default: false
+            default: defaults.separate
         },
         separateTextures : {
             alias: 't',
             describe: 'Write out separate textures only.',
             type: 'boolean',
-            default: false
+            default: defaults.separateTextures
         },
         compress : {
             alias: 'c',
             describe: 'Quantize positions, compress texture coordinates, and oct-encode normals.',
             type: 'boolean',
-            default: false
+            default: defaults.compress
         },
         optimize : {
             alias: 'z',
-            describe: 'Use the optimization stages in the glTF pipeline.',
+            describe: 'Optimize the glTF for size and runtime performance.',
             type: 'boolean',
-            default: false
+            default: defaults.optimize
         },
-        cesium : {
+        optimizeForCesium : {
             describe: 'Optimize the glTF for Cesium by using the sun as a default light source.',
             type: 'boolean',
-            default: false
+            default: defaults.optimizeForCesium
         },
         generateNormals : {
             alias: 'n',
             describe: 'Generate normals if they are missing.',
             type: 'boolean',
-            default: false
+            default: defaults.generateNormals
         },
         ao : {
             describe: 'Apply ambient occlusion to the converted model.',
             type: 'boolean',
-            default: false
+            default: defaults.ao
         },
         kmc : {
             describe: 'Output glTF with the KHR_materials_common extension.',
             type: 'boolean',
-            default: false
+            default: defaults.kmc
         },
         bypassPipeline : {
             describe: 'Bypass the gltf-pipeline for debugging purposes. This option overrides many of the options above and will save the glTF with the KHR_materials_common extension.',
             type: 'boolean',
-            default: false
+            default: defaults.bypassPipeline
         },
-        hasTransparency : {
-            describe: 'Do a more exhaustive check for texture transparency by looking at the alpha channel of each pixel. By default textures with an alpha channel are considered to be transparent.',
+        checkTransparency : {
+            describe: 'Do a more exhaustive check for texture transparency by looking at the alpha channel of each pixel. By default textures are considered to be opaque.',
             type: 'boolean',
-            default: false
+            default: defaults.checkTransparency
         },
         secure : {
             describe: 'Prevent the converter from reading image or mtl files outside of the input obj directory.',
             type: 'boolean',
-            default: false
+            default: defaults.secure
         }
     }).parse(args);
 
-var objPath = defaultValue(argv.i, argv._[0]);
-var gltfPath = defaultValue(argv.o, argv._[1]);
-
-if (!defined(objPath)) {
-    yargs.showHelp();
-    return;
-}
+var objPath = argv.i;
+var gltfPath = argv.o;
 
 if (!defined(gltfPath)) {
     var extension = argv.b ? '.glb' : '.gltf';
@@ -112,16 +108,17 @@ if (!defined(gltfPath)) {
 }
 
 var options = {
-    binary : argv.b,
-    separate : argv.s,
-    separateTextures : argv.t,
-    compress : argv.c,
-    optimize : argv.z,
-    generateNormals : argv.n,
+    binary : argv.binary,
+    separate : argv.separate,
+    separateTextures : argv.separateTextures,
+    compress : argv.compress,
+    optimize : argv.optimize,
+    optimizeForCesium : argv.optimizeForCesium,
+    generateNormals : argv.generateNormals,
     ao : argv.ao,
-    optimizeForCesium : argv.cesium,
+    kmc : argv.kmc,
     bypassPipeline : argv.bypassPipeline,
-    hasTransparency : argv.hasTransparency,
+    checkTransparency : argv.checkTransparency,
     secure : argv.secure
 };
 

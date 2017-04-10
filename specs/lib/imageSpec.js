@@ -1,8 +1,9 @@
 'use strict';
 var Cesium = require('cesium');
-var path = require('path');
-var loadImage = require('../../lib/image.js');
+var convert = require('../../lib/convert');
+var loadImage = require('../../lib/image');
 
+var clone = Cesium.clone;
 var WebGLConstants = Cesium.WebGLConstants;
 
 var pngImage = 'specs/data/box-complex-material/shininess.png';
@@ -11,12 +12,12 @@ var jpegImage = 'specs/data/box-complex-material/specular.jpeg';
 var gifImage = 'specs/data/box-complex-material/ambient.gif';
 var grayscaleImage = 'specs/data/box-complex-material/alpha.png';
 var transparentImage = 'specs/data/box-complex-material/diffuse.png';
-var opaqueAlphaImage = 'specs/data/box-complex-material/bump.png';
-var invalidImage = 'invalid.png';
+
+var defaultOptions = convert.defaults;
 
 describe('image', function() {
     it('loads png image', function(done) {
-        expect(loadImage(pngImage)
+        expect(loadImage(pngImage, defaultOptions)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
                 expect(info.format).toBe(WebGLConstants.RGB);
@@ -26,7 +27,7 @@ describe('image', function() {
     });
 
     it('loads jpg image', function(done) {
-        expect(loadImage(jpgImage)
+        expect(loadImage(jpgImage, defaultOptions)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
                 expect(info.format).toBe(WebGLConstants.RGB);
@@ -36,7 +37,7 @@ describe('image', function() {
     });
 
     it('loads jpeg image', function(done) {
-        expect(loadImage(jpegImage)
+        expect(loadImage(jpegImage, defaultOptions)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
                 expect(info.format).toBe(WebGLConstants.RGB);
@@ -46,7 +47,7 @@ describe('image', function() {
     });
 
     it('loads gif image', function(done) {
-        expect(loadImage(gifImage)
+        expect(loadImage(gifImage, defaultOptions)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
                 expect(info.format).toBe(WebGLConstants.RGB);
@@ -56,7 +57,7 @@ describe('image', function() {
     });
 
     it('loads grayscale image', function(done) {
-        expect(loadImage(grayscaleImage)
+        expect(loadImage(grayscaleImage, defaultOptions)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
                 expect(info.format).toBe(WebGLConstants.ALPHA);
@@ -65,30 +66,20 @@ describe('image', function() {
             }), done).toResolve();
     });
 
-    it('loads transparent image', function(done) {
-        expect(loadImage(transparentImage)
-            .then(function(info) {
-                expect(info.transparent).toBe(true);
-                expect(info.format).toBe(WebGLConstants.RGBA);
-                expect(info.source).toBeDefined();
-                expect(info.extension).toBe('.png');
-            }), done).toResolve();
-    });
-
-    it('loads image with fully opaque alpha channel', function(done) {
-        expect(loadImage(opaqueAlphaImage)
-            .then(function(info) {
-                expect(info.transparent).toBe(true);
-            }), done).toResolve();
-    });
-
-    it('loads image with fully opaque alpha channel with hasTransparency flag', function(done) {
-        var options = {
-            hasTransparency : true
-        };
-        expect(loadImage(opaqueAlphaImage, options)
+    it('loads image with alpha channel', function(done) {
+        expect(loadImage(transparentImage, defaultOptions)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
+            }), done).toResolve();
+    });
+
+    it('loads image with checkTransparency flag', function(done) {
+        var options = clone(defaultOptions);
+        options.checkTransparency = true;
+
+        expect(loadImage(transparentImage, options)
+            .then(function(info) {
+                expect(info.transparent).toBe(true);
             }), done).toResolve();
     });
 });

@@ -1,13 +1,12 @@
 'use strict';
 var path = require('path');
-var loadMtl = require('../../lib/mtl.js');
+var loadMtl = require('../../lib/mtl');
 
 var complexMaterialUrl = 'specs/data/box-complex-material/box-complex-material.mtl';
 var multipleMaterialsUrl = 'specs/data/box-multiple-materials/box-multiple-materials.mtl';
-var invalidMaterialUrl = 'invalid.mtl';
 
 function getImagePath(objPath, relativePath) {
-    return path.normalize(path.join(path.dirname(objPath), relativePath));
+    return path.resolve(path.dirname(objPath), relativePath);
 }
 
 describe('mtl', function() {
@@ -22,10 +21,10 @@ describe('mtl', function() {
                 expect(material.specularColor).toEqual([0.5, 0.5, 0.5, 1.0]);
                 expect(material.specularShininess).toEqual(96.078431);
                 expect(material.alpha).toEqual(0.9);
-                expect(material.ambientColorMap).toEqual(getImagePath(complexMaterialUrl, 'ambient.gif'));
-                expect(material.emissionColorMap).toEqual(getImagePath(complexMaterialUrl, 'emission.jpg'));
-                expect(material.diffuseColorMap).toEqual(getImagePath(complexMaterialUrl, 'diffuse.png'));
-                expect(material.specularColorMap).toEqual(getImagePath(complexMaterialUrl, 'specular.jpeg'));
+                expect(material.ambientTexture).toEqual(getImagePath(complexMaterialUrl, 'ambient.gif'));
+                expect(material.emissionTexture).toEqual(getImagePath(complexMaterialUrl, 'emission.jpg'));
+                expect(material.diffuseTexture).toEqual(getImagePath(complexMaterialUrl, 'diffuse.png'));
+                expect(material.specularTexture).toEqual(getImagePath(complexMaterialUrl, 'specular.jpeg'));
                 expect(material.specularShininessMap).toEqual(getImagePath(complexMaterialUrl, 'shininess.png'));
                 expect(material.normalMap).toEqual(getImagePath(complexMaterialUrl, 'bump.png'));
                 expect(material.alphaMap).toEqual(getImagePath(complexMaterialUrl, 'alpha.png'));
