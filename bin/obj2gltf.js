@@ -3,11 +3,11 @@
 var Cesium = require('cesium');
 var path = require('path');
 var yargs = require('yargs');
-var convert = require('../lib/convert');
+var obj2gltf = require('../lib/obj2gltf');
 
 var defined = Cesium.defined;
 
-var defaults = convert.defaults;
+var defaults = obj2gltf.defaults;
 
 var args = process.argv;
 
@@ -124,7 +124,7 @@ var options = {
 
 console.time('Total');
 
-convert(objPath, gltfPath, options)
+obj2gltf(objPath, gltfPath, options)
     .then(function() {
         console.timeEnd('Total');
     })

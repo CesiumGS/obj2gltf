@@ -1,19 +1,18 @@
 'use strict';
 var GltfPipeline = require('gltf-pipeline').Pipeline;
 var path = require('path');
-var convert = require('../../lib/convert');
+var obj2gltf = require('../../lib/obj2gltf');
 var writeUris = require('../../lib/writeUris');
 
 var objPath = 'specs/data/box-textured/box-textured.obj';
 var gltfPath = 'specs/data/box-textured/box-textured.gltf';
 var glbPath = 'specs/data/box-textured/box-textured.glb';
 var objPathNonExistent = 'specs/data/non-existent.obj';
-var objExternalResourcesPath = 'specs/data/box-external-resources/box-external-resources.obj';
 
-describe('convert', function() {
+describe('obj2gltf', function() {
     it('converts an obj to gltf', function(done) {
         var spy = spyOn(GltfPipeline, 'processJSONToDisk');
-        expect(convert(objPath, gltfPath)
+        expect(obj2gltf(objPath, gltfPath)
             .then(function() {
                 var args = spy.calls.first().args;
                 var gltf = args[0];
@@ -26,7 +25,7 @@ describe('convert', function() {
 
     it('uses default gltf-pipeline options', function(done) {
         var spy = spyOn(GltfPipeline, 'processJSONToDisk');
-        expect(convert(objPath, gltfPath)
+        expect(obj2gltf(objPath, gltfPath)
             .then(function() {
                 var args = spy.calls.first().args;
                 var options = args[2];
@@ -69,10 +68,10 @@ describe('convert', function() {
             textureCompressionOptions : textureCompressionOptions,
             checkTransparency : true,
             secure : true,
-            logger : convert.defaults.logger
+            logger : obj2gltf.defaults.logger
         };
 
-        expect(convert(objPath, gltfPath, options)
+        expect(obj2gltf(objPath, gltfPath, options)
             .then(function() {
                 var args = spy.calls.first().args;
                 var options = args[2];
@@ -98,7 +97,7 @@ describe('convert', function() {
 
     it('saves as binary if gltfPath has a .glb extension', function(done) {
         var spy = spyOn(GltfPipeline, 'processJSONToDisk');
-        expect(convert(objPath, glbPath)
+        expect(obj2gltf(objPath, glbPath)
             .then(function() {
                 var args = spy.calls.first().args;
                 var options = args[2];
@@ -107,31 +106,31 @@ describe('convert', function() {
     });
 
     it('bypassPipeline flag bypasses gltf-pipeline', function(done) {
-        spyOn(convert, '_outputJson');
+        spyOn(obj2gltf, '_outputJson');
         spyOn(GltfPipeline, 'processJSONToDisk');
         var options = {
             bypassPipeline : true
         };
-        expect(convert(objPath, gltfPath, options)
+        expect(obj2gltf(objPath, gltfPath, options)
             .then(function() {
-                expect(convert._outputJson).toHaveBeenCalled();
+                expect(obj2gltf._outputJson).toHaveBeenCalled();
                 expect(GltfPipeline.processJSONToDisk).not.toHaveBeenCalled();
             }), done).toResolve();
     });
 
     it('rejects if obj path does not exist', function(done) {
-        expect(convert(objPathNonExistent, gltfPath), done).toRejectWith(Error);
+        expect(obj2gltf(objPathNonExistent, gltfPath), done).toRejectWith(Error);
     });
 
     it('throws if objPath is undefined', function() {
         expect(function() {
-            convert(undefined, gltfPath);
+            obj2gltf(undefined, gltfPath);
         }).toThrowDeveloperError();
     });
 
     it('rejects if gltfPath is undefined', function() {
         expect(function() {
-            convert(objPath, undefined);
+            obj2gltf(objPath, undefined);
         }).toThrowDeveloperError();
     });
 });

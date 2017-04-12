@@ -2,8 +2,8 @@
 var Cesium = require('cesium');
 var path = require('path');
 var Promise = require('bluebird');
-var convert = require('../../lib/convert');
-var loadObj = require('../../lib/obj');
+var loadObj = require('../../lib/loadObj');
+var obj2gltf = require('../../lib/obj2gltf');
 
 var clone = Cesium.clone;
 var RuntimeError = Cesium.RuntimeError;
@@ -59,7 +59,7 @@ function getImagePath(objPath, relativePath) {
     return path.resolve(path.dirname(objPath), relativePath);
 }
 
-var defaultOptions = convert.defaults;
+var defaultOptions = obj2gltf.defaults;
 
 describe('obj', function() {
     it('loads obj with positions, normals, and uvs', function(done) {
