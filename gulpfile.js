@@ -6,7 +6,7 @@ var fsExtra = require('fs-extra');
 var gulp = require('gulp');
 var gulpJshint = require('gulp-jshint');
 var Jasmine = require('jasmine');
-var SpecReporter = require('jasmine-spec-reporter').SpecReporter;
+var JasmineSpecReporter = require('jasmine-spec-reporter').SpecReporter;
 var open = require('open');
 var path = require('path');
 var yargs = require('yargs');
@@ -21,7 +21,7 @@ var nodeBinaries = path.join(__dirname, 'node_modules', '.bin');
 process.env.PATH += environmentSeparator + nodeBinaries;
 
 var jsHintFiles = ['**/*.js', '!node_modules/**', '!coverage/**', '!doc/**'];
-var specFiles = ['**/*.js', '!node_modules/**', '!coverage/**'];
+var specFiles = ['**/*.js', '!node_modules/**', '!coverage/**', '!doc/**', '!bin/**'];
 
 gulp.task('jsHint', function () {
     var stream = gulp.src(jsHintFiles)
@@ -42,7 +42,7 @@ gulp.task('jsHint-watch', function () {
 gulp.task('test', function (done) {
     var jasmine = new Jasmine();
     jasmine.loadConfigFile('specs/jasmine.json');
-    jasmine.addReporter(new SpecReporter({
+    jasmine.addReporter(new JasmineSpecReporter({
         displaySuccessfulSpec: !defined(argv.suppressPassed) || !argv.suppressPassed
     }));
     jasmine.execute();
@@ -53,8 +53,8 @@ gulp.task('test', function (done) {
 
 gulp.task('test-watch', function () {
     gulp.watch(specFiles).on('change', function () {
-        //We can't simply depend on the test task because Jasmine
-        //does not like being run multiple times in the same process.
+        // We can't simply depend on the test task because Jasmine
+        // does not like being run multiple times in the same process.
         try {
             child_process.execSync('jasmine JASMINE_CONFIG_PATH=specs/jasmine.json', {
                 stdio: [process.stdin, process.stdout, process.stderr]
@@ -71,7 +71,7 @@ gulp.task('coverage', function () {
         ' cover' +
         ' --include-all-sources' +
         ' --dir coverage' +
-        ' -x "specs/** coverage/** index.js gulpfile.js"' +
+        ' -x "specs/**" -x "coverage/**" -x "doc/**" -x "bin/**" -x "index.js" -x "gulpfile.js"' +
         ' node_modules/jasmine/bin/jasmine.js' +
         ' JASMINE_CONFIG_PATH=specs/jasmine.json', {
         stdio: [process.stdin, process.stdout, process.stderr]

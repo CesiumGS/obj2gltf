@@ -1,0 +1,20 @@
+# Blender MTL File: 'None'
+# Material Count: 1
+
+newmtl Material
+Ns 96.078431
+Ka 0.200000 0.200000 0.200000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.100000 0.100000 0.100000
+Ni 1.000000
+d 0.900000
+Tr 0.900000
+map_Ka ambient.gif
+map_Ke emission.jpg
+map_Kd diffuse.png
+map_Ks specular.jpeg
+map_Ns shininess.png
+map_Bump bump.png
+map_d alpha.png
+illum 2
