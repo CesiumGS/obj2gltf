@@ -1,6 +1,17 @@
 Change Log
 ==========
 
+### 1.0.0 2017-04-13
+
+* Breaking changes
+    * To use `obj2gltf` as a library, call `require('obj2gltf')(input, output, options)`. The previous calling code was `require('obj2gltf').convert(input, output, options)`.
+    * Many library options and command-line parameters have been renamed.
+* Project cleanup. [#49](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/49)
+    * Speed improvements, especially for larger models.
+    * Preserves the objects and groups in the obj.
+    * Added documentation and tests.
+    * Material fixes.
+
 ### 0.1.7 2017-01-06
 
 * Update gltf-pipeline to 0.1.0-alpha9
