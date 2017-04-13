@@ -27,7 +27,7 @@ Using obj2gltf as a command-line tool:
 
 ## Usage
 
-###Command line flags:
+### Command line flags:
 
 |Flag|Description|Required|
 |----|-----------|--------|
@@ -62,7 +62,7 @@ To run JSHint automatically when a file is saved, run the following and leave it
 npm run jsHint-watch
 ```
 
-### Running Test Coverage
+## Running Test Coverage
 
 Coverage uses [istanbul](https://github.com/gotwarlost/istanbul).  Run:
 ```
@@ -81,7 +81,7 @@ npm run jsdoc
 
 The documentation will be placed in the `doc` folder.
 
-### Debugging
+## Debugging
 
 * To debug the tests in Webstorm, open the Gulp tab, right click the `test` task, and click `Debug 'test'`.
 * To run a single test, change the test function from `it` to `fit`.

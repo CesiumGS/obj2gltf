@@ -1,7 +1,7 @@
 'use strict';
 var Cesium = require('cesium');
-var convert = require('../../lib/convert');
-var loadImage = require('../../lib/image');
+var obj2gltf = require('../../lib/obj2gltf');
+var loadImage = require('../../lib/loadImage');
 
 var clone = Cesium.clone;
 var WebGLConstants = Cesium.WebGLConstants;
@@ -13,7 +13,7 @@ var gifImage = 'specs/data/box-complex-material/ambient.gif';
 var grayscaleImage = 'specs/data/box-complex-material/alpha.png';
 var transparentImage = 'specs/data/box-complex-material/diffuse.png';
 
-var defaultOptions = convert.defaults;
+var defaultOptions = obj2gltf.defaults;
 
 describe('image', function() {
     it('loads png image', function(done) {

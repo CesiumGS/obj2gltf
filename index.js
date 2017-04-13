@@ -1,1 +1,1 @@
-module.exports = require('./lib/convert');
+module.exports = require('./lib/obj2gltf');

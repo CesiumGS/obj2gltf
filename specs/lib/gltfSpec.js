@@ -3,10 +3,10 @@ var Cesium = require('cesium');
 var fsExtra = require('fs-extra');
 var path = require('path');
 var Promise = require('bluebird');
-var convert = require('../../lib/convert');
-var createGltf = require('../../lib/gltf');
-var loadImage = require('../../lib/image');
-var loadObj = require('../../lib/obj');
+var obj2gltf = require('../../lib/obj2gltf');
+var createGltf = require('../../lib/createGltf');
+var loadImage = require('../../lib/loadImage');
+var loadObj = require('../../lib/loadObj');
 var Material = require('../../lib/Material');
 var writeUris = require('../../lib/writeUris');
 
@@ -22,7 +22,7 @@ var groupGltfUrl = 'specs/data/box-objects-groups-materials/box-objects-groups-m
 var diffuseTextureUrl = 'specs/data/box-textured/cesium.png';
 var transparentDiffuseTextureUrl = 'specs/data/box-complex-material/diffuse.png';
 
-var defaultOptions = convert.defaults;
+var defaultOptions = obj2gltf.defaults;
 var checkTransparencyOptions = clone(defaultOptions);
 checkTransparencyOptions.checkTransparency = true;
 
