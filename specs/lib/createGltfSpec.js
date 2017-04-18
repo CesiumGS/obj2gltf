@@ -26,7 +26,7 @@ var defaultOptions = obj2gltf.defaults;
 var checkTransparencyOptions = clone(defaultOptions);
 checkTransparencyOptions.checkTransparency = true;
 
-describe('gltf', function() {
+describe('createGltf', function() {
     var boxObjData;
     var duplicateBoxObjData;
     var groupObjData;
@@ -69,7 +69,7 @@ describe('gltf', function() {
     });
 
     it('simple gltf', function(done) {
-        var gltf = createGltf(boxObjData);
+        var gltf = createGltf(boxObjData, defaultOptions);
         expect(writeUris(gltf, boxGltfUrl, defaultOptions)
             .then(function() {
                 expect(gltf).toEqual(boxGltf);
@@ -77,7 +77,7 @@ describe('gltf', function() {
     });
 
     it('multiple nodes, meshes, and primitives', function(done) {
-        var gltf = createGltf(groupObjData);
+        var gltf = createGltf(groupObjData, defaultOptions);
 
         expect(writeUris(gltf, groupGltfUrl, defaultOptions)
             .then(function() {
@@ -99,7 +99,7 @@ describe('gltf', function() {
     it('sets default material values', function() {
         boxObjData.materials.Material = new Material();
 
-        var gltf = createGltf(boxObjData);
+        var gltf = createGltf(boxObjData, defaultOptions);
         var material = gltf.materials.Material;
         var kmc = material.extensions.KHR_materials_common;
         var values = kmc.values;
@@ -118,7 +118,7 @@ describe('gltf', function() {
         boxObjData.materials.Material = material;
         boxObjData.images[diffuseTextureUrl] = diffuseTexture;
 
-        var gltf = createGltf(boxObjData);
+        var gltf = createGltf(boxObjData, defaultOptions);
         var kmc = gltf.materials.Material.extensions.KHR_materials_common;
         var texture = gltf.textures.texture_cesium;
         var image = gltf.images.cesium;
@@ -156,7 +156,7 @@ describe('gltf', function() {
         material.alpha = 0.4;
         boxObjData.materials.Material = material;
 
-        var gltf = createGltf(boxObjData);
+        var gltf = createGltf(boxObjData, defaultOptions);
         var kmc = gltf.materials.Material.extensions.KHR_materials_common;
 
         expect(kmc.values.diffuse).toEqual([0.5, 0.5, 0.5, 0.4]);
@@ -173,7 +173,7 @@ describe('gltf', function() {
 
         boxObjData.images[diffuseTextureUrl] = diffuseTexture;
 
-        var gltf = createGltf(boxObjData);
+        var gltf = createGltf(boxObjData, defaultOptions);
         var kmc = gltf.materials.Material.extensions.KHR_materials_common;
 
         expect(kmc.values.diffuse).toEqual('texture_cesium');
@@ -189,7 +189,7 @@ describe('gltf', function() {
 
         boxObjData.images[transparentDiffuseTextureUrl] = transparentDiffuseTexture;
 
-        var gltf = createGltf(boxObjData);
+        var gltf = createGltf(boxObjData, defaultOptions);
         var kmc = gltf.materials.Material.extensions.KHR_materials_common;
 
         expect(kmc.values.diffuse).toBe('texture_diffuse');
@@ -204,7 +204,7 @@ describe('gltf', function() {
         material.specularShininess = 0.1;
         boxObjData.materials.Material = material;
 
-        var gltf = createGltf(boxObjData);
+        var gltf = createGltf(boxObjData, defaultOptions);
         var kmc = gltf.materials.Material.extensions.KHR_materials_common;
 
         expect(kmc.technique).toBe('PHONG');
@@ -221,7 +221,7 @@ describe('gltf', function() {
 
         boxObjData.images[diffuseTextureUrl] = diffuseTexture;
 
-        var gltf = createGltf(boxObjData);
+        var gltf = createGltf(boxObjData, defaultOptions);
         var kmc = gltf.materials.Material.extensions.KHR_materials_common;
 
         expect(kmc.technique).toBe('CONSTANT');
@@ -233,7 +233,7 @@ describe('gltf', function() {
         material.diffuseTexture = diffuseTextureUrl;
         boxObjData.materials.Material = material;
 
-        var gltf = createGltf(boxObjData);
+        var gltf = createGltf(boxObjData, defaultOptions);
         var kmc = gltf.materials.Material.extensions.KHR_materials_common;
 
         expect(kmc.values.diffuse).toEqual([0.5, 0.5, 0.5, 1.0]);
@@ -243,7 +243,7 @@ describe('gltf', function() {
         boxObjData.nodes[0].meshes[0].primitives[0].material = undefined;
 
         // Creates a material called "default"
-        var gltf = createGltf(boxObjData);
+        var gltf = createGltf(boxObjData, defaultOptions);
         expect(gltf.materials.default).toBeDefined();
         var kmc = gltf.materials.default.extensions.KHR_materials_common;
         expect(kmc.values.diffuse).toEqual([0.5, 0.5, 0.5, 1.0]);
@@ -253,7 +253,7 @@ describe('gltf', function() {
         boxObjData.materials = {};
 
         // Uses the original name of the material
-        var gltf = createGltf(boxObjData);
+        var gltf = createGltf(boxObjData, defaultOptions);
         var kmc = gltf.materials.Material.extensions.KHR_materials_common;
 
         expect(kmc.values.diffuse).toEqual([0.5, 0.5, 0.5, 1.0]);
@@ -264,7 +264,7 @@ describe('gltf', function() {
         boxObjData.nodes.push(duplicateBoxObjData.nodes[0]);
         boxObjData.nodes[1].meshes[0].normals.length = 0;
 
-        var gltf = createGltf(boxObjData);
+        var gltf = createGltf(boxObjData, defaultOptions);
         var kmc1 = gltf.materials.Material.extensions.KHR_materials_common;
         var kmc2 = gltf.materials.Material_constant.extensions.KHR_materials_common;
 
@@ -277,7 +277,7 @@ describe('gltf', function() {
         boxObjData.nodes.push(duplicateBoxObjData.nodes[0]);
         boxObjData.nodes[0].meshes[0].normals.length = 0;
 
-        var gltf = createGltf(boxObjData);
+        var gltf = createGltf(boxObjData, defaultOptions);
         var kmc1 = gltf.materials.Material.extensions.KHR_materials_common;
         var kmc2 = gltf.materials.Material_shaded.extensions.KHR_materials_common;
 
@@ -288,7 +288,7 @@ describe('gltf', function() {
     it('runs without normals', function() {
         boxObjData.nodes[0].meshes[0].normals.length = 0;
 
-        var gltf = createGltf(boxObjData);
+        var gltf = createGltf(boxObjData, defaultOptions);
         var attributes = gltf.meshes[Object.keys(gltf.meshes)[0]].primitives[0].attributes;
         expect(attributes.POSITION).toBeDefined();
         expect(attributes.NORMAL).toBeUndefined();
@@ -298,7 +298,7 @@ describe('gltf', function() {
     it('runs without uvs', function() {
         boxObjData.nodes[0].meshes[0].uvs.length = 0;
 
-        var gltf = createGltf(boxObjData);
+        var gltf = createGltf(boxObjData, defaultOptions);
         var attributes = gltf.meshes[Object.keys(gltf.meshes)[0]].primitives[0].attributes;
         expect(attributes.POSITION).toBeDefined();
         expect(attributes.NORMAL).toBeDefined();
@@ -309,7 +309,7 @@ describe('gltf', function() {
         boxObjData.nodes[0].meshes[0].normals.length = 0;
         boxObjData.nodes[0].meshes[0].uvs.length = 0;
 
-        var gltf = createGltf(boxObjData);
+        var gltf = createGltf(boxObjData, defaultOptions);
         var attributes = gltf.meshes[Object.keys(gltf.meshes)[0]].primitives[0].attributes;
         expect(attributes.POSITION).toBeDefined();
         expect(attributes.NORMAL).toBeUndefined();
@@ -349,7 +349,7 @@ describe('gltf', function() {
         var indicesLength = mesh.primitives[0].indices.length;
         var vertexCount = mesh.positions.length / 3;
 
-        var gltf = createGltf(boxObjData);
+        var gltf = createGltf(boxObjData, defaultOptions);
         var primitive = gltf.meshes[Object.keys(gltf.meshes)[0]].primitives[0];
         var indicesAccessor = gltf.accessors[primitive.indices];
         expect(indicesAccessor.count).toBe(indicesLength);

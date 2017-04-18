@@ -4,7 +4,6 @@ var obj2gltf = require('../../lib/obj2gltf');
 var loadImage = require('../../lib/loadImage');
 
 var clone = Cesium.clone;
-var WebGLConstants = Cesium.WebGLConstants;
 
 var pngImage = 'specs/data/box-complex-material/shininess.png';
 var jpgImage = 'specs/data/box-complex-material/emission.jpg';
@@ -15,12 +14,11 @@ var transparentImage = 'specs/data/box-complex-material/diffuse.png';
 
 var defaultOptions = obj2gltf.defaults;
 
-describe('image', function() {
+describe('loadImage', function() {
     it('loads png image', function(done) {
         expect(loadImage(pngImage, defaultOptions)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
-                expect(info.format).toBe(WebGLConstants.RGB);
                 expect(info.source).toBeDefined();
                 expect(info.extension).toBe('.png');
             }), done).toResolve();
@@ -30,7 +28,6 @@ describe('image', function() {
         expect(loadImage(jpgImage, defaultOptions)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
-                expect(info.format).toBe(WebGLConstants.RGB);
                 expect(info.source).toBeDefined();
                 expect(info.extension).toBe('.jpg');
             }), done).toResolve();
@@ -40,7 +37,6 @@ describe('image', function() {
         expect(loadImage(jpegImage, defaultOptions)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
-                expect(info.format).toBe(WebGLConstants.RGB);
                 expect(info.source).toBeDefined();
                 expect(info.extension).toBe('.jpeg');
             }), done).toResolve();
@@ -50,7 +46,6 @@ describe('image', function() {
         expect(loadImage(gifImage, defaultOptions)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
-                expect(info.format).toBe(WebGLConstants.RGB);
                 expect(info.source).toBeDefined();
                 expect(info.extension).toBe('.gif');
             }), done).toResolve();
@@ -60,7 +55,6 @@ describe('image', function() {
         expect(loadImage(grayscaleImage, defaultOptions)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
-                expect(info.format).toBe(WebGLConstants.ALPHA);
                 expect(info.source).toBeDefined();
                 expect(info.extension).toBe('.png');
             }), done).toResolve();

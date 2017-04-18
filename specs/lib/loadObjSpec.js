@@ -61,7 +61,7 @@ function getImagePath(objPath, relativePath) {
 
 var defaultOptions = obj2gltf.defaults;
 
-describe('obj', function() {
+describe('loadObj', function() {
     it('loads obj with positions, normals, and uvs', function(done) {
         expect(loadObj(objUrl, defaultOptions)
             .then(function(data) {
