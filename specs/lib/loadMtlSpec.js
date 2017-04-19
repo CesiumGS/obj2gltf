@@ -9,7 +9,7 @@ function getImagePath(objPath, relativePath) {
     return path.resolve(path.dirname(objPath), relativePath);
 }
 
-describe('mtl', function() {
+describe('loadMtl', function() {
     it('loads complex material', function(done) {
         expect(loadMtl(complexMaterialUrl)
             .then(function(materials) {
