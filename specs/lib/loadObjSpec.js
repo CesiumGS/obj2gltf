@@ -445,6 +445,7 @@ describe('loadObj', () => {
         expect(baseColorTexture.source).toBeDefined();
     });
 
+<<<<<<< HEAD
     it('separates faces that don\'t use the same attributes as other faces in the primitive', async () => {
         const data = await loadObj(objMixedAttributesPath, options);
         const primitives = getPrimitives(data);
@@ -453,6 +454,57 @@ describe('loadObj', () => {
         expect(primitives[1].indices.length).toBe(6); // 2 faces
         expect(primitives[2].indices.length).toBe(6); // 2 faces
         expect(primitives[3].indices.length).toBe(6); // 2 faces
+=======
+    function getFirstPosition(data) {
+        var positions = data.nodes[0].meshes[0].positions;
+        return new Cartesian3(positions.get(0), positions.get(1), positions.get(2));
+    }
+
+    function getFirstNormal(data) {
+        var normals = data.nodes[0].meshes[0].normals;
+        return new Cartesian3(normals.get(0), normals.get(1), normals.get(2));
+    }
+
+    function checkAxisConversion(inputUpAxis, outputUpAxis, position, normal) {
+        var sameAxis = (inputUpAxis === outputUpAxis);
+        var options = clone(defaultOptions);
+        options.inputUpAxis = inputUpAxis;
+        options.outputUpAxis = outputUpAxis;
+        return loadObj(objRotatedUrl, options)
+            .then(function(data) {
+                var rotatedPosition = getFirstPosition(data);
+                var rotatedNormal = getFirstNormal(data);
+                if (sameAxis) {
+                    expect(rotatedPosition).toEqual(position);
+                    expect(rotatedNormal).toEqual(normal);
+                } else {
+                    expect(rotatedPosition).not.toEqual(position);
+                    expect(rotatedNormal).not.toEqual(normal);
+                }
+            });
+    }
+
+    it('performs up axis conversion', function(done) {
+        expect(loadObj(objRotatedUrl, defaultOptions)
+            .then(function(data) {
+                var position = getFirstPosition(data);
+                var normal = getFirstNormal(data);
+
+                var axes = ['X', 'Y', 'Z'];
+                var axesLength = axes.length;
+                var promises = [];
+                for (var i = 0; i < axesLength; ++i) {
+                    for (var j = 0; j < axesLength; ++j) {
+                        promises.push(checkAxisConversion(axes[i], axes[j], position, normal));
+                    }
+                }
+                return Promise.all(promises);
+            }), done).toResolve();
+    });
+
+    it('throws when file has invalid contents', function(done) {
+        expect(loadObj(objInvalidContentsUrl, defaultOptions), done).toRejectWith(RuntimeError);
+>>>>>>> 93dac5e... Convert up axis
     });
 
     it('throws when file has invalid contents', async () => {
