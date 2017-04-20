@@ -76,13 +76,8 @@ var argv = yargs
             type: 'boolean',
             default: defaults.ao
         },
-        kmc : {
-            describe: 'Output glTF with the KHR_materials_common extension.',
-            type: 'boolean',
-            default: defaults.kmc
-        },
         bypassPipeline : {
-            describe: 'Bypass the gltf-pipeline for debugging purposes. This option overrides many of the options above and will save the glTF with the KHR_materials_common extension.',
+            describe: 'Bypass the gltf-pipeline for debugging purposes. This option overrides many of the options above.',
             type: 'boolean',
             default: defaults.bypassPipeline
         },
@@ -116,7 +111,6 @@ var options = {
     optimizeForCesium : argv.optimizeForCesium,
     generateNormals : argv.generateNormals,
     ao : argv.ao,
-    kmc : argv.kmc,
     bypassPipeline : argv.bypassPipeline,
     checkTransparency : argv.checkTransparency,
     secure : argv.secure
