@@ -46,6 +46,8 @@ Using obj2gltf as a command-line tool:
 |`--bypassPipeline`|Bypass the gltf-pipeline for debugging purposes. This option overrides many of the options above and will save the glTF with the KHR_materials_common extension.|No, default `false`|
 |`--checkTransparency`|Do a more exhaustive check for texture transparency by looking at the alpha channel of each pixel. By default textures are considered to be opaque.|No, default `false`|
 |`--secure`|Prevent the converter from reading image or mtl files outside of the input obj directory.|No, default `false`|
+|`--inputUpAxis`|Up axis of the obj. Choices are 'X', 'Y', and 'Z'.|No, default `Y`|
+|`--outputUpAxis`|Up axis of the converted glTF. Choices are 'X', 'Y', and 'Z'.|No, default `Y`|
 
 ## Build Instructions
 

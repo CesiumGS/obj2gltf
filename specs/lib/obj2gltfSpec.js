@@ -68,6 +68,8 @@ describe('obj2gltf', function() {
             textureCompressionOptions : textureCompressionOptions,
             checkTransparency : true,
             secure : true,
+            inputUpAxis : 'Z',
+            outputUpAxis : 'X',
             logger : obj2gltf.defaults.logger
         };
 

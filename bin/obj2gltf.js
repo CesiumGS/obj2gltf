@@ -95,6 +95,18 @@ var argv = yargs
             describe: 'Prevent the converter from reading image or mtl files outside of the input obj directory.',
             type: 'boolean',
             default: defaults.secure
+        },
+        inputUpAxis : {
+            describe: 'Up axis of the obj.',
+            choices: ['X', 'Y', 'Z'],
+            type: 'string',
+            default: 'Y'
+        },
+        outputUpAxis : {
+            describe: 'Up axis of the converted glTF.',
+            choices: ['X', 'Y', 'Z'],
+            type: 'string',
+            default: 'Y'
         }
     }).parse(args);
 
@@ -119,7 +131,9 @@ var options = {
     kmc : argv.kmc,
     bypassPipeline : argv.bypassPipeline,
     checkTransparency : argv.checkTransparency,
-    secure : argv.secure
+    secure : argv.secure,
+    inputUpAxis : argv.inputUpAxis,
+    outputUpAxis : argv.outputUpAxis
 };
 
 console.time('Total');
