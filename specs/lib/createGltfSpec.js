@@ -26,7 +26,7 @@ var defaultOptions = obj2gltf.defaults;
 var checkTransparencyOptions = clone(defaultOptions);
 checkTransparencyOptions.checkTransparency = true;
 
-describe('gltf', function() {
+describe('createGltf', function() {
     var boxObjData;
     var duplicateBoxObjData;
     var groupObjData;

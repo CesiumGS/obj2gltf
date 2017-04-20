@@ -15,7 +15,7 @@ var transparentImage = 'specs/data/box-complex-material/diffuse.png';
 
 var defaultOptions = obj2gltf.defaults;
 
-describe('image', function() {
+describe('loadImage', function() {
     it('loads png image', function(done) {
         expect(loadImage(pngImage, defaultOptions)
             .then(function(info) {
