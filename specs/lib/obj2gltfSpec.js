@@ -29,9 +29,10 @@ describe('obj2gltf', function() {
             .then(function() {
                 var args = spy.calls.first().args;
                 var options = args[2];
+                expect(options.basePath).toBeDefined();
+                delete options.basePath; // This will be a random temp directory
                 expect(options).toEqual({
                     createDirectory : false,
-                    basePath : path.dirname(objPath),
                     binary : false,
                     embed : true,
                     embedImage : true,
@@ -75,9 +76,10 @@ describe('obj2gltf', function() {
             .then(function() {
                 var args = spy.calls.first().args;
                 var options = args[2];
+                expect(options.basePath).toBeDefined();
+                delete options.basePath; // This will be a random temp directory
                 expect(options).toEqual({
                     createDirectory : false,
-                    basePath : path.dirname(objPath),
                     binary : true,
                     embed : false,
                     embedImage : false,

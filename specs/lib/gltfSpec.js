@@ -70,7 +70,7 @@ describe('gltf', function() {
 
     it('simple gltf', function(done) {
         var gltf = createGltf(boxObjData);
-        expect(writeUris(gltf, boxGltfUrl, defaultOptions)
+        expect(writeUris(gltf, boxGltfUrl, path.dirname(boxGltfUrl), defaultOptions)
             .then(function() {
                 expect(gltf).toEqual(boxGltf);
             }), done).toResolve();
@@ -79,7 +79,7 @@ describe('gltf', function() {
     it('multiple nodes, meshes, and primitives', function(done) {
         var gltf = createGltf(groupObjData);
 
-        expect(writeUris(gltf, groupGltfUrl, defaultOptions)
+        expect(writeUris(gltf, groupGltfUrl, path.dirname(groupGltfUrl), defaultOptions)
             .then(function() {
                 expect(gltf).toEqual(groupGltf);
                 expect(Object.keys(gltf.materials).length).toBe(3);
