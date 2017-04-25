@@ -1,7 +1,12 @@
 Change Log
 ==========
 
-### 1.1.0
+### 1.1.1 2017-04-25
+
+* Fixed `CHANGES.md` formatting.
+
+### 1.1.0 2017-04-25
+
 * Added ability to convert the up-axis of the obj model. [#68](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/68)
 * Fixed issues with an extra .bin file being saved when using `--separate`. [#62](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/62)
 * Fixed issue where an ambient color of `[1, 1, 1]` overly brightens the converted model. [#70](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/70)
