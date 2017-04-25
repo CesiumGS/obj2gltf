@@ -64,6 +64,10 @@ function getImagePath(objPath, relativePath) {
 var defaultOptions = obj2gltf.defaults;
 
 describe('loadObj', function() {
+    beforeEach(function() {
+        spyOn(console, 'log');
+    });
+
     it('loads obj with positions, normals, and uvs', function(done) {
         expect(loadObj(objUrl, defaultOptions)
             .then(function(data) {
@@ -272,7 +276,6 @@ describe('loadObj', function() {
     });
 
     it('loads obj with missing mtllib', function(done) {
-        spyOn(console, 'log');
         expect(loadObj(objMissingMtllibUrl, defaultOptions)
             .then(function(data) {
                 expect(data.materials).toEqual({});
@@ -290,8 +293,6 @@ describe('loadObj', function() {
     });
 
     it('does not load resources outside of the obj directory when secure is true', function(done) {
-        spyOn(console, 'log');
-
         var options = clone(defaultOptions);
         options.secure = true;
 
@@ -316,7 +317,6 @@ describe('loadObj', function() {
     });
 
     it('loads obj with missing texture', function(done) {
-        spyOn(console, 'log');
         expect(loadObj(objMissingTextureUrl, defaultOptions)
             .then(function(data) {
                 var imagePath = getImagePath(objMissingTextureUrl, 'cesium.png');
