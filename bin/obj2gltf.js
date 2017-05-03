@@ -90,6 +90,21 @@ var argv = yargs
             describe: 'Prevent the converter from reading image or mtl files outside of the input obj directory.',
             type: 'boolean',
             default: defaults.secure
+        },
+        packOcclusion : {
+            describe: 'Pack the occlusion texture in the red channel of metallic-roughness texture.',
+            type: 'boolean',
+            default: defaults.packOcclusion
+        },
+        inputMetallicRoughness : {
+            describe: 'The values in the mtl file are already metallic-roughness PBR values and no conversion step should be applied. Metallic is stored in the Ks and map_Ks slots and roughness is stored in the Ns and map_Ns slots.',
+            type: 'boolean',
+            default : defaults.metallicRoughness
+        },
+        inputSpecularGlossiness : {
+            describe: 'The values in the mtl file are already specular-glossiness PBR values and no conversion step should be applied. Specular is stored in the Ks and map_Ks slots and glossiness is stored in the Ns and map_Ns slots. The glTF will be saved with the KHR_materials_pbrSpecularGlossiness extension.',
+            type: 'boolean',
+            default : defaults.specularGlossiness
         }
     }).parse(args);
 
@@ -113,7 +128,8 @@ var options = {
     ao : argv.ao,
     bypassPipeline : argv.bypassPipeline,
     checkTransparency : argv.checkTransparency,
-    secure : argv.secure
+    secure : argv.secure,
+    packOcclusion : argv.packOcclusion
 };
 
 console.time('Total');
@@ -123,5 +139,5 @@ obj2gltf(objPath, gltfPath, options)
         console.timeEnd('Total');
     })
     .catch(function(error) {
-        console.log(error.message);
+        console.log(error);
     });
