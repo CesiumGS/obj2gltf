@@ -91,6 +91,18 @@ var argv = yargs
             type: 'boolean',
             default: defaults.secure
         },
+        inputUpAxis : {
+            describe: 'Up axis of the obj.',
+            choices: ['X', 'Y', 'Z'],
+            type: 'string',
+            default: 'Y'
+        },
+        outputUpAxis : {
+            describe: 'Up axis of the converted glTF.',
+            choices: ['X', 'Y', 'Z'],
+            type: 'string',
+            default: 'Y'
+        },
         packOcclusion : {
             describe: 'Pack the occlusion texture in the red channel of metallic-roughness texture.',
             type: 'boolean',
@@ -129,7 +141,11 @@ var options = {
     bypassPipeline : argv.bypassPipeline,
     checkTransparency : argv.checkTransparency,
     secure : argv.secure,
-    packOcclusion : argv.packOcclusion
+    inputUpAxis : argv.inputUpAxis,
+    outputUpAxis : argv.outputUpAxis,
+    packOcclusion : argv.packOcclusion,
+    inputMetallicRoughness : argv.inputMetallicRoughness,
+    inputSpecularGlossiness : argv.inputSpecularGlossiness
 };
 
 console.time('Total');

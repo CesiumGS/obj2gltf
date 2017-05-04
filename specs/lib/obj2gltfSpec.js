@@ -1,6 +1,9 @@
 'use strict';
+var fsExtra = require('fs-extra');
 var GltfPipeline = require('gltf-pipeline').Pipeline;
+var os = require('os');
 var path = require('path');
+var Promise = require('bluebird');
 var obj2gltf = require('../../lib/obj2gltf');
 var writeUris = require('../../lib/writeUris');
 
@@ -10,28 +13,34 @@ var glbPath = 'specs/data/box-textured/box-textured.glb';
 var objPathNonExistent = 'specs/data/non-existent.obj';
 
 describe('obj2gltf', function() {
+    var tempDirectory;
+
+    beforeAll(function() {
+        expect(obj2gltf._getTempDirectory()).toContain(os.tmpdir());
+        tempDirectory = path.join(os.tmpdir(), 'testPath');
+        spyOn(obj2gltf, '_getTempDirectory').and.returnValue(tempDirectory);
+        spyOn(obj2gltf, '_outputJson');
+        spyOn(writeUris, '_outputFile');
+        spyOn(fsExtra, 'remove');
+    });
+
+    beforeEach(function() {
+        spyOn(GltfPipeline, 'processJSONToDisk').and.returnValue(Promise.resolve());
+    });
+
     it('converts an obj to gltf', function(done) {
-        var spy = spyOn(GltfPipeline, 'processJSONToDisk');
         expect(obj2gltf(objPath, gltfPath)
             .then(function() {
-                var args = spy.calls.first().args;
+                var args = GltfPipeline.processJSONToDisk.calls.first().args;
                 var gltf = args[0];
                 var outputPath = args[1];
+                var options = args[2];
                 expect(path.normalize(outputPath)).toEqual(path.normalize(gltfPath));
                 expect(gltf).toBeDefined();
                 expect(gltf.images.cesium).toBeDefined();
-            }), done).toResolve();
-    });
-
-    it('uses default gltf-pipeline options', function(done) {
-        var spy = spyOn(GltfPipeline, 'processJSONToDisk');
-        expect(obj2gltf(objPath, gltfPath)
-            .then(function() {
-                var args = spy.calls.first().args;
-                var options = args[2];
                 expect(options).toEqual({
+                    basePath : tempDirectory,
                     createDirectory : false,
-                    basePath : path.dirname(objPath),
                     binary : false,
                     embed : true,
                     embedImage : true,
@@ -48,8 +57,6 @@ describe('obj2gltf', function() {
     });
 
     it('sets options', function(done) {
-        var spy = spyOn(GltfPipeline, 'processJSONToDisk');
-        spyOn(writeUris, '_outputFile');
         var textureCompressionOptions = {
             format : 'dxt1',
             quality : 10
@@ -66,16 +73,18 @@ describe('obj2gltf', function() {
             textureCompressionOptions : textureCompressionOptions,
             checkTransparency : true,
             secure : true,
+            inputUpAxis : 'Z',
+            outputUpAxis : 'X',
             logger : obj2gltf.defaults.logger
         };
 
         expect(obj2gltf(objPath, gltfPath, options)
             .then(function() {
-                var args = spy.calls.first().args;
+                var args = GltfPipeline.processJSONToDisk.calls.first().args;
                 var options = args[2];
                 expect(options).toEqual({
+                    basePath : tempDirectory,
                     createDirectory : false,
-                    basePath : path.dirname(objPath),
                     binary : true,
                     embed : false,
                     embedImage : false,
@@ -93,18 +102,15 @@ describe('obj2gltf', function() {
     });
 
     it('saves as binary if gltfPath has a .glb extension', function(done) {
-        var spy = spyOn(GltfPipeline, 'processJSONToDisk');
         expect(obj2gltf(objPath, glbPath)
             .then(function() {
-                var args = spy.calls.first().args;
+                var args = GltfPipeline.processJSONToDisk.calls.first().args;
                 var options = args[2];
                 expect(options.binary).toBe(true);
             }), done).toResolve();
     });
 
     it('bypassPipeline flag bypasses gltf-pipeline', function(done) {
-        spyOn(obj2gltf, '_outputJson');
-        spyOn(GltfPipeline, 'processJSONToDisk');
         var options = {
             bypassPipeline : true
         };

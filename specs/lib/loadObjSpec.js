@@ -5,10 +5,12 @@ var Promise = require('bluebird');
 var loadObj = require('../../lib/loadObj');
 var obj2gltf = require('../../lib/obj2gltf');
 
+var Cartesian3 = Cesium.Cartesian3;
 var clone = Cesium.clone;
 var RuntimeError = Cesium.RuntimeError;
 
 var objUrl = 'specs/data/box/box.obj';
+var objRotatedUrl = 'specs/data/box-rotated/box-rotated.obj';
 var objNormalsUrl = 'specs/data/box-normals/box-normals.obj';
 var objUvsUrl = 'specs/data/box-uvs/box-uvs.obj';
 var objPositionsOnlyUrl = 'specs/data/box-positions-only/box-positions-only.obj';
@@ -62,6 +64,10 @@ function getImagePath(objPath, relativePath) {
 var defaultOptions = obj2gltf.defaults;
 
 describe('loadObj', function() {
+    beforeEach(function() {
+        spyOn(console, 'log');
+    });
+
     it('loads obj with positions, normals, and uvs', function(done) {
         expect(loadObj(objUrl, defaultOptions)
             .then(function(data) {
@@ -270,7 +276,6 @@ describe('loadObj', function() {
     });
 
     it('loads obj with missing mtllib', function(done) {
-        spyOn(console, 'log');
         expect(loadObj(objMissingMtllibUrl, defaultOptions)
             .then(function(data) {
                 expect(data.materials).toEqual({});
@@ -288,8 +293,6 @@ describe('loadObj', function() {
     });
 
     it('does not load resources outside of the obj directory when secure is true', function(done) {
-        spyOn(console, 'log');
-
         var options = clone(defaultOptions);
         options.secure = true;
 
@@ -314,7 +317,6 @@ describe('loadObj', function() {
     });
 
     it('loads obj with missing texture', function(done) {
-        spyOn(console, 'log');
         expect(loadObj(objMissingTextureUrl, defaultOptions)
             .then(function(data) {
                 var imagePath = getImagePath(objMissingTextureUrl, 'cesium.png');
@@ -341,7 +343,54 @@ describe('loadObj', function() {
             }), done).toResolve();
     });
 
-    it('does not process file with invalid contents', function(done) {
+    function getFirstPosition(data) {
+        var positions = data.nodes[0].meshes[0].positions;
+        return new Cartesian3(positions.get(0), positions.get(1), positions.get(2));
+    }
+
+    function getFirstNormal(data) {
+        var normals = data.nodes[0].meshes[0].normals;
+        return new Cartesian3(normals.get(0), normals.get(1), normals.get(2));
+    }
+
+    function checkAxisConversion(inputUpAxis, outputUpAxis, position, normal) {
+        var sameAxis = (inputUpAxis === outputUpAxis);
+        var options = clone(defaultOptions);
+        options.inputUpAxis = inputUpAxis;
+        options.outputUpAxis = outputUpAxis;
+        return loadObj(objRotatedUrl, options)
+            .then(function(data) {
+                var rotatedPosition = getFirstPosition(data);
+                var rotatedNormal = getFirstNormal(data);
+                if (sameAxis) {
+                    expect(rotatedPosition).toEqual(position);
+                    expect(rotatedNormal).toEqual(normal);
+                } else {
+                    expect(rotatedPosition).not.toEqual(position);
+                    expect(rotatedNormal).not.toEqual(normal);
+                }
+            });
+    }
+
+    it('performs up axis conversion', function(done) {
+        expect(loadObj(objRotatedUrl, defaultOptions)
+            .then(function(data) {
+                var position = getFirstPosition(data);
+                var normal = getFirstNormal(data);
+
+                var axes = ['X', 'Y', 'Z'];
+                var axesLength = axes.length;
+                var promises = [];
+                for (var i = 0; i < axesLength; ++i) {
+                    for (var j = 0; j < axesLength; ++j) {
+                        promises.push(checkAxisConversion(axes[i], axes[j], position, normal));
+                    }
+                }
+                return Promise.all(promises);
+            }), done).toResolve();
+    });
+
+    it('throws when file has invalid contents', function(done) {
         expect(loadObj(objInvalidContentsUrl, defaultOptions), done).toRejectWith(RuntimeError);
     });
 

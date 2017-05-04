@@ -45,6 +45,8 @@ Using obj2gltf as a command-line tool:
 |`--bypassPipeline`|Bypass the gltf-pipeline for debugging purposes. This option overrides many of the options above.|No, default `false`|
 |`--checkTransparency`|Do a more exhaustive check for texture transparency by looking at the alpha channel of each pixel. By default textures are considered to be opaque.|No, default `false`|
 |`--secure`|Prevent the converter from reading image or mtl files outside of the input obj directory.|No, default `false`|
+|`--inputUpAxis`|Up axis of the obj. Choices are 'X', 'Y', and 'Z'.|No, default `Y`|
+|`--outputUpAxis`|Up axis of the converted glTF. Choices are 'X', 'Y', and 'Z'.|No, default `Y`|
 |`--packOcclusion`|Pack the occlusion texture in the red channel of metallic-roughness texture.|No, default `false`|
 |`--inputMetallicRoughness`|The values in the mtl file are already metallic-roughness PBR values and no conversion step should be applied. Metallic is stored in the Ks and map_Ks slots and roughness is stored in the Ns and map_Ns slots.|No, default `false`|
 |`--inputSpecularGlossiness`|The values in the mtl file are already specular-glossiness PBR values and no conversion step should be applied. Specular is stored in the Ks and map_Ks slots and glossiness is stored in the Ns and map_Ns slots. The glTF will be saved with the `KHR_materials_pbrSpecularGlossiness` extension.|No, default `false`|

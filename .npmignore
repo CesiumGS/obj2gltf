@@ -5,6 +5,7 @@
 /specs
 /test
 /output
+.editorconfig
 .jshintrc
 .npmignore
 .travis.yml

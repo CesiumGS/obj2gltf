@@ -70,7 +70,7 @@ describe('createGltf', function() {
 
     it('simple gltf', function(done) {
         var gltf = createGltf(boxObjData, defaultOptions);
-        expect(writeUris(gltf, boxGltfUrl, defaultOptions)
+        expect(writeUris(gltf, boxGltfUrl, path.dirname(boxGltfUrl), defaultOptions)
             .then(function() {
                 expect(gltf).toEqual(boxGltf);
             }), done).toResolve();
@@ -79,7 +79,7 @@ describe('createGltf', function() {
     it('multiple nodes, meshes, and primitives', function(done) {
         var gltf = createGltf(groupObjData, defaultOptions);
 
-        expect(writeUris(gltf, groupGltfUrl, defaultOptions)
+        expect(writeUris(gltf, groupGltfUrl, path.dirname(groupGltfUrl), defaultOptions)
             .then(function() {
                 expect(gltf).toEqual(groupGltf);
                 expect(Object.keys(gltf.materials).length).toBe(3);
@@ -358,5 +358,14 @@ describe('createGltf', function() {
 
         var positionAccessor = gltf.accessors[primitive.attributes.POSITION];
         expect(positionAccessor.count).toBe(vertexCount);
+    });
+
+    it('ambient of [1, 1, 1] is treated as [0, 0, 0]', function() {
+        boxObjData.materials.Material.ambientColor = [1.0, 1.0, 1.0, 1.0];
+
+        var gltf = createGltf(boxObjData);
+        var ambient = gltf.materials.Material.extensions.KHR_materials_common.values.ambient;
+
+        expect(ambient).toEqual([0.0, 0.0, 0.0, 1.0]);
     });
 });
