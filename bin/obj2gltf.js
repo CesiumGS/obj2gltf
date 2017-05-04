@@ -108,15 +108,20 @@ var argv = yargs
             type: 'boolean',
             default: defaults.packOcclusion
         },
-        inputMetallicRoughness : {
+        metallicRoughness : {
             describe: 'The values in the mtl file are already metallic-roughness PBR values and no conversion step should be applied. Metallic is stored in the Ks and map_Ks slots and roughness is stored in the Ns and map_Ns slots.',
             type: 'boolean',
-            default : defaults.metallicRoughness
+            default: defaults.metallicRoughness
         },
-        inputSpecularGlossiness : {
+        specularGlossiness : {
             describe: 'The values in the mtl file are already specular-glossiness PBR values and no conversion step should be applied. Specular is stored in the Ks and map_Ks slots and glossiness is stored in the Ns and map_Ns slots. The glTF will be saved with the KHR_materials_pbrSpecularGlossiness extension.',
             type: 'boolean',
-            default : defaults.specularGlossiness
+            default: defaults.specularGlossiness
+        },
+        materialsCommon : {
+            describe: 'The glTF will be saved with the KHR_materials_common extension.',
+            type: 'boolean',
+            default: defaults.materialsCommon
         }
     }).parse(args);
 
@@ -144,8 +149,8 @@ var options = {
     inputUpAxis : argv.inputUpAxis,
     outputUpAxis : argv.outputUpAxis,
     packOcclusion : argv.packOcclusion,
-    inputMetallicRoughness : argv.inputMetallicRoughness,
-    inputSpecularGlossiness : argv.inputSpecularGlossiness
+    metallicRoughness : argv.metallicRoughness,
+    specularGlossiness : argv.specularGlossiness
 };
 
 console.time('Total');
