@@ -1,9 +1,9 @@
 {
-  "accessors": {
-    "accessor_0": {
-      "bufferView": "bufferView_vertex",
+  "accessors": [
+    {
+      "name": "Cube-Mesh_positions",
+      "bufferView": 0,
       "byteOffset": 0,
-      "byteStride": 0,
       "componentType": 5126,
       "count": 24,
       "min": [
@@ -18,10 +18,10 @@
       ],
       "type": "VEC3"
     },
-    "accessor_1": {
-      "bufferView": "bufferView_vertex",
+    {
+      "name": "Cube-Mesh_normals",
+      "bufferView": 0,
       "byteOffset": 288,
-      "byteStride": 0,
       "componentType": 5126,
       "count": 24,
       "min": [
@@ -36,10 +36,10 @@
       ],
       "type": "VEC3"
     },
-    "accessor_2": {
-      "bufferView": "bufferView_vertex",
+    {
+      "name": "Cube-Mesh_texcoords",
+      "bufferView": 0,
       "byteOffset": 576,
-      "byteStride": 0,
       "componentType": 5126,
       "count": 24,
       "min": [
@@ -52,10 +52,10 @@
       ],
       "type": "VEC2"
     },
-    "accessor_3": {
-      "bufferView": "bufferView_index",
+    {
+      "name": "Cube-Mesh_0_indices",
+      "bufferView": 1,
       "byteOffset": 0,
-      "byteStride": 0,
       "componentType": 5123,
       "count": 36,
       "min": [
@@ -66,113 +66,85 @@
       ],
       "type": "SCALAR"
     }
-  },
+  ],
   "asset": {
     "generator": "obj2gltf",
-    "profile": {
-      "api": "WebGL",
-      "version": "1.0"
-    },
-    "version": "1.0"
+    "version": "2.0"
   },
-  "buffers": {
-    "buffer": {
+  "buffers": [
+    {
+      "name": "buffer",
       "byteLength": 840,
       "uri": "data:application/octet-stream;base64,AACAvwAAgL8AAIA/AACAvwAAgD8AAIA/AACAvwAAgD8AAIC/AACAvwAAgL8AAIC/AACAvwAAgL8AAIC/AACAvwAAgD8AAIC/AACAPwAAgD8AAIC/AACAPwAAgL8AAIC/AACAPwAAgL8AAIC/AACAPwAAgD8AAIC/AACAPwAAgD8AAIA/AACAPwAAgL8AAIA/AACAPwAAgL8AAIA/AACAPwAAgD8AAIA/AACAvwAAgD8AAIA/AACAvwAAgL8AAIA/AACAvwAAgL8AAIC/AACAPwAAgL8AAIC/AACAPwAAgL8AAIA/AACAvwAAgL8AAIA/AACAPwAAgD8AAIC/AACAvwAAgD8AAIC/AACAvwAAgD8AAIA/AACAPwAAgD8AAIA/AACAvwAAAAAAAAAAAACAvwAAAAAAAAAAAACAvwAAAAAAAAAAAACAvwAAAAAAAAAAAAAAAAAAAAAAAIC/AAAAAAAAAAAAAIC/AAAAAAAAAAAAAIC/AAAAAAAAAAAAAIC/AACAPwAAAAAAAAAAAACAPwAAAAAAAAAAAACAPwAAAAAAAAAAAACAPwAAAAAAAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAgL8AAAAAAAAAAAAAgL8AAAAAAAAAAAAAgL8AAAAAAAAAAAAAgL8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAIA/AACAPwAAgD8AAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AACAPwAAAAAAAAAAAAAAAAAAAAAAAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAgD8AAIA/AACAPwAAgD8AAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AACAPwAAAAAAAAAAAAAAAAAAAAAAAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAABAAIAAAACAAMABAAFAAYABAAGAAcACAAJAAoACAAKAAsADAANAA4ADAAOAA8AEAARABIAEAASABMAFAAVABYAFAAWABcA"
     }
-  },
-  "bufferViews": {
-    "bufferView_vertex": {
-      "buffer": "buffer",
+  ],
+  "bufferViews": [
+    {
+      "name": "bufferView_vertex",
+      "buffer": 0,
       "byteLength": 768,
       "byteOffset": 0,
       "target": 34962
     },
-    "bufferView_index": {
-      "buffer": "buffer",
+    {
+      "name": "bufferView_index",
+      "buffer": 0,
       "byteLength": 72,
       "byteOffset": 768,
       "target": 34963
     }
-  },
-  "extensionsUsed": [
-    "KHR_materials_common"
   ],
-  "images": {},
-  "materials": {
-    "Material": {
-      "extensions": {
-        "KHR_materials_common": {
-          "technique": "PHONG",
-          "transparent": false,
-          "doubleSided": false,
-          "values": {
-            "ambient": [
-              0,
-              0,
-              0,
-              1
-            ],
-            "diffuse": [
-              0.64,
-              0.64,
-              0.64,
-              1
-            ],
-            "emission": [
-              0,
-              0,
-              0,
-              1
-            ],
-            "specular": [
-              0.5,
-              0.5,
-              0.5,
-              1
-            ],
-            "shininess": 96.078431,
-            "transparency": 1,
-            "transparent": false,
-            "doubleSided": false
-          }
-        }
-      }
+  "materials": [
+    {
+      "name": "Material",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.64,
+          0.64,
+          0.64,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.903921569
+      },
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "alphaMode": "OPAQUE",
+      "doubleSided": false
     }
-  },
-  "meshes": {
-    "Cube-Mesh": {
+  ],
+  "meshes": [
+    {
       "name": "Cube-Mesh",
       "primitives": [
         {
           "attributes": {
-            "POSITION": "accessor_0",
-            "NORMAL": "accessor_1",
-            "TEXCOORD_0": "accessor_2"
+            "POSITION": 0,
+            "NORMAL": 1,
+            "TEXCOORD_0": 2
           },
-          "indices": "accessor_3",
-          "material": "Material",
+          "indices": 3,
+          "material": 0,
           "mode": 4
         }
       ]
     }
-  },
-  "nodes": {
-    "Cube": {
+  ],
+  "nodes": [
+    {
       "name": "Cube",
-      "meshes": [
-        "Cube-Mesh"
-      ]
+      "mesh": 0
     }
-  },
-  "samplers": {},
-  "scene": "scene",
-  "scenes": {
-    "scene": {
+  ],
+  "scene": 0,
+  "scenes": [
+    {
       "nodes": [
-        "Cube"
+        0
       ]
     }
-  },
-  "textures": {}
+  ]
 }

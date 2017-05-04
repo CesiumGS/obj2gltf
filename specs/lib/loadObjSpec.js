@@ -77,8 +77,8 @@ describe('loadObj', function() {
                 var meshes = getMeshes(data);
                 var primitives = getPrimitives(data);
 
-                expect(Object.keys(images).length).toBe(0);
-                expect(materials.Material).toBeDefined();
+                expect(images.length).toBe(0);
+                expect(materials.length).toBe(1);
                 expect(nodes.length).toBe(1);
                 expect(meshes.length).toBe(1);
                 expect(primitives.length).toBe(1);
@@ -268,17 +268,26 @@ describe('loadObj', function() {
         expect(loadObj(objMtllibUrl, defaultOptions)
             .then(function(data) {
                 var materials = data.materials;
-                expect(Object.keys(materials).length).toBe(3);
-                expect(materials.Red.diffuseColor).toEqual([0.64, 0.0, 0.0, 1.0]);
-                expect(materials.Green.diffuseColor).toEqual([0.0, 0.64, 0.0, 1.0]);
-                expect(materials.Blue.diffuseColor).toEqual([0.0, 0.0, 0.64, 1.0]);
+                expect(materials.length).toBe(3);
+
+                // .mtl files are loaded in an arbitrary order, so sort for testing purposes
+                materials.sort(function(a, b){
+                    return a.name.localeCompare(b.name);
+                });
+
+                expect(materials[0].name).toBe('Blue');
+                expect(materials[0].diffuseColor).toEqual([0.0, 0.0, 0.64, 1.0]);
+                expect(materials[1].name).toBe('Green');
+                expect(materials[1].diffuseColor).toEqual([0.0, 0.64, 0.0, 1.0]);
+                expect(materials[2].name).toBe('Red');
+                expect(materials[2].diffuseColor).toEqual([0.64, 0.0, 0.0, 1.0]);
             }), done).toResolve();
     });
 
     it('loads obj with missing mtllib', function(done) {
         expect(loadObj(objMissingMtllibUrl, defaultOptions)
             .then(function(data) {
-                expect(data.materials).toEqual({});
+                expect(data.materials.length).toBe(0);
                 expect(console.log.calls.argsFor(0)[0].indexOf('Could not read mtl file') >= 0).toBe(true);
             }), done).toResolve();
     });
@@ -287,8 +296,14 @@ describe('loadObj', function() {
         expect(loadObj(objExternalResourcesUrl, defaultOptions)
             .then(function(data) {
                 var imagePath = getImagePath(objTexturedUrl, 'cesium.png');
-                expect(data.images[imagePath]).toBeDefined();
-                expect(data.materials.MaterialTextured.diffuseTexture).toEqual(imagePath);
+                expect(data.images[0].path).toBe(imagePath);
+
+                var materials = data.materials;
+                expect(materials.length).toBe(2);
+
+                // .mtl files are loaded in an arbitrary order, so find the "MaterialTextured" material
+                var materialTextured = materials[0].name === 'MaterialTextured' ? materials[0] : materials[1];
+                expect(materialTextured.diffuseTexture).toEqual(imagePath);
             }), done).toResolve();
     });
 
@@ -299,9 +314,8 @@ describe('loadObj', function() {
         expect(loadObj(objExternalResourcesUrl, options)
             .then(function(data) {
                 var imagePath = getImagePath(objMissingTextureUrl, 'cesium.png');
-                expect(data.images[imagePath]).toBeUndefined();
-                expect(data.materials.MaterialTextured).toBeDefined();
-                expect(data.materials.Material).toBeUndefined(); // Not in directory, so not included
+                expect(data.images.length).toBe(0); // obj references an image file that is outside the input directory
+                expect(data.materials.length).toBe(1); // obj references 2 materials, one of which is outside the input directory
                 expect(console.log.calls.argsFor(0)[0].indexOf('Could not read mtl file') >= 0).toBe(true);
                 expect(console.log.calls.argsFor(1)[0].indexOf('Could not read image file') >= 0).toBe(true);
             }), done).toResolve();
@@ -311,8 +325,8 @@ describe('loadObj', function() {
         expect(loadObj(objTexturedUrl, defaultOptions)
             .then(function(data) {
                 var imagePath = getImagePath(objTexturedUrl, 'cesium.png');
-                expect(data.images[imagePath]).toBeDefined();
-                expect(data.materials.Material.diffuseTexture).toEqual(imagePath);
+                expect(data.images[0].path).toBe(imagePath);
+                expect(data.materials[0].diffuseTexture).toEqual(imagePath);
             }), done).toResolve();
     });
 
@@ -320,8 +334,8 @@ describe('loadObj', function() {
         expect(loadObj(objMissingTextureUrl, defaultOptions)
             .then(function(data) {
                 var imagePath = getImagePath(objMissingTextureUrl, 'cesium.png');
-                expect(data.images[imagePath]).toBeUndefined();
-                expect(data.materials.Material.diffuseTexture).toEqual(imagePath);
+                expect(data.images.length).toBe(0);
+                expect(data.materials[0].diffuseTexture).toEqual(imagePath);
                 expect(console.log.calls.argsFor(0)[0].indexOf('Could not read image file') >= 0).toBe(true);
             }), done).toResolve();
     });
@@ -330,8 +344,8 @@ describe('loadObj', function() {
         expect(loadObj(objSubdirectoriesUrl, defaultOptions)
             .then(function(data) {
                 var imagePath = getImagePath(objSubdirectoriesUrl, path.join('materials', 'images', 'cesium.png'));
-                expect(data.images[imagePath]).toBeDefined();
-                expect(data.materials.Material.diffuseTexture).toEqual(imagePath);
+                expect(data.images[0].path).toBe(imagePath);
+                expect(data.materials[0].diffuseTexture).toEqual(imagePath);
             }), done).toResolve();
     });
 
@@ -339,7 +353,7 @@ describe('loadObj', function() {
         expect(loadObj(objComplexMaterialUrl, defaultOptions)
             .then(function(data) {
                 var images = data.images;
-                expect(Object.keys(images).length).toBe(4); // Only ambient, diffuse, emission, and specular maps are supported by the converter
+                expect(images.length).toBe(6);
             }), done).toResolve();
     });
 

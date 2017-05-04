@@ -1,9 +1,6 @@
 'use strict';
-var Cesium = require('cesium');
 var obj2gltf = require('../../lib/obj2gltf');
 var loadImage = require('../../lib/loadImage');
-
-var clone = Cesium.clone;
 
 var pngImage = 'specs/data/box-complex-material/shininess.png';
 var jpgImage = 'specs/data/box-complex-material/emission.jpg';
@@ -12,47 +9,58 @@ var gifImage = 'specs/data/box-complex-material/ambient.gif';
 var grayscaleImage = 'specs/data/box-complex-material/alpha.png';
 var transparentImage = 'specs/data/box-complex-material/diffuse.png';
 
-var defaultOptions = obj2gltf.defaults;
-
 describe('loadImage', function() {
     it('loads png image', function(done) {
-        expect(loadImage(pngImage, defaultOptions)
+        expect(loadImage(pngImage)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
                 expect(info.source).toBeDefined();
                 expect(info.extension).toBe('.png');
+                expect(info.path).toBe(pngImage);
+                expect(info.decoded).toBeUndefined();
+                expect(info.width).toBeUndefined();
+                expect(info.height).toBeUndefined();
             }), done).toResolve();
     });
 
     it('loads jpg image', function(done) {
-        expect(loadImage(jpgImage, defaultOptions)
+        expect(loadImage(jpgImage)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
                 expect(info.source).toBeDefined();
                 expect(info.extension).toBe('.jpg');
+                expect(info.decoded).toBeUndefined();
+                expect(info.width).toBeUndefined();
+                expect(info.height).toBeUndefined();
             }), done).toResolve();
     });
 
     it('loads jpeg image', function(done) {
-        expect(loadImage(jpegImage, defaultOptions)
+        expect(loadImage(jpegImage)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
                 expect(info.source).toBeDefined();
                 expect(info.extension).toBe('.jpeg');
+                expect(info.decoded).toBeUndefined();
+                expect(info.width).toBeUndefined();
+                expect(info.height).toBeUndefined();
             }), done).toResolve();
     });
 
     it('loads gif image', function(done) {
-        expect(loadImage(gifImage, defaultOptions)
+        expect(loadImage(gifImage)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
                 expect(info.source).toBeDefined();
                 expect(info.extension).toBe('.gif');
+                expect(info.decoded).toBeUndefined();
+                expect(info.width).toBeUndefined();
+                expect(info.height).toBeUndefined();
             }), done).toResolve();
     });
 
     it('loads grayscale image', function(done) {
-        expect(loadImage(grayscaleImage, defaultOptions)
+        expect(loadImage(grayscaleImage)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
                 expect(info.source).toBeDefined();
@@ -61,19 +69,46 @@ describe('loadImage', function() {
     });
 
     it('loads image with alpha channel', function(done) {
-        expect(loadImage(transparentImage, defaultOptions)
+        expect(loadImage(transparentImage)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
             }), done).toResolve();
     });
 
     it('loads image with checkTransparency flag', function(done) {
-        var options = clone(defaultOptions);
-        options.checkTransparency = true;
+        var options = {
+            checkTransparency : true
+        };
 
         expect(loadImage(transparentImage, options)
             .then(function(info) {
                 expect(info.transparent).toBe(true);
+            }), done).toResolve();
+    });
+
+    it('loads and decodes png', function(done) {
+        var options = {
+            decode : true
+        };
+
+        expect(loadImage(pngImage, options)
+            .then(function(info) {
+                expect(info.decoded).toBeDefined();
+                expect(info.width).toBe(211);
+                expect(info.height).toBe(211);
+            }), done).toResolve();
+    });
+
+    it('loads and decodes jpeg', function(done) {
+        var options = {
+            decode : true
+        };
+
+        expect(loadImage(jpegImage, options)
+            .then(function(info) {
+                expect(info.decoded).toBeDefined();
+                expect(info.width).toBe(211);
+                expect(info.height).toBe(211);
             }), done).toResolve();
     });
 });

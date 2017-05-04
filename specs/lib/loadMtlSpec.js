@@ -1,6 +1,7 @@
 'use strict';
 var path = require('path');
 var loadMtl = require('../../lib/loadMtl');
+var obj2gltf = require('../../lib/obj2gltf');
 
 var complexMaterialUrl = 'specs/data/box-complex-material/box-complex-material.mtl';
 var multipleMaterialsUrl = 'specs/data/box-multiple-materials/box-multiple-materials.mtl';
@@ -9,12 +10,14 @@ function getImagePath(objPath, relativePath) {
     return path.resolve(path.dirname(objPath), relativePath);
 }
 
+var defaultOptions = obj2gltf.defaults;
+
 describe('loadMtl', function() {
     it('loads complex material', function(done) {
-        expect(loadMtl(complexMaterialUrl)
+        expect(loadMtl(complexMaterialUrl, defaultOptions)
             .then(function(materials) {
-                var material = materials.Material;
-                expect(material).toBeDefined();
+                var material = materials[0];
+                expect(material.name).toBe('Material');
                 expect(material.ambientColor).toEqual([0.2, 0.2, 0.2, 1.0]);
                 expect(material.emissiveColor).toEqual([0.1, 0.1, 0.1, 1.0]);
                 expect(material.diffuseColor).toEqual([0.64, 0.64, 0.64, 1.0]);
@@ -32,12 +35,15 @@ describe('loadMtl', function() {
     });
 
     it('loads mtl with multiple materials', function(done) {
-        expect(loadMtl(multipleMaterialsUrl)
+        expect(loadMtl(multipleMaterialsUrl, defaultOptions)
             .then(function(materials) {
-                expect(Object.keys(materials).length).toBe(3);
-                expect(materials.Red.diffuseColor).toEqual([0.64, 0.0, 0.0, 1.0]);
-                expect(materials.Green.diffuseColor).toEqual([0.0, 0.64, 0.0, 1.0]);
-                expect(materials.Blue.diffuseColor).toEqual([0.0, 0.0, 0.64, 1.0]);
+                expect(materials.length).toBe(3);
+                expect(materials[0].name).toBe('Blue');
+                expect(materials[0].diffuseColor).toEqual([0.0, 0.0, 0.64, 1.0]);
+                expect(materials[1].name).toBe('Green');
+                expect(materials[1].diffuseColor).toEqual([0.0, 0.64, 0.0, 1.0]);
+                expect(materials[2].name).toBe('Red');
+                expect(materials[2].diffuseColor).toEqual([0.64, 0.0, 0.0, 1.0]);
             }), done).toResolve();
     });
 });

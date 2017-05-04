@@ -1,4 +1,5 @@
 'use strict';
+var Cesium = require('Cesium');
 var fsExtra = require('fs-extra');
 var GltfPipeline = require('gltf-pipeline').Pipeline;
 var os = require('os');
@@ -6,6 +7,8 @@ var path = require('path');
 var Promise = require('bluebird');
 var obj2gltf = require('../../lib/obj2gltf');
 var writeUris = require('../../lib/writeUris');
+
+var RuntimeError = Cesium.RuntimeError;
 
 var objPath = 'specs/data/box-textured/box-textured.obj';
 var gltfPath = 'specs/data/box-textured/box-textured.gltf';
@@ -37,7 +40,7 @@ describe('obj2gltf', function() {
                 var options = args[2];
                 expect(path.normalize(outputPath)).toEqual(path.normalize(gltfPath));
                 expect(gltf).toBeDefined();
-                expect(gltf.images.cesium).toBeDefined();
+                expect(gltf.images.length).toBe(1);
                 expect(options).toEqual({
                     basePath : tempDirectory,
                     createDirectory : false,
@@ -131,9 +134,25 @@ describe('obj2gltf', function() {
         }).toThrowDeveloperError();
     });
 
-    it('rejects if gltfPath is undefined', function() {
+    it('throws if gltfPath is undefined', function() {
         expect(function() {
             obj2gltf(objPath, undefined);
         }).toThrowDeveloperError();
+    });
+
+    it('rejects if both bpypassPipeline and binary are true', function(done) {
+        var options = {
+            bypassPipeline : true,
+            binary : true
+        };
+        expect(obj2gltf(objPath, gltfPath, options), done).toRejectWith(RuntimeError);
+    });
+
+    it('rejects if more than one material type is set', function(done) {
+        var options = {
+            metallicRoughness : true,
+            specularGlossiness : true
+        };
+        expect(obj2gltf(objPath, gltfPath, options), done).toRejectWith(RuntimeError);
     });
 });
