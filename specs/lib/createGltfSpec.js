@@ -13,8 +13,6 @@ var writeUris = require('../../lib/writeUris');
 var clone = Cesium.clone;
 var WebGLConstants = Cesium.WebGLConstants;
 
-var fsExtraReadJson = Promise.promisify(fsExtra.readJson);
-
 var boxObjUrl = 'specs/data/box/box.obj';
 var groupObjUrl = 'specs/data/box-objects-groups-materials/box-objects-groups-materials.obj';
 var boxGltfUrl = 'specs/data/box/box.gltf';
@@ -49,11 +47,11 @@ describe('createGltf', function() {
                 .then(function(data) {
                     groupObjData = data;
                 }),
-            fsExtraReadJson(boxGltfUrl)
+            fsExtra.readJson(boxGltfUrl)
                 .then(function(gltf) {
                     boxGltf = gltf;
                 }),
-            fsExtraReadJson(groupGltfUrl)
+            fsExtra.readJson(groupGltfUrl)
                 .then(function(gltf) {
                     groupGltf = gltf;
                 }),
