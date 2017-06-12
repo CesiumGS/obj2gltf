@@ -6,7 +6,7 @@
 /test
 /output
 .editorconfig
-.jshintrc
+.eslintrc.json
 .npmignore
 .travis.yml
 gulpfile.js

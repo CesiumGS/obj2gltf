@@ -3,7 +3,7 @@ node_js:
   - "4"
   - "6"
 script:
-  - npm run jsHint -- --failTaskOnError
+  - npm run eslint -- --failTaskOnError
   - npm run test -- --failTaskOnError --suppressPassed
 
 after_success:
