@@ -5,7 +5,6 @@ var os = require('os');
 var path = require('path');
 var Promise = require('bluebird');
 var obj2gltf = require('../../lib/obj2gltf');
-var writeUris = require('../../lib/writeUris');
 
 var objPath = 'specs/data/box-textured/box-textured.obj';
 var gltfPath = 'specs/data/box-textured/box-textured.gltf';
