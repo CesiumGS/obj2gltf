@@ -143,7 +143,7 @@ describe('createGltf', function() {
 
         expect(gltf.samplers.sampler).toEqual({
             magFilter : WebGLConstants.LINEAR,
-            minFilter : WebGLConstants.LINEAR,
+            minFilter : WebGLConstants.NEAREST_MIPMAP_LINEAR,
             wrapS : WebGLConstants.REPEAT,
             wrapT : WebGLConstants.REPEAT
         });
