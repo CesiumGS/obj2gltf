@@ -70,9 +70,9 @@ gulp.task('test-watch', function () {
 
 gulp.task('coverage', function () {
     fsExtra.removeSync('coverage/server');
-    child_process.execSync('istanbul' +
-        ' cover' +
-        ' --include-all-sources' +
+    child_process.execSync('nyc' +
+        ' --all' +
+        ' --reporter=lcov' +
         ' --dir coverage' +
         ' -x "specs/**" -x "coverage/**" -x "doc/**" -x "bin/**" -x "index.js" -x "gulpfile.js"' +
         ' node_modules/jasmine/bin/jasmine.js' +
