@@ -4,6 +4,7 @@ Change Log
 ### Next release
 
 * Change texture sampling to use NEAREST_MIPMAP_LINEAR by default [#83](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/83).
+* Fixed normal generation.
 
 ### 1.1.1 2017-04-25
 
