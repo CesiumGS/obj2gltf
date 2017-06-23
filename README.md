@@ -66,7 +66,7 @@ npm run eslint-watch
 
 ## Running Test Coverage
 
-Coverage uses [istanbul](https://github.com/gotwarlost/istanbul).  Run:
+Coverage uses [nyc](https://github.com/istanbuljs/nyc).  Run:
 ```
 npm run coverage
 ```
