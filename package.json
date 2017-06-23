@@ -38,9 +38,9 @@
   },
   "devDependencies": {
     "coveralls": "^2.12.0",
-    "eslint-config-cesium": "^1.0.0",
+    "eslint": "^4.1.1",
+    "eslint-config-cesium": "^2.0.0",
     "gulp": "^3.9.1",
-    "gulp-eslint": "^4.0.0",
     "jasmine": "^2.5.3",
     "jasmine-spec-reporter": "^4.1.0",
     "jsdoc": "^3.4.3",
@@ -50,8 +50,7 @@
   },
   "scripts": {
     "jsdoc": "jsdoc ./lib -R ./README.md -d doc",
-    "eslint": "gulp eslint",
-    "eslint-watch": "gulp eslint-watch",
+    "eslint": "eslint \"./**/*.js\" --cache --quiet",
     "test": "gulp test",
     "test-watch": "gulp test-watch",
     "coverage": "gulp coverage",
