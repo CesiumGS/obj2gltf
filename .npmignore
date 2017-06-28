@@ -1,12 +1,12 @@
 /.idea
 /coverage
 /doc
-/output
 /specs
-/test
-/output
 .editorconfig
+.eslintcache
+.eslintignore
 .eslintrc.json
+.nyc_output
 .npmignore
 .travis.yml
 gulpfile.js

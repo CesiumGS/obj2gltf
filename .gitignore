@@ -10,7 +10,5 @@ npm-debug.log
 .eslintcache
 coverage
 doc
-output
-test
 *.tgz
 .nyc_output
