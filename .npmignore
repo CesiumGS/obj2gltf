@@ -1,9 +1,13 @@
 /.idea
-/specs
-/test
-/TypeScriptDefinitions
 /coverage
-.jshintrc
+/doc
+/specs
+.editorconfig
+.eslintcache
+.eslintignore
+.eslintrc.json
+.nyc_output
 .npmignore
 .travis.yml
 gulpfile.js
+*.tgz

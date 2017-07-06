@@ -1,6 +1,41 @@
 Change Log
 ==========
 
+### Next release
+
+* Change texture sampling to use NEAREST_MIPMAP_LINEAR by default [#83](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/83).
+* Fixed normal generation.
+
+### 1.1.1 2017-04-25
+
+* Fixed `CHANGES.md` formatting.
+
+### 1.1.0 2017-04-25
+
+* Added ability to convert the up-axis of the obj model. [#68](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/68)
+* Fixed issues with an extra .bin file being saved when using `--separate`. [#62](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/62)
+* Fixed issue where an ambient color of `[1, 1, 1]` overly brightens the converted model. [#70](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/70)
+
+### 1.0.0 2017-04-13
+
+* Breaking changes
+    * To use `obj2gltf` as a library, call `require('obj2gltf')(input, output, options)`. The previous calling code was `require('obj2gltf').convert(input, output, options)`.
+    * Many library options and command-line parameters have been renamed.
+* Project cleanup. [#49](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/49)
+    * Speed improvements, especially for larger models.
+    * Preserves the objects and groups in the obj.
+    * Added documentation and tests.
+    * Material fixes.
+
+### 0.1.7 2017-01-06
+
+* Update gltf-pipeline to 0.1.0-alpha9
+* Added command to generate documentation (npm run jsdoc)
+
+### 0.1.6 2016-09-07
+
+* Changed obj2gltf.js line endings from CRLF to LF in npm package.
+
 ### 0.1.5 2016-08-26
 
 * Fixed incorrect parameter to the gltf-pipeline.
