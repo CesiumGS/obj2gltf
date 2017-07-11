@@ -1,22 +1,17 @@
 'use strict';
 var Cesium = require('cesium');
-var fsExtra = require('fs-extra');
-var path = require('path');
 var Promise = require('bluebird');
 var obj2gltf = require('../../lib/obj2gltf');
 var createGltf = require('../../lib/createGltf');
 var loadImage = require('../../lib/loadImage');
 var loadObj = require('../../lib/loadObj');
 var Material = require('../../lib/Material');
-var writeUris = require('../../lib/writeUris');
 
 var clone = Cesium.clone;
 var WebGLConstants = Cesium.WebGLConstants;
 
 var boxObjUrl = 'specs/data/box/box.obj';
 var groupObjUrl = 'specs/data/box-objects-groups-materials/box-objects-groups-materials.obj';
-var boxGltfUrl = 'specs/data/box/box.gltf';
-var groupGltfUrl = 'specs/data/box-objects-groups-materials/box-objects-groups-materials.gltf';
 var diffuseTextureUrl = 'specs/data/box-textured/cesium.png';
 var transparentDiffuseTextureUrl = 'specs/data/box-complex-material/diffuse.png';
 
@@ -28,8 +23,6 @@ describe('createGltf', function() {
     var boxObjData;
     var duplicateBoxObjData;
     var groupObjData;
-    var boxGltf;
-    var groupGltf;
     var diffuseTexture;
     var transparentDiffuseTexture;
 
@@ -47,14 +40,6 @@ describe('createGltf', function() {
                 .then(function(data) {
                     groupObjData = data;
                 }),
-            fsExtra.readJson(boxGltfUrl)
-                .then(function(gltf) {
-                    boxGltf = gltf;
-                }),
-            fsExtra.readJson(groupGltfUrl)
-                .then(function(gltf) {
-                    groupGltf = gltf;
-                }),
             loadImage(diffuseTextureUrl, defaultOptions)
                 .then(function(image) {
                     diffuseTexture = image;
@@ -66,32 +51,42 @@ describe('createGltf', function() {
         ]).then(done);
     });
 
-    it('simple gltf', function(done) {
+    it('simple gltf', function() {
         var gltf = createGltf(boxObjData, defaultOptions);
-        expect(writeUris(gltf, boxGltfUrl, path.dirname(boxGltfUrl), defaultOptions)
-            .then(function() {
-                expect(gltf).toEqual(boxGltf);
-            }), done).toResolve();
+
+        expect(Object.keys(gltf.materials).length).toBe(1);
+        expect(Object.keys(gltf.nodes).length).toBe(1);
+        expect(Object.keys(gltf.meshes).length).toBe(1);
+
+        var primitives = gltf.meshes['Cube-Mesh'].primitives;
+        var primitive = primitives[0];
+        var attributes = primitive.attributes;
+        var positionAccessor = gltf.accessors[attributes.POSITION];
+        var normalAccessor = gltf.accessors[attributes.NORMAL];
+        var uvAccessor = gltf.accessors[attributes.TEXCOORD_0];
+        var indexAccessor = gltf.accessors[primitive.indices];
+
+        expect(primitives.length).toBe(1);
+        expect(positionAccessor.count).toBe(24);
+        expect(normalAccessor.count).toBe(24);
+        expect(uvAccessor.count).toBe(24);
+        expect(indexAccessor.count).toBe(36);
     });
 
-    it('multiple nodes, meshes, and primitives', function(done) {
+    it('multiple nodes, meshes, and primitives', function() {
         var gltf = createGltf(groupObjData, defaultOptions);
 
-        expect(writeUris(gltf, groupGltfUrl, path.dirname(groupGltfUrl), defaultOptions)
-            .then(function() {
-                expect(gltf).toEqual(groupGltf);
-                expect(Object.keys(gltf.materials).length).toBe(3);
-                expect(Object.keys(gltf.nodes).length).toBe(1);
-                expect(Object.keys(gltf.meshes).length).toBe(3);
+        expect(Object.keys(gltf.materials).length).toBe(3);
+        expect(Object.keys(gltf.nodes).length).toBe(1);
+        expect(Object.keys(gltf.meshes).length).toBe(3);
 
-                // Check for two primitives in each mesh
-                for (var id in gltf.meshes) {
-                    if (gltf.meshes.hasOwnProperty(id)) {
-                        var mesh = gltf.meshes[id];
-                        expect(mesh.primitives.length).toBe(2);
-                    }
-                }
-            }), done).toResolve();
+        // Check for two primitives in each mesh
+        for (var id in gltf.meshes) {
+            if (gltf.meshes.hasOwnProperty(id)) {
+                var mesh = gltf.meshes[id];
+                expect(mesh.primitives.length).toBe(2);
+            }
+        }
     });
 
     it('sets default material values', function() {
