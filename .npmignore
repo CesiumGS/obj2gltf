@@ -2,6 +2,7 @@
 /coverage
 /doc
 /specs
+/test
 .editorconfig
 .eslintcache
 .eslintignore

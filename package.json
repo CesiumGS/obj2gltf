@@ -1,6 +1,6 @@
 {
   "name": "obj2gltf",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Convert OBJ model format to glTF",
   "license": "Apache-2.0",
   "contributors": [
@@ -26,24 +26,24 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
-    "bluebird": "^3.4.7",
-    "cesium": "^1.31.0",
+    "bluebird": "^3.5.0",
+    "cesium": "^1.35.2",
     "fs-extra": "^3.0.1",
-    "gltf-pipeline": "^0.1.0-alpha11",
-    "mime": "^1.3.4",
-    "pngjs": "^3.0.1",
-    "uuid": "^3.0.1",
-    "yargs": "^8.0.1"
+    "gltf-pipeline": "^1.0.0",
+    "mime": "^1.3.6",
+    "pngjs": "^3.2.0",
+    "uuid": "^3.1.0",
+    "yargs": "^8.0.2"
   },
   "devDependencies": {
-    "coveralls": "^2.12.0",
-    "eslint": "^4.1.1",
-    "eslint-config-cesium": "^2.0.0",
+    "coveralls": "^2.13.1",
+    "eslint": "^4.2.0",
+    "eslint-config-cesium": "^2.0.1",
     "gulp": "^3.9.1",
-    "jasmine": "^2.5.3",
-    "jasmine-spec-reporter": "^4.1.0",
-    "jsdoc": "^3.4.3",
-    "nyc": "^11.0.2",
+    "jasmine": "^2.6.0",
+    "jasmine-spec-reporter": "^4.1.1",
+    "jsdoc": "^3.5.1",
+    "nyc": "^11.0.3",
     "open": "^0.0.5",
     "requirejs": "^2.3.3"
   },
