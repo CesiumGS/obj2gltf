@@ -1,5 +1,4 @@
 'use strict';
-var obj2gltf = require('../../lib/obj2gltf');
 var loadImage = require('../../lib/loadImage');
 
 var pngImage = 'specs/data/box-complex-material/shininess.png';

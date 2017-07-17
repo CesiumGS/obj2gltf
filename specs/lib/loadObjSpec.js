@@ -313,7 +313,6 @@ describe('loadObj', function() {
 
         expect(loadObj(objExternalResourcesUrl, options)
             .then(function(data) {
-                var imagePath = getImagePath(objMissingTextureUrl, 'cesium.png');
                 expect(data.images.length).toBe(0); // obj references an image file that is outside the input directory
                 expect(data.materials.length).toBe(1); // obj references 2 materials, one of which is outside the input directory
                 expect(console.log.calls.argsFor(0)[0].indexOf('Could not read mtl file') >= 0).toBe(true);
