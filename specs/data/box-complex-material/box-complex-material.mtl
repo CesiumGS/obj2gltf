@@ -9,7 +9,7 @@ Ks 0.500000 0.500000 0.500000
 Ke 0.100000 0.100000 0.100000
 Ni 1.000000
 d 0.900000
-Tr 0.900000
+Tr 0.100000
 map_Ka ambient.gif
 map_Ke emission.jpg
 map_Kd diffuse.png

@@ -1,11 +1,11 @@
 {
   "name": "obj2gltf",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Convert OBJ model format to glTF",
   "license": "Apache-2.0",
   "contributors": [
     {
-      "name": "Analytical Graphics, Inc., and Contributors",
+      "name": "Analytical Graphics, Inc. and Contributors",
       "url": "https://github.com/AnalyticalGraphicsInc/obj2gltf/graphs/contributors"
     }
   ],
@@ -26,34 +26,31 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
-    "bluebird": "^3.4.7",
-    "cesium": "^1.31.0",
-    "event-stream": "^3.3.4",
-    "fs-extra": "^2.0.0",
-    "gltf-pipeline": "^0.1.0-alpha11",
-    "jpeg-js": "^0.2.0",
-    "mime": "^1.3.4",
+    "bluebird": "^3.5.0",
+    "cesium": "^1.35.2",
+    "fs-extra": "^4.0.0",
+    "gltf-pipeline": "^1.0.0",
+    "jpeg-js": "^0.3.3",
+    "mime": "^1.3.6",
     "pngjs": "^3.2.0",
-    "uuid": "^3.0.1",
-    "yargs": "^7.0.1"
+    "uuid": "^3.1.0",
+    "yargs": "^8.0.2"
   },
   "devDependencies": {
-    "coveralls": "^2.12.0",
+    "coveralls": "^2.13.1",
+    "eslint": "^4.2.0",
+    "eslint-config-cesium": "^2.0.1",
     "gulp": "^3.9.1",
-    "gulp-jshint": "^2.0.4",
-    "istanbul": "^0.4.5",
-    "jasmine": "^2.5.3",
-    "jasmine-spec-reporter": "^3.2.0",
-    "jsdoc": "^3.4.3",
-    "jshint": "^2.9.4",
-    "jshint-stylish": "^2.2.1",
+    "jasmine": "^2.6.0",
+    "jasmine-spec-reporter": "^4.1.1",
+    "jsdoc": "^3.5.3",
+    "nyc": "^11.0.3",
     "open": "^0.0.5",
     "requirejs": "^2.3.3"
   },
   "scripts": {
     "jsdoc": "jsdoc ./lib -R ./README.md -d doc",
-    "jsHint": "gulp jsHint",
-    "jsHint-watch": "gulp jsHint-watch",
+    "eslint": "eslint \"./**/*.js\" --cache --quiet",
     "test": "gulp test",
     "test-watch": "gulp test-watch",
     "coverage": "gulp coverage",

@@ -4,7 +4,6 @@ var Cesium = require('cesium');
 var child_process = require('child_process');
 var fsExtra = require('fs-extra');
 var gulp = require('gulp');
-var gulpJshint = require('gulp-jshint');
 var Jasmine = require('jasmine');
 var JasmineSpecReporter = require('jasmine-spec-reporter').SpecReporter;
 var open = require('open');
@@ -20,24 +19,7 @@ var environmentSeparator = process.platform === 'win32' ? ';' : ':';
 var nodeBinaries = path.join(__dirname, 'node_modules', '.bin');
 process.env.PATH += environmentSeparator + nodeBinaries;
 
-var jsHintFiles = ['**/*.js', '!node_modules/**', '!coverage/**', '!doc/**'];
 var specFiles = ['**/*.js', '!node_modules/**', '!coverage/**', '!doc/**', '!bin/**'];
-
-gulp.task('jsHint', function () {
-    var stream = gulp.src(jsHintFiles)
-        .pipe(gulpJshint())
-        .pipe(gulpJshint.reporter('jshint-stylish'));
-
-    if (argv.failTaskOnError) {
-        stream = stream.pipe(gulpJshint.reporter('fail'));
-    }
-
-    return stream;
-});
-
-gulp.task('jsHint-watch', function () {
-    gulp.watch(jsHintFiles, ['jsHint']);
-});
 
 gulp.task('test', function (done) {
     var jasmine = new Jasmine();
@@ -67,9 +49,9 @@ gulp.task('test-watch', function () {
 
 gulp.task('coverage', function () {
     fsExtra.removeSync('coverage/server');
-    child_process.execSync('istanbul' +
-        ' cover' +
-        ' --include-all-sources' +
+    child_process.execSync('nyc' +
+        ' --all' +
+        ' --reporter=lcov' +
         ' --dir coverage' +
         ' -x "specs/**" -x "coverage/**" -x "doc/**" -x "bin/**" -x "index.js" -x "gulpfile.js"' +
         ' node_modules/jasmine/bin/jasmine.js' +

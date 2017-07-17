@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+### 1.2.0 2017-07-11
+
+* Change texture sampling to use `NEAREST_MIPMAP_LINEAR` by default [#83](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/83).
+* Fixed lighting when generating normals. [#89](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/89)
+
 ### 1.1.1 2017-04-25
 
 * Fixed `CHANGES.md` formatting.

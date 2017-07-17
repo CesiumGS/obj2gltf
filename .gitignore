@@ -7,8 +7,8 @@ npm-debug.log
 .idea/tasks.xml
 
 # Generate data
+.eslintcache
 coverage
 doc
-output
-test
 *.tgz
+.nyc_output

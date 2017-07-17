@@ -6,7 +6,6 @@ var os = require('os');
 var path = require('path');
 var Promise = require('bluebird');
 var obj2gltf = require('../../lib/obj2gltf');
-var writeUris = require('../../lib/writeUris');
 
 var RuntimeError = Cesium.RuntimeError;
 
@@ -22,8 +21,8 @@ describe('obj2gltf', function() {
         expect(obj2gltf._getTempDirectory()).toContain(os.tmpdir());
         tempDirectory = path.join(os.tmpdir(), 'testPath');
         spyOn(obj2gltf, '_getTempDirectory').and.returnValue(tempDirectory);
-        spyOn(obj2gltf, '_outputJson');
-        spyOn(writeUris, '_outputFile');
+        spyOn(fsExtra, 'outputJson');
+        spyOn(fsExtra, 'outputFile');
         spyOn(fsExtra, 'remove');
     });
 
@@ -100,7 +99,7 @@ describe('obj2gltf', function() {
                     textureCompressionOptions : textureCompressionOptions,
                     preserve : false
                 });
-                expect(writeUris._outputFile.calls.count()).toBe(2); // Saves out .png and .bin
+                expect(fsExtra.outputFile.calls.count()).toBe(2); // Saves out .png and .bin
             }), done).toResolve();
     });
 
@@ -119,7 +118,7 @@ describe('obj2gltf', function() {
         };
         expect(obj2gltf(objPath, gltfPath, options)
             .then(function() {
-                expect(obj2gltf._outputJson).toHaveBeenCalled();
+                expect(fsExtra.outputJson).toHaveBeenCalled();
                 expect(GltfPipeline.processJSONToDisk).not.toHaveBeenCalled();
             }), done).toResolve();
     });
