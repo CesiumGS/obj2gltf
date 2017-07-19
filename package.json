@@ -29,7 +29,6 @@
     "bluebird": "^3.5.0",
     "cesium": "^1.35.2",
     "fs-extra": "^4.0.0",
-    "gltf-pipeline": "^1.0.0",
     "jpeg-js": "^0.3.3",
     "mime": "^1.3.6",
     "pngjs": "^3.2.0",

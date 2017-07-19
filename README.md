@@ -37,12 +37,6 @@ Using obj2gltf as a command-line tool:
 |`-b`, `--binary`|Save as binary glTF.|No, default `false`|
 |`-s`, `--separate`|Writes out separate geometry data files, shader files, and textures instead of embedding them in the glTF file.|No, default `false`|
 |`-t`, `--separateTextures`|Write out separate textures only.|No, default `false`|
-|`-c`, `--compress`|Quantize positions, compress texture coordinates, and oct-encode normals.|No, default `false`|
-|`-z`, `--optimize`|Use the optimization stages in the glTF pipeline.|No, default `false`|
-|`-n`, `--generateNormals`|Generate normals if they are missing.|No, default `false`|
-|`--optimizeForCesium`|Optimize the glTF for Cesium by using the sun as a default light source.|No, default `false`|
-|`--ao`|Apply ambient occlusion to the converted model.|No, default `false`|
-|`--bypassPipeline`|Bypass the gltf-pipeline for debugging purposes. This option overrides many of the options above.|No, default `false`|
 |`--checkTransparency`|Do a more exhaustive check for texture transparency by looking at the alpha channel of each pixel. By default textures are considered to be opaque.|No, default `false`|
 |`--secure`|Prevent the converter from reading image or mtl files outside of the input obj directory.|No, default `false`|
 |`--inputUpAxis`|Up axis of the obj. Choices are 'X', 'Y', and 'Z'.|No, default `Y`|

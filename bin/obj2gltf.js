@@ -48,39 +48,6 @@ var argv = yargs
             type: 'boolean',
             default: defaults.separateTextures
         },
-        compress : {
-            alias: 'c',
-            describe: 'Quantize positions, compress texture coordinates, and oct-encode normals.',
-            type: 'boolean',
-            default: defaults.compress
-        },
-        optimize : {
-            alias: 'z',
-            describe: 'Optimize the glTF for size and runtime performance.',
-            type: 'boolean',
-            default: defaults.optimize
-        },
-        optimizeForCesium : {
-            describe: 'Optimize the glTF for Cesium by using the sun as a default light source.',
-            type: 'boolean',
-            default: defaults.optimizeForCesium
-        },
-        generateNormals : {
-            alias: 'n',
-            describe: 'Generate normals if they are missing.',
-            type: 'boolean',
-            default: defaults.generateNormals
-        },
-        ao : {
-            describe: 'Apply ambient occlusion to the converted model.',
-            type: 'boolean',
-            default: defaults.ao
-        },
-        bypassPipeline : {
-            describe: 'Bypass the gltf-pipeline for debugging purposes. This option overrides many of the options above.',
-            type: 'boolean',
-            default: defaults.bypassPipeline
-        },
         checkTransparency : {
             describe: 'Do a more exhaustive check for texture transparency by looking at the alpha channel of each pixel. By default textures are considered to be opaque.',
             type: 'boolean',
@@ -138,12 +105,6 @@ var options = {
     binary : argv.binary,
     separate : argv.separate,
     separateTextures : argv.separateTextures,
-    compress : argv.compress,
-    optimize : argv.optimize,
-    optimizeForCesium : argv.optimizeForCesium,
-    generateNormals : argv.generateNormals,
-    ao : argv.ao,
-    bypassPipeline : argv.bypassPipeline,
     checkTransparency : argv.checkTransparency,
     secure : argv.secure,
     inputUpAxis : argv.inputUpAxis,
