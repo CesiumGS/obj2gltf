@@ -116,10 +116,14 @@ var options = {
 
 console.time('Total');
 
-obj2gltf(objPath, gltfPath, options)
-    .then(function() {
-        console.timeEnd('Total');
-    })
-    .catch(function(error) {
-        console.log(error);
-    });
+try {
+    obj2gltf(objPath, gltfPath, options)
+        .then(function() {
+            console.timeEnd('Total');
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+} catch(error) {
+    console.log(error);
+}
