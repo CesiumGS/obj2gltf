@@ -89,6 +89,36 @@ var argv = yargs
             describe: 'The glTF will be saved with the KHR_materials_common extension.',
             type: 'boolean',
             default: defaults.materialsCommon
+        },
+        metallicRoughnessOcclusionTexture : {
+            describe: 'Path to the metallic-roughness-occlusion texture used by the model, where occlusion is stored in the red channel, roughness is stored in the green channel, and metallic is stored in the blue channel. This may be used instead of setting texture paths in the .mtl file. The model will be saved with a pbrMetallicRoughness material.',
+            type: 'string',
+            normalize: true
+        },
+        specularGlossinessTexture : {
+            describe: 'Path to the specular-glossiness texture used by the model, where specular color is stored in the red, green, and blue channels and specular glossiness is stored in the alpha channel. This may be used instead of setting texture paths in the .mtl file. The model will be saved with a material using the KHR_materials_pbrSpecularGlossiness extension.',
+            type: 'string',
+            normalize: true
+        },
+        occlusionTexture : {
+            describe: 'Path to the occlusion texture used by the model. This may be used instead of setting texture paths in the .mtl file. Ignored if metallicRoughnessOcclusionTexture is also set.',
+            type: 'string',
+            normalize: true
+        },
+        normalTexture : {
+            describe: 'Path to the normal texture used by the model. This may be used instead of setting texture paths in the .mtl file.',
+            type: 'string',
+            normalize: true
+        },
+        baseColorTexture : {
+            describe: 'Path to the baseColor/diffuse texture used by the model. This may be used instead of setting texture paths in the .mtl file.',
+            type: 'string',
+            normalize: true
+        },
+        emissiveTexture : {
+            describe: 'Path to the emissive texture used by the model. This may be used instead of setting texture paths in the .mtl file.',
+            type: 'string',
+            normalize: true
         }
     }).parse(args);
 

@@ -85,11 +85,32 @@ describe('obj2gltf', function() {
         }).toThrowDeveloperError();
     });
 
-    it('rejects if more than one material type is set', function(done) {
+    it('throws if more than one material type is set', function() {
         var options = {
             metallicRoughness : true,
             specularGlossiness : true
         };
-        expect(obj2gltf(objPath, gltfPath, options), done).toRejectWith(RuntimeError);
+        expect(function() {
+            obj2gltf(objPath, gltfPath, options);
+        }).toThrowDeveloperError();
+    });
+
+    it('throws if occlusionTexture is defined and specularGlossinessTexture is undefined', function() {
+        var options = {
+            occlusionTexture : 'path/to/occlusion/texture'
+        };
+        expect(function() {
+            obj2gltf(objPath, gltfPath, options);
+        }).toThrowDeveloperError();
+    });
+
+    it('throws if metallicRoughnessOcclusionTexture and specularGlossinessTexture are both defined', function() {
+        var options = {
+            metallicRoughnessOcclusionTexture : 'path/to/metallic-roughness-occlusion/texture',
+            specularGlossinessTexture : 'path/to/specular-glossiness/texture'
+        };
+        expect(function() {
+            obj2gltf(objPath, gltfPath, options);
+        }).toThrowDeveloperError();
     });
 });
