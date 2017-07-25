@@ -5,8 +5,6 @@ var path = require('path');
 var Promise = require('bluebird');
 var obj2gltf = require('../../lib/obj2gltf');
 
-var RuntimeError = Cesium.RuntimeError;
-
 var objPath = 'specs/data/box-textured/box-textured.obj';
 var gltfPath = 'specs/data/box-textured/box-textured.gltf';
 var glbPath = 'specs/data/box-textured/box-textured.glb';
@@ -89,15 +87,6 @@ describe('obj2gltf', function() {
         var options = {
             metallicRoughness : true,
             specularGlossiness : true
-        };
-        expect(function() {
-            obj2gltf(objPath, gltfPath, options);
-        }).toThrowDeveloperError();
-    });
-
-    it('throws if occlusionTexture is defined and specularGlossinessTexture is undefined', function() {
-        var options = {
-            occlusionTexture : 'path/to/occlusion/texture'
         };
         expect(function() {
             obj2gltf(objPath, gltfPath, options);

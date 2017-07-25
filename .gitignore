@@ -9,6 +9,7 @@ npm-debug.log
 # Generate data
 .eslintcache
 coverage
-doc
 *.tgz
 .nyc_output
+doc/*
+!doc/cesium.png

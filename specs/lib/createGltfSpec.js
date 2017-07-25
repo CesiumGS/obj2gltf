@@ -20,7 +20,8 @@ var emissiveTextureUrl = 'specs/data/box-complex-material/emission.jpg';
 var metallicTextureUrl = 'specs/data/box-complex-material/specular.jpeg';
 var roughnessTextureUrl = 'specs/data/box-complex-material/shininess.png';
 
-var defaultOptions = obj2gltf.defaults;
+var defaultOptions = clone(obj2gltf.defaults);
+defaultOptions.overridingImages = [];
 var checkTransparencyOptions = clone(defaultOptions);
 checkTransparencyOptions.checkTransparency = true;
 var decodeOptions = clone(defaultOptions);
