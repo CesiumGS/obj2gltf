@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+### 2.0.0 2017-07-XX
+
+* Breaking changes
+    * Obj models now convert to glTF 2.0. Possible material profiles are `metallicRoughness`, `specGlossiness` (using the `KHR_materials_pbrSpecularGlossiness` extension), and `materialsCommon` (using the `KHR_materials_common` extension).
+    * Removed `gltf-pipeline` dependency. The following options have been removed: `compress`, `optimize`, `generateNormals`, `optimizeForCesium`, `ao`, and `bypassPipeline`.
+
 ### 1.2.0 2017-07-11
 
 * Change texture sampling to use `NEAREST_MIPMAP_LINEAR` by default [#83](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/83).

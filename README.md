@@ -1,6 +1,6 @@
 # OBJ2GLTF
 
-Convert OBJ assets to [glTF](https://www.khronos.org/gltf) 1.0.
+Convert OBJ assets to [glTF](https://www.khronos.org/gltf) 2.0.
 
 ## Getting Started
 
