@@ -131,29 +131,16 @@ if (!defined(gltfPath)) {
     gltfPath = path.join(path.dirname(objPath), modelName + extension);
 }
 
-var options = {
-    binary : argv.binary,
-    separate : argv.separate,
-    separateTextures : argv.separateTextures,
-    checkTransparency : argv.checkTransparency,
-    secure : argv.secure,
-    inputUpAxis : argv.inputUpAxis,
-    outputUpAxis : argv.outputUpAxis,
-    packOcclusion : argv.packOcclusion,
-    metallicRoughness : argv.metallicRoughness,
-    specularGlossiness : argv.specularGlossiness
-};
-
 console.time('Total');
 
 try {
-    obj2gltf(objPath, gltfPath, options)
+    obj2gltf(objPath, gltfPath, argv)
         .then(function() {
             console.timeEnd('Total');
         })
         .catch(function(error) {
-            console.log(error);
+            console.log(error.message);
         });
 } catch(error) {
-    console.log(error);
+    console.log(error.message);
 }
