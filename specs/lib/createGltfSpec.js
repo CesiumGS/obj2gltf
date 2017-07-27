@@ -92,6 +92,8 @@ describe('createGltf', function() {
         var gltf = createGltf(boxObjData, defaultOptions);
 
         expect(gltf.materials.length).toBe(1);
+        expect(gltf.scene).toBe(0);
+        expect(gltf.scenes[0].nodes[0]).toBe(0);
         expect(gltf.nodes.length).toBe(1);
         expect(gltf.meshes.length).toBe(1);
 
@@ -114,6 +116,8 @@ describe('createGltf', function() {
         var gltf = createGltf(groupObjData, defaultOptions);
 
         expect(gltf.materials.length).toBe(3);
+        expect(gltf.scene).toBe(0);
+        expect(gltf.scenes[0].nodes[0]).toBe(0);
         expect(gltf.nodes.length).toBe(4);
         expect(gltf.nodes[0].mesh).toBeUndefined();
         expect(gltf.nodes[0].children.length).toBe(3);
@@ -320,7 +324,7 @@ describe('createGltf', function() {
         });
     });
 
-    describe('specularGlosiness', function() {
+    describe('specularGlossiness', function() {
         it('sets default material values for specularGlossiness', function() {
             var options = clone(defaultOptions);
             options.specularGlossiness = true;
@@ -440,7 +444,7 @@ describe('createGltf', function() {
             expect(kmc.values.doubleSided).toBe(false);
 
             expect(texture).toEqual({
-                name : 'cesium',
+                name : 'cesium_texture',
                 sampler : 0,
                 source : 0
             });
