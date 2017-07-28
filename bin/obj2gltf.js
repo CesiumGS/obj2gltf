@@ -122,6 +122,16 @@ var argv = yargs
         }
     }).parse(args);
 
+if (argv.metallicRoughness + argv.specularGlossiness + argv.materialsCommon > 1) {
+    console.error('Only one material type may be set from [--metallicRoughness, --specularGlossiness, --materialsCommon].');
+    process.exit(1);
+}
+
+if (defined(argv.metallicRoughnessOcclusionTexture) && defined(argv.specularGlossinessTexture)) {
+    console.error('--metallicRoughnessOcclusionTexture and --specularGlossinessTexture cannot both be set.');
+    process.exit(1);
+}
+
 var objPath = argv.i;
 var gltfPath = argv.o;
 
@@ -157,14 +167,10 @@ var options = {
 
 console.time('Total');
 
-try {
-    obj2gltf(objPath, gltfPath, options)
-        .then(function() {
-            console.timeEnd('Total');
-        })
-        .catch(function(error) {
-            console.log(error.message);
-        });
-} catch(error) {
-    console.log(error.message);
-}
+obj2gltf(objPath, gltfPath, options)
+    .then(function() {
+        console.timeEnd('Total');
+    })
+    .catch(function(error) {
+        console.log(error.message);
+    });
