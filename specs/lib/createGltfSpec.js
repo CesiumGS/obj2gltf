@@ -21,7 +21,7 @@ var metallicTextureUrl = 'specs/data/box-complex-material/specular.jpeg';
 var roughnessTextureUrl = 'specs/data/box-complex-material/shininess.png';
 
 var defaultOptions = clone(obj2gltf.defaults);
-defaultOptions.overridingImages = [];
+defaultOptions.overridingImages = {};
 var checkTransparencyOptions = clone(defaultOptions);
 checkTransparencyOptions.checkTransparency = true;
 var decodeOptions = clone(defaultOptions);

@@ -9,6 +9,10 @@ var gltfPath = 'specs/data/box-textured/box-textured.gltf';
 var glbPath = 'specs/data/box-textured/box-textured.glb';
 var objPathNonExistent = 'specs/data/non-existent.obj';
 
+var complexMaterialObjPath = 'specs/data/box-complex-material/box-complex-material.obj';
+var complexMaterialGltfPath = 'specs/data/box-complex-material/box-complex-material.gltf';
+var textureUrl = 'specs/data/box-textured/cesium.png';
+
 describe('obj2gltf', function() {
     beforeEach(function() {
         spyOn(fsExtra, 'outputJson').and.returnValue(Promise.resolve());
@@ -63,6 +67,26 @@ describe('obj2gltf', function() {
             .then(function() {
                 expect(fsExtra.outputFile.calls.count()).toBe(2); // Saves out .png and .bin
                 expect(fsExtra.outputJson.calls.count()).toBe(1); // Saves out .gltf
+            }), done).toResolve();
+    });
+
+    it('sets overriding images', function(done) {
+        var options = {
+            overridingImages : {
+                metallicRoughnessOcclusionTexture : textureUrl,
+                normalTexture : textureUrl,
+                baseColorTexture : textureUrl,
+                emissiveTexture : textureUrl
+            },
+            separateTextures : true
+        };
+        expect(obj2gltf(complexMaterialObjPath, complexMaterialGltfPath, options)
+            .then(function() {
+                var args = fsExtra.outputFile.calls.allArgs();
+                var length = args.length;
+                for (var i = 0; i < length; ++i) {
+                    expect(path.basename(args[i][0])).toBe(path.basename(textureUrl));
+                }
             }), done).toResolve();
     });
 

@@ -131,10 +131,34 @@ if (!defined(gltfPath)) {
     gltfPath = path.join(path.dirname(objPath), modelName + extension);
 }
 
+var overridingImages = {
+    metallicRoughnessOcclusionTexture : argv.metallicRoughnessOcclusionTexture,
+    specularGlossinessTexture : argv.specularGlossinessTexture,
+    occlusionTexture : argv.occlusionTexture,
+    normalTexture : argv.normalTexture,
+    baseColorTexture : argv.baseColorTexture,
+    emissiveTexture : argv.emissiveTexture
+};
+
+var options = {
+    binary : argv.binary,
+    separate : argv.separate,
+    separateTextures : argv.separateTextures,
+    checkTransparency : argv.checkTransparency,
+    secure : argv.secure,
+    inputUpAxis : argv.inputUpAxis,
+    outputUpAxis : argv.outputUpAxis,
+    packOcclusion : argv.packOcclusion,
+    metallicRoughness : argv.metallicRoughness,
+    specularGlossiness : argv.specularGlossiness,
+    materialsCommon : argv.materialsCommon,
+    overridingImages : overridingImages
+};
+
 console.time('Total');
 
 try {
-    obj2gltf(objPath, gltfPath, argv)
+    obj2gltf(objPath, gltfPath, options)
         .then(function() {
             console.timeEnd('Total');
         })
