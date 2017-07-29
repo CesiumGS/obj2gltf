@@ -4,28 +4,22 @@ var path = require('path');
 var Promise = require('bluebird');
 var obj2gltf = require('../../lib/obj2gltf');
 
-var objPath = 'specs/data/box-textured/box-textured.obj';
-var gltfPath = 'specs/data/box-textured/box-textured.gltf';
-var glbPath = 'specs/data/box-textured/box-textured.glb';
-var objPathNonExistent = 'specs/data/non-existent.obj';
+var texturedObjPath = 'specs/data/box-textured/box-textured.obj';
+var complexObjPath = 'specs/data/box-complex-material/box-complex-material.obj';
+var missingMtllibObjPath = 'specs/data/box-missing-mtllib/box-missing-mtllib.obj';
 
-var complexMaterialObjPath = 'specs/data/box-complex-material/box-complex-material.obj';
-var complexMaterialGltfPath = 'specs/data/box-complex-material/box-complex-material.gltf';
+var outputDirectory = 'output';
+
 var textureUrl = 'specs/data/box-textured/cesium.png';
 
 describe('obj2gltf', function() {
     beforeEach(function() {
-        spyOn(fsExtra, 'outputJson').and.returnValue(Promise.resolve());
         spyOn(fsExtra, 'outputFile').and.returnValue(Promise.resolve());
     });
 
     it('converts obj to gltf', function(done) {
-        expect(obj2gltf(objPath, gltfPath)
-            .then(function() {
-                var args = fsExtra.outputJson.calls.first().args;
-                var outputPath = args[0];
-                var gltf = args[1];
-                expect(path.normalize(outputPath)).toEqual(path.normalize(gltfPath));
+        expect(obj2gltf(texturedObjPath)
+            .then(function(gltf) {
                 expect(gltf).toBeDefined();
                 expect(gltf.images.length).toBe(1);
             }), done).toResolve();
@@ -35,52 +29,61 @@ describe('obj2gltf', function() {
         var options = {
             binary : true
         };
-        expect(obj2gltf(objPath, gltfPath, options)
-            .then(function() {
-                var args = fsExtra.outputFile.calls.first().args;
-                var outputPath = args[0];
-                var glb = args[1];
-                expect(path.extname(outputPath)).toBe('.glb');
+        expect(obj2gltf(texturedObjPath, options)
+            .then(function(glb) {
                 var magic = glb.toString('utf8', 0, 4);
                 expect(magic).toBe('glTF');
             }), done).toResolve();
     });
 
-    it('converts obj to glb when gltfPath has a .glb extension', function(done) {
-        expect(obj2gltf(objPath, glbPath)
-            .then(function() {
-                var args = fsExtra.outputFile.calls.first().args;
-                var outputPath = args[0];
-                var glb = args[1];
-                expect(path.extname(outputPath)).toBe('.glb');
-                var magic = glb.toString('utf8', 0, 4);
-                expect(magic).toBe('glTF');
-            }), done).toResolve();
-    });
-
-    it('writes out separate resources', function(done) {
+    it('convert obj to gltf with separate resources', function(done) {
         var options = {
             separate : true,
-            separateTextures : true
+            separateTextures : true,
+            outputDirectory : outputDirectory
         };
-        expect(obj2gltf(objPath, gltfPath, options)
+        expect(obj2gltf(texturedObjPath, options)
             .then(function() {
                 expect(fsExtra.outputFile.calls.count()).toBe(2); // Saves out .png and .bin
-                expect(fsExtra.outputJson.calls.count()).toBe(1); // Saves out .gltf
             }), done).toResolve();
     });
 
-    it('sets overriding images', function(done) {
+    it('converts obj to glb with separate resources', function(done) {
         var options = {
-            overridingImages : {
+            separate : true,
+            separateTextures : true,
+            outputDirectory : outputDirectory,
+            binary : true
+        };
+        expect(obj2gltf(texturedObjPath, options)
+            .then(function() {
+                expect(fsExtra.outputFile.calls.count()).toBe(2); // Saves out .png and .bin
+            }), done).toResolve();
+    });
+
+    it('converts obj with multiple textures', function(done) {
+        var options = {
+            separateTextures : true,
+            outputDirectory : outputDirectory
+        };
+        expect(obj2gltf(complexObjPath, options)
+            .then(function() {
+                expect(fsExtra.outputFile.calls.count()).toBe(5); // baseColor, metallicRoughness, occlusion, emission, normal
+            }), done).toResolve();
+    });
+
+    it('sets overriding textures (1)', function(done) {
+        var options = {
+            overridingTextures : {
                 metallicRoughnessOcclusionTexture : textureUrl,
                 normalTexture : textureUrl,
                 baseColorTexture : textureUrl,
                 emissiveTexture : textureUrl
             },
-            separateTextures : true
+            separateTextures : true,
+            outputDirectory : outputDirectory
         };
-        expect(obj2gltf(complexMaterialObjPath, complexMaterialGltfPath, options)
+        expect(obj2gltf(complexObjPath, options)
             .then(function() {
                 var args = fsExtra.outputFile.calls.allArgs();
                 var length = args.length;
@@ -90,19 +93,71 @@ describe('obj2gltf', function() {
             }), done).toResolve();
     });
 
-    it('rejects if obj path does not exist', function(done) {
-        expect(obj2gltf(objPathNonExistent, gltfPath), done).toRejectWith(Error);
+    it('sets overriding textures (2)', function(done) {
+        var options = {
+            overridingTextures : {
+                specularGlossinessTexture : textureUrl,
+                occlusionTexture : textureUrl,
+                normalTexture : textureUrl,
+                baseColorTexture : textureUrl,
+                emissiveTexture : textureUrl
+            },
+            separateTextures : true,
+            outputDirectory : outputDirectory
+        };
+        expect(obj2gltf(complexObjPath, options)
+            .then(function() {
+                var args = fsExtra.outputFile.calls.allArgs();
+                var length = args.length;
+                for (var i = 0; i < length; ++i) {
+                    expect(path.basename(args[i][0])).toBe(path.basename(textureUrl));
+                }
+            }), done).toResolve();
+    });
+
+    it('uses a custom logger', function(done) {
+        var lastMessage;
+        var options = {
+            logger : function(message) {
+                lastMessage = message;
+            }
+        };
+        expect(obj2gltf(missingMtllibObjPath, options)
+            .then(function() {
+                expect(lastMessage.indexOf('Could not read mtl file') >= 0).toBe(true);
+            }), done).toResolve();
+    });
+
+    it('uses a custom writer', function(done) {
+        var filePaths = [];
+        var fileContents = [];
+        var options = {
+            separate : true,
+            writer : function(relativePath, contents) {
+                filePaths.push(relativePath);
+                fileContents.push(contents);
+            }
+        };
+        expect(obj2gltf(texturedObjPath, options)
+            .then(function() {
+                expect(filePaths).toEqual(['box-textured.bin', 'cesium.png']);
+                expect(fileContents[0]).toBeDefined();
+                expect(fileContents[1]).toBeDefined();
+            }), done).toResolve();
     });
 
     it('throws if objPath is undefined', function() {
         expect(function() {
-            obj2gltf(undefined, gltfPath);
+            obj2gltf(undefined);
         }).toThrowDeveloperError();
     });
 
-    it('throws if gltfPath is undefined', function() {
+    it('throws if both options.writer and options.outputDirectory are undefined when writing separate resources', function() {
+        var options = {
+            separateTextures : true
+        };
         expect(function() {
-            obj2gltf(objPath, undefined);
+            obj2gltf(texturedObjPath, options);
         }).toThrowDeveloperError();
     });
 
@@ -112,17 +167,19 @@ describe('obj2gltf', function() {
             specularGlossiness : true
         };
         expect(function() {
-            obj2gltf(objPath, gltfPath, options);
+            obj2gltf(texturedObjPath, options);
         }).toThrowDeveloperError();
     });
 
     it('throws if metallicRoughnessOcclusionTexture and specularGlossinessTexture are both defined', function() {
         var options = {
-            metallicRoughnessOcclusionTexture : 'path/to/metallic-roughness-occlusion/texture',
-            specularGlossinessTexture : 'path/to/specular-glossiness/texture'
+            overridingTextures : {
+                metallicRoughnessOcclusionTexture : textureUrl,
+                specularGlossinessTexture : textureUrl
+            }
         };
         expect(function() {
-            obj2gltf(objPath, gltfPath, options);
+            obj2gltf(texturedObjPath, options);
         }).toThrowDeveloperError();
     });
 });
