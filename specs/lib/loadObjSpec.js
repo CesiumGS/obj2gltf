@@ -19,6 +19,7 @@ var objTrianglesUrl = 'specs/data/box-triangles/box-triangles.obj';
 var objObjectsUrl = 'specs/data/box-objects/box-objects.obj';
 var objGroupsUrl = 'specs/data/box-groups/box-groups.obj';
 var objObjectsGroupsUrl = 'specs/data/box-objects-groups/box-objects-groups.obj';
+var objConcaveUrl = 'specs/data/concave/concave.obj';
 var objUsemtlUrl = 'specs/data/box-usemtl/box-usemtl.obj';
 var objNoMaterialsUrl = 'specs/data/box-no-materials/box-no-materials.obj';
 var objMultipleMaterialsUrl = 'specs/data/box-multiple-materials/box-multiple-materials.obj';
@@ -193,6 +194,16 @@ describe('loadObj', function() {
                 expect(primitives[0].material).toBe('Blue');
                 expect(primitives[1].material).toBe('Green');
                 expect(primitives[2].material).toBe('Red');
+            }), done).toResolve();
+    });
+
+    it('loads obj with concave face containing 5 vertices', function(done) {
+        expect(loadObj(objConcaveUrl, defaultOptions)
+            .then(function(data) {
+                var mesh = getMeshes(data)[0];
+                var primitive = getPrimitives(data)[0];
+                expect(mesh.positions.length / 3).toBe(30);
+                expect(primitive.indices.length).toBe(48);
             }), done).toResolve();
     });
 
