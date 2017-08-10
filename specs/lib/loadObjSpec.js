@@ -27,6 +27,7 @@ var objTexturedPath = 'specs/data/box-textured/box-textured.obj';
 var objMissingTexturePath = 'specs/data/box-missing-texture/box-missing-texture.obj';
 var objSubdirectoriesPath = 'specs/data/box-subdirectories/box-textured.obj';
 var objInvalidContentsPath = 'specs/data/box/box.mtl';
+var objConcavePath = 'specs/data/concave/concave.obj';
 var objInvalidPath = 'invalid.obj';
 
 function getMeshes(data) {
@@ -187,6 +188,16 @@ describe('loadObj', function() {
                 expect(primitives[0].material).toBe('Blue');
                 expect(primitives[1].material).toBe('Green');
                 expect(primitives[2].material).toBe('Red');
+            }), done).toResolve();
+    });
+
+    it('loads obj with concave face containing 5 vertices', function(done) {
+        expect(loadObj(objConcavePath, options)
+            .then(function(data) {
+                var mesh = getMeshes(data)[0];
+                var primitive = getPrimitives(data)[0];
+                expect(mesh.positions.length / 3).toBe(30);
+                expect(primitive.indices.length).toBe(48);
             }), done).toResolve();
     });
 
