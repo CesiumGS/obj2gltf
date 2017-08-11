@@ -1,6 +1,6 @@
 /.idea
 /coverage
-/doc
+/doc/*
 /specs
 /test
 .editorconfig
@@ -12,3 +12,4 @@
 .travis.yml
 gulpfile.js
 *.tgz
+!doc/cesium.png

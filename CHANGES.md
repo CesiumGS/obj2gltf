@@ -1,7 +1,16 @@
 Change Log
 ==========
 
+### 2.0.0 2017-08-11
+
+* Breaking changes
+    * Obj models now convert to glTF 2.0. Possible material profiles are `metallicRoughness`, `specGlossiness` (using the `KHR_materials_pbrSpecularGlossiness` extension), and `materialsCommon` (using the `KHR_materials_common` extension).
+    * Removed `gltf-pipeline` dependency. The following options have been removed: `compress`, `optimize`, `generateNormals`, `optimizeForCesium`, `ao`, and `bypassPipeline`.
+    * Removed `inputUpAxis` and `outputUpAxis`. This stage will be incorporated into `gltf-pipeline` instead.
+    * `obj2gltf` no longer takes a `gltfPath` argument and saves a glTF file. Instead it returns a promise that resolves to the glTF JSON or glb buffer.
+
 ### 1.3.0 2017-08-11
+
 * Fixed parsing models with concave or n-sided faces. [#85](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/85)
 * Fixed parsing models with line breaks. [#85](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/85)
 
