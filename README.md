@@ -23,9 +23,11 @@ npm install --save obj2gltf
 
 ```javascript
 var obj2gltf = require('obj2gltf');
+var fs = require('fs');
 obj2gltf('model.obj')
     .then(function(gltf) {
-        console.log(gltf.asset);
+        var data = Buffer.from(JSON.stringify(gltf));
+        fs.writeFileSync('model.gltf', data);
     });
 ```
 
@@ -33,12 +35,13 @@ obj2gltf('model.obj')
 
 ```javascript
 var obj2gltf = require('obj2gltf');
+var fs = require('fs');
 var options = {
     binary : true
 }
 obj2gltf('model.obj', options)
     .then(function(glb) {
-        console.log(glb.length);
+        fs.writeFileSync('model.glb', glb);
     });
 ```
 
