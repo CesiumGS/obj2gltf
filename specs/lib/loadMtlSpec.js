@@ -13,6 +13,7 @@ var coloredMaterialPath = 'specs/data/box/box.mtl';
 var texturedMaterialPath = 'specs/data/box-complex-material/box-complex-material.mtl';
 var multipleMaterialsPath = 'specs/data/box-multiple-materials/box-multiple-materials.mtl';
 var externalMaterialPath = 'specs/data/box-external-resources/box-external-resources.mtl';
+var transparentMaterialPath = 'specs/data/box-transparent/box-transparent.mtl';
 
 var diffuseTexturePath = 'specs/data/box-textured/cesium.png';
 var transparentDiffuseTexturePath = 'specs/data/box-complex-material/diffuse.png';
@@ -183,6 +184,20 @@ describe('loadMtl', function() {
                 var baseColorTexture = material.pbrMetallicRoughness.baseColorTexture;
                 expect(baseColorTexture).toBeUndefined();
                 expect(spy.calls.argsFor(0)[0].indexOf('Could not read texture file') >= 0).toBe(true);
+            }), done).toResolve();
+    });
+
+    it('alpha of 0.0 is treated as 1.0', function(done) {
+        expect(loadMtl(transparentMaterialPath, options)
+            .then(function(materials) {
+                expect(materials.length).toBe(1);
+                var material = materials[0];
+                var pbr = material.pbrMetallicRoughness;
+                expect(pbr.baseColorTexture).toBeUndefined();
+                expect(pbr.metallicRoughnessTexture).toBeUndefined();
+                expect(pbr.baseColorFactor[3]).toEqual(1.0);
+                expect(material.alphaMode).toBe('OPAQUE');
+                expect(material.doubleSided).toBe(false);
             }), done).toResolve();
     });
 

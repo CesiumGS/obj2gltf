@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### 2.1.0 ???
+
+* Improved handling of materials with alpha. If the alpha value is 0.0 it is now treated as 1.0. [#107](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/107)
+
 ### 2.0.0 2017-08-11
 
 * Breaking changes
