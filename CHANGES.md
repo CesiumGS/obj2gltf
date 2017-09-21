@@ -3,6 +3,7 @@ Change Log
 
 ### 2.1.0 ???
 
+* Added back support for the `CONSTANT` technique when a model uses the `KHR_materials_common` extension and has no normals. [#108](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/108)
 * Improved handling of materials with alpha. If the alpha value is 0.0 it is now treated as 1.0. [#107](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/107)
 
 ### 2.0.0 2017-08-11
