@@ -84,6 +84,7 @@ describe('loadMtl', function() {
         options = clone(obj2gltf.defaults);
         options.overridingTextures = {};
         options.logger = function() {};
+        options.hasNormals = true;
     });
 
     it('loads mtl', function(done) {
@@ -458,6 +459,21 @@ describe('loadMtl', function() {
             expect(extension.technique).toBe('PHONG');
             expect(values.specular).toEqual([0.1, 0.1, 0.2, 1]);
             expect(values.shininess).toEqual(0.1);
+        });
+
+        it('sets CONSTANT technique when there are no normals', function() {
+            options.materialsCommon = true;
+            options.hasNormals = false;
+
+            var material = loadMtl._createMaterial({
+                diffuseColor : [1.0, 1.0, 1.0, 1.0]
+            }, options);
+
+            var extension = material.extensions.KHR_materials_common;
+            var values = extension.values;
+
+            expect(extension.technique).toBe('CONSTANT');
+            expect(values.emission).toEqual(values.diffuse);
         });
 
         it('ambient of [1, 1, 1] is treated as [0, 0, 0]', function() {
