@@ -11,6 +11,7 @@ var clone = Cesium.clone;
 
 var coloredMaterialPath = 'specs/data/box/box.mtl';
 var texturedMaterialPath = 'specs/data/box-complex-material/box-complex-material.mtl';
+var texturedWithOptionsMaterialPath = 'specs/data/box-texture-options/box-texture-options.mtl';
 var multipleMaterialsPath = 'specs/data/box-multiple-materials/box-multiple-materials.mtl';
 var externalMaterialPath = 'specs/data/box-external-resources/box-external-resources.mtl';
 var transparentMaterialPath = 'specs/data/box-transparent/box-transparent.mtl';
@@ -112,6 +113,28 @@ describe('loadMtl', function() {
     it('loads mtl with textures', function(done) {
         options.metallicRoughness = true;
         expect(loadMtl(texturedMaterialPath, options)
+            .then(function(materials) {
+                expect(materials.length).toBe(1);
+                var material = materials[0];
+                var pbr = material.pbrMetallicRoughness;
+                expect(pbr.baseColorTexture).toBeDefined();
+                expect(pbr.metallicRoughnessTexture).toBeDefined();
+                expect(pbr.baseColorFactor).toEqual([1.0, 1.0, 1.0, 0.9]);
+                expect(pbr.metallicFactor).toBe(1.0);
+                expect(pbr.roughnessFactor).toBe(1.0);
+                expect(material.name).toBe('Material');
+                expect(material.emissiveTexture).toBeDefined();
+                expect(material.normalTexture).toBeDefined();
+                expect(material.occlusionTexture).toBeDefined();
+                expect(material.emissiveFactor).toEqual([1.0, 1.0, 1.0]);
+                expect(material.alphaMode).toBe('BLEND');
+                expect(material.doubleSided).toBe(true);
+            }), done).toResolve();
+    });
+
+    it('loads mtl with textures having options', function(done) {
+        options.metallicRoughness = true;
+        expect(loadMtl(texturedWithOptionsMaterialPath, options)
             .then(function(materials) {
                 expect(materials.length).toBe(1);
                 var material = materials[0];
