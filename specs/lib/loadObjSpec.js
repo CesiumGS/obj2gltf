@@ -21,6 +21,7 @@ var objNoMaterialsPath = 'specs/data/box-no-materials/box-no-materials.obj';
 var objMultipleMaterialsPath = 'specs/data/box-multiple-materials/box-multiple-materials.obj';
 var objUncleanedPath = 'specs/data/box-uncleaned/box-uncleaned.obj';
 var objMtllibPath = 'specs/data/box-mtllib/box-mtllib.obj';
+var objMtllibSpacesPath = 'specs/data/box-mtllib-spaces/box mtllib.obj';
 var objMissingMtllibPath = 'specs/data/box-missing-mtllib/box-missing-mtllib.obj';
 var objExternalResourcesPath = 'specs/data/box-external-resources/box-external-resources.obj';
 var objTexturedPath = 'specs/data/box-textured/box-textured.obj';
@@ -271,6 +272,26 @@ describe('loadObj', function() {
 
     it('loads obj with multiple mtllibs', function(done) {
         expect(loadObj(objMtllibPath, options)
+            .then(function(data) {
+                var materials = data.materials;
+                expect(materials.length).toBe(3);
+
+                // .mtl files are loaded in an arbitrary order, so sort for testing purposes
+                materials.sort(function(a, b){
+                    return a.name.localeCompare(b.name);
+                });
+
+                expect(materials[0].name).toBe('Blue');
+                expect(materials[0].pbrMetallicRoughness.baseColorFactor).toEqual([0.0, 0.0, 0.64, 1.0]);
+                expect(materials[1].name).toBe('Green');
+                expect(materials[1].pbrMetallicRoughness.baseColorFactor).toEqual([0.0, 0.64, 0.0, 1.0]);
+                expect(materials[2].name).toBe('Red');
+                expect(materials[2].pbrMetallicRoughness.baseColorFactor).toEqual([0.64, 0.0, 0.0, 1.0]);
+            }), done).toResolve();
+    });
+
+    it('loads obj with mtllib paths with spaces', function(done) {
+        expect(loadObj(objMtllibSpacesPath, options)
             .then(function(data) {
                 var materials = data.materials;
                 expect(materials.length).toBe(3);
