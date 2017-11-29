@@ -24,6 +24,7 @@ var objMtllibPath = 'specs/data/box-mtllib/box-mtllib.obj';
 var objMissingMtllibPath = 'specs/data/box-missing-mtllib/box-missing-mtllib.obj';
 var objExternalResourcesPath = 'specs/data/box-external-resources/box-external-resources.obj';
 var objResourcesInRootPath = 'specs/data/box-resources-in-root/box-resources-in-root.obj';
+var objExternalResourcesInRootPath = 'specs/data/box-external-resources-in-root/box-external-resources-in-root.obj';
 var objTexturedPath = 'specs/data/box-textured/box-textured.obj';
 var objMissingTexturePath = 'specs/data/box-missing-texture/box-missing-texture.obj';
 var objSubdirectoriesPath = 'specs/data/box-subdirectories/box-textured.obj';
@@ -334,6 +335,22 @@ describe('loadObj', function() {
                 var baseColorTexture = data.materials[0].pbrMetallicRoughness.baseColorTexture;
                 expect(baseColorTexture.name).toBe('cesium');
                 expect(baseColorTexture.source).toBeDefined();
+            }), done).toResolve();
+    });
+
+    it('loads .mtl from root directory when the .mtl path is outside of the obj directory and secure is true', function(done) {
+        options.secure = true;
+
+        expect(loadObj(objExternalResourcesInRootPath, options)
+            .then(function(data) {
+                var materials = data.materials;
+                expect(materials.length).toBe(2);
+
+                // .mtl files are loaded in an arbitrary order, so find the "MaterialTextured" material
+                var materialTextured = materials[0].name === 'MaterialTextured' ? materials[0] : materials[1];
+                var baseColorTexture = materialTextured.pbrMetallicRoughness.baseColorTexture;
+                expect(baseColorTexture.source).toBeDefined();
+                expect(baseColorTexture.name).toEqual('cesium');
             }), done).toResolve();
     });
 
