@@ -209,7 +209,9 @@ describe('loadMtl', function() {
                 var material = materials[0];
                 var baseColorTexture = material.pbrMetallicRoughness.baseColorTexture;
                 expect(baseColorTexture).toBeUndefined();
-                expect(spy.calls.argsFor(0)[0].indexOf('Could not read texture file') >= 0).toBe(true);
+                expect(spy.calls.argsFor(0)[0].indexOf('Texture file is outside of the mtl directory and the secure flag is true. Attempting to read the texture file from within the obj directory instead') >= 0).toBe(true);
+                expect(spy.calls.argsFor(1)[0].indexOf('ENOENT') >= 0).toBe(true);
+                expect(spy.calls.argsFor(2)[0].indexOf('Could not read texture file') >= 0).toBe(true);
             }), done).toResolve();
     });
 
