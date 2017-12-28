@@ -1,8 +1,13 @@
 Change Log
 ==========
 
-### 2.1.0 ???
+### 2.1.0 2017-12-28
 
+* Fixed loading faces that contain less than 3 vertices. [#120](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/120)
+* Attempt to load missing materials and textures from within the same directory as the obj. [#117](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/117)
+* Fixed loading mtllib paths that contain spaces. [#116](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/116)
+* Fixed checking for transparency when the diffuse texture is used in another texture slot. [#115](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/115)
+* Fixed parsing mtl textures that contain texture map options. [#109](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/109)
 * Added back support for the `CONSTANT` technique when a model uses the `KHR_materials_common` extension and has no normals. [#108](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/108)
 * Improved handling of materials with alpha. If the alpha value is 0.0 it is now treated as 1.0. [#107](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/107)
 

@@ -1,6 +1,6 @@
 {
   "name": "obj2gltf",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Convert OBJ model format to glTF",
   "license": "Apache-2.0",
   "contributors": [
