@@ -62,13 +62,31 @@ In general, if a model is authored with traditional diffuse, specular, and shini
 The glTF will be saved with the `KHR_materials_common` extension and the Blinn-Phong shading model will be used.
 
 However if the model is created with PBR textures, either the `metallicRoughness` or `specularGlossiness` flag should be passed in.
-See the command line flags below for more information about how to specify PBR values inside the .mtl file.
+See the table below for more information about how to specify PBR values inside the .mtl file.
 
 If none of these flags are provided, the .mtl is assumed to contain traditional Blinn-Phong materials which will be converted to metallic-roughness PBR.
 There may be some quality loss as traditional materials do not map perfectly to PBR materials.
 
 Commonly in PBR workflows the the .mtl file may not exist or its values may be outdated or incorrect.
-As a convenience the PBR textures may be supplied directly to the command line. See the options below.
+As a convenience the PBR textures may be supplied directly to the command line.
+
+**Mapping of mtl slots to shading models**
+
+Slot | Metallic roughness | Specular glossiness | Materials common
+--- | --- | --- | ---
+Ka | occlusion value |  occlusion value | ambient color
+Ke | emissive color | emissive color | emissive color
+Kd | base color | diffuse color | diffuse color
+Ks | metallic value | specular color | specular color
+Ns | roughness value | glossiness value | specular shininess value
+d | alpha | alpha | alpha
+Tr | 1.0 - alpha | 1.0 - alpha | 1.0 - alpha
+map_Ka | occlusion texture | occlusion texture | ambient texture
+map_Ke | emissive texture | emissive texture | emissive texture
+map_Kd | base color texture | diffuse texture | diffuse texture
+map_Ks | metallic texture | specular texture | specular texture
+map_Ns | roughness texture | glossiness texture | specular shininess texture
+map_Bump | normal texture | normal texture | normal texture
 
 ## Usage
 
