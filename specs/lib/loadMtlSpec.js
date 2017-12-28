@@ -14,6 +14,8 @@ var texturedMaterialPath = 'specs/data/box-complex-material/box-complex-material
 var texturedWithOptionsMaterialPath = 'specs/data/box-texture-options/box-texture-options.mtl';
 var multipleMaterialsPath = 'specs/data/box-multiple-materials/box-multiple-materials.mtl';
 var externalMaterialPath = 'specs/data/box-external-resources/box-external-resources.mtl';
+var resourcesInRootMaterialPath = 'specs/data/box-resources-in-root/box-resources-in-root.mtl';
+var externalInRootMaterialPath = 'specs/data/box-external-resources-in-root/box-external-resources-in-root.mtl';
 var transparentMaterialPath = 'specs/data/box-transparent/box-transparent.mtl';
 
 var diffuseTexturePath = 'specs/data/box-textured/cesium.png';
@@ -207,7 +209,31 @@ describe('loadMtl', function() {
                 var material = materials[0];
                 var baseColorTexture = material.pbrMetallicRoughness.baseColorTexture;
                 expect(baseColorTexture).toBeUndefined();
-                expect(spy.calls.argsFor(0)[0].indexOf('Could not read texture file') >= 0).toBe(true);
+                expect(spy.calls.argsFor(0)[0].indexOf('Texture file is outside of the mtl directory and the secure flag is true. Attempting to read the texture file from within the obj directory instead') >= 0).toBe(true);
+                expect(spy.calls.argsFor(1)[0].indexOf('ENOENT') >= 0).toBe(true);
+                expect(spy.calls.argsFor(2)[0].indexOf('Could not read texture file') >= 0).toBe(true);
+            }), done).toResolve();
+    });
+
+    it('loads textures from root directory when the texture paths do not exist', function(done) {
+        expect(loadMtl(resourcesInRootMaterialPath, options)
+            .then(function(materials) {
+                var material = materials[0];
+                var baseColorTexture = material.pbrMetallicRoughness.baseColorTexture;
+                expect(baseColorTexture.source).toBeDefined();
+                expect(baseColorTexture.name).toBe('cesium');
+            }), done).toResolve();
+    });
+
+    it('loads textures from root directory when texture is outside of the mtl directory and secure is true', function(done) {
+        options.secure = true;
+
+        expect(loadMtl(externalInRootMaterialPath, options)
+            .then(function(materials) {
+                var material = materials[0];
+                var baseColorTexture = material.pbrMetallicRoughness.baseColorTexture;
+                expect(baseColorTexture.source).toBeDefined();
+                expect(baseColorTexture.name).toBe('cesium');
             }), done).toResolve();
     });
 

@@ -24,6 +24,8 @@ var objMtllibPath = 'specs/data/box-mtllib/box-mtllib.obj';
 var objMtllibSpacesPath = 'specs/data/box-mtllib-spaces/box mtllib.obj';
 var objMissingMtllibPath = 'specs/data/box-missing-mtllib/box-missing-mtllib.obj';
 var objExternalResourcesPath = 'specs/data/box-external-resources/box-external-resources.obj';
+var objResourcesInRootPath = 'specs/data/box-resources-in-root/box-resources-in-root.obj';
+var objExternalResourcesInRootPath = 'specs/data/box-external-resources-in-root/box-external-resources-in-root.obj';
 var objTexturedPath = 'specs/data/box-textured/box-textured.obj';
 var objMissingTexturePath = 'specs/data/box-missing-texture/box-missing-texture.obj';
 var objSubdirectoriesPath = 'specs/data/box-subdirectories/box-textured.obj';
@@ -317,7 +319,10 @@ describe('loadObj', function() {
         expect(loadObj(objMissingMtllibPath, options)
             .then(function(data) {
                 expect(data.materials.length).toBe(0);
-                expect(spy.calls.argsFor(0)[0].indexOf('Could not read mtl file') >= 0).toBe(true);
+                expect(spy.calls.argsFor(0)[0].indexOf('ENOENT') >= 0).toBe(true);
+                expect(spy.calls.argsFor(1)[0].indexOf('Attempting to read the material file from within the obj directory instead.') >= 0).toBe(true);
+                expect(spy.calls.argsFor(2)[0].indexOf('ENOENT') >= 0).toBe(true);
+                expect(spy.calls.argsFor(3)[0].indexOf('Could not read material file') >= 0).toBe(true);
             }), done).toResolve();
     });
 
@@ -343,8 +348,34 @@ describe('loadObj', function() {
         expect(loadObj(objExternalResourcesPath, options)
             .then(function(data) {
                 expect(data.materials.length).toBe(1); // obj references 2 materials, one of which is outside the input directory
-                expect(spy.calls.argsFor(0)[0].indexOf('Could not read mtl file') >= 0).toBe(true);
-                expect(spy.calls.argsFor(1)[0].indexOf('Could not read texture file') >= 0).toBe(true);
+                expect(spy.calls.argsFor(0)[0].indexOf('The material file is outside of the obj directory and the secure flag is true. Attempting to read the material file from within the obj directory instead.') >= 0).toBe(true);
+                expect(spy.calls.argsFor(1)[0].indexOf('ENOENT') >= 0).toBe(true);
+                expect(spy.calls.argsFor(2)[0].indexOf('Could not read material file') >= 0).toBe(true);
+            }), done).toResolve();
+    });
+
+    it('loads .mtl from root directory when the .mtl path does not exist', function(done) {
+        expect(loadObj(objResourcesInRootPath, options)
+            .then(function(data) {
+                var baseColorTexture = data.materials[0].pbrMetallicRoughness.baseColorTexture;
+                expect(baseColorTexture.name).toBe('cesium');
+                expect(baseColorTexture.source).toBeDefined();
+            }), done).toResolve();
+    });
+
+    it('loads .mtl from root directory when the .mtl path is outside of the obj directory and secure is true', function(done) {
+        options.secure = true;
+
+        expect(loadObj(objExternalResourcesInRootPath, options)
+            .then(function(data) {
+                var materials = data.materials;
+                expect(materials.length).toBe(2);
+
+                // .mtl files are loaded in an arbitrary order, so find the "MaterialTextured" material
+                var materialTextured = materials[0].name === 'MaterialTextured' ? materials[0] : materials[1];
+                var baseColorTexture = materialTextured.pbrMetallicRoughness.baseColorTexture;
+                expect(baseColorTexture.source).toBeDefined();
+                expect(baseColorTexture.name).toEqual('cesium');
             }), done).toResolve();
     });
 
@@ -365,7 +396,10 @@ describe('loadObj', function() {
             .then(function(data) {
                 var baseColorTexture = data.materials[0].pbrMetallicRoughness.baseColorTexture;
                 expect(baseColorTexture).toBeUndefined();
-                expect(spy.calls.argsFor(0)[0].indexOf('Could not read texture file') >= 0).toBe(true);
+                expect(spy.calls.argsFor(0)[0].indexOf('ENOENT') >= 0).toBe(true);
+                expect(spy.calls.argsFor(1)[0].indexOf('Attempting to read the texture file from within the obj directory instead.') >= 0).toBe(true);
+                expect(spy.calls.argsFor(2)[0].indexOf('ENOENT') >= 0).toBe(true);
+                expect(spy.calls.argsFor(3)[0].indexOf('Could not read texture file') >= 0).toBe(true);
             }), done).toResolve();
     });
 

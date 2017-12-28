@@ -124,7 +124,7 @@ describe('obj2gltf', function() {
         };
         expect(obj2gltf(missingMtllibObjPath, options)
             .then(function() {
-                expect(lastMessage.indexOf('Could not read mtl file') >= 0).toBe(true);
+                expect(lastMessage.indexOf('Could not read material file') >= 0).toBe(true);
             }), done).toResolve();
     });
 
