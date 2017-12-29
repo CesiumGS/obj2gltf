@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### 2.2.0 ???
+
+* Fixed handling of `usemtl` when appearing before an `o` or `g` token. [#121](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/121)
+
 ### 2.1.0 2017-12-28
 
 * Fixed loading faces that contain less than 3 vertices. [#120](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/120)
