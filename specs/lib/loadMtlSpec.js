@@ -20,7 +20,7 @@ var transparentMaterialPath = 'specs/data/box-transparent/box-transparent.mtl';
 
 var diffuseTexturePath = 'specs/data/box-textured/cesium.png';
 var transparentDiffuseTexturePath = 'specs/data/box-complex-material/diffuse.png';
-var alphaTexturePath = 'specs/data/box-complex-material/alpha.png';
+var alphaTexturePath = 'specs/data/box-complex-material-alpha/alpha.png';
 var ambientTexturePath = 'specs/data/box-complex-material/ambient.gif';
 var normalTexturePath = 'specs/data/box-complex-material/bump.png';
 var emissiveTexturePath = 'specs/data/box-complex-material/emission.jpg';
@@ -48,7 +48,7 @@ var options;
 describe('loadMtl', function() {
     beforeAll(function(done) {
         return Promise.all([
-            loadTexture(diffuseTexturePath)
+            loadTexture(diffuseTexturePath, decodeOptions)
                 .then(function(texture) {
                     diffuseTexture = texture;
                 }),
@@ -333,6 +333,33 @@ describe('loadMtl', function() {
             expect(material.alphaMode).toBe('BLEND');
             expect(material.doubleSided).toBe(true);
         });
+
+        it('packs alpha texture in base color texture', function() {
+            options.metallicRoughness = true;
+
+            var material = loadMtl._createMaterial({
+                diffuseTexture : diffuseTexture,
+                alphaTexture : alphaTexture
+            }, options);
+
+            var pbr = material.pbrMetallicRoughness;
+            expect(pbr.baseColorTexture).toBeDefined();
+
+            var hasBlack = false;
+            var hasWhite = false;
+            var pixels = pbr.baseColorTexture.pixels;
+            var pixelsLength = pixels.length / 4;
+            for (var i = 0; i < pixelsLength; ++i) {
+                var alpha = pixels[i * 4 + 3];
+                hasBlack = hasBlack || (alpha === 0);
+                hasWhite = hasWhite || (alpha === 255);
+            }
+            expect(hasBlack).toBe(true);
+            expect(hasWhite).toBe(true);
+            expect(pbr.baseColorFactor[3]).toEqual(1);
+            expect(material.alphaMode).toBe('BLEND');
+            expect(material.doubleSided).toBe(true);
+        });
     });
 
     describe('specularGlossiness', function() {
@@ -398,6 +425,33 @@ describe('loadMtl', function() {
                 diffuseTexture : transparentDiffuseTexture
             }, options);
 
+            expect(material.alphaMode).toBe('BLEND');
+            expect(material.doubleSided).toBe(true);
+        });
+
+        it('packs alpha texture in diffuse texture', function() {
+            options.specularGlossiness = true;
+
+            var material = loadMtl._createMaterial({
+                diffuseTexture : diffuseTexture,
+                alphaTexture : alphaTexture
+            }, options);
+
+            var pbr = material.extensions.KHR_materials_pbrSpecularGlossiness;
+            expect(pbr.diffuseTexture).toBeDefined();
+
+            var hasBlack = false;
+            var hasWhite = false;
+            var pixels = pbr.diffuseTexture.pixels;
+            var pixelsLength = pixels.length / 4;
+            for (var i = 0; i < pixelsLength; ++i) {
+                var alpha = pixels[i * 4 + 3];
+                hasBlack = hasBlack || (alpha === 0);
+                hasWhite = hasWhite || (alpha === 255);
+            }
+            expect(hasBlack).toBe(true);
+            expect(hasWhite).toBe(true);
+            expect(pbr.diffuseFactor[3]).toEqual(1);
             expect(material.alphaMode).toBe('BLEND');
             expect(material.doubleSided).toBe(true);
         });
@@ -534,6 +588,32 @@ describe('loadMtl', function() {
 
             var values = material.extensions.KHR_materials_common.values;
             expect(values.ambient).toEqual([0.0, 0.0, 0.0, 1.0]);
+        });
+
+        it('packs alpha texture in diffuse texture', function() {
+            options.materialsCommon = true;
+
+            var material = loadMtl._createMaterial({
+                diffuseTexture : diffuseTexture,
+                alphaTexture : alphaTexture
+            }, options);
+
+            var values = material.extensions.KHR_materials_common.values;
+
+            var hasBlack = false;
+            var hasWhite = false;
+            var pixels = values.diffuse.pixels;
+            var pixelsLength = pixels.length / 4;
+            for (var i = 0; i < pixelsLength; ++i) {
+                var alpha = pixels[i * 4 + 3];
+                hasBlack = hasBlack || (alpha === 0);
+                hasWhite = hasWhite || (alpha === 255);
+            }
+            expect(hasBlack).toBe(true);
+            expect(hasWhite).toBe(true);
+            expect(values.transparency).toBe(1.0);
+            expect(values.transparent).toBe(true);
+            expect(values.doubleSided).toBe(true);
         });
     });
 });

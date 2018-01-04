@@ -108,6 +108,9 @@ var argv = yargs
             describe : 'Path to the emissive texture that should override textures in the .mtl file.',
             type : 'string',
             normalize : true
+        },
+        alphaTexture : {
+            describe : 'Path to the alpha texture that should override textures in the .mtl file.'
         }
     }).parse(args);
 
@@ -143,7 +146,8 @@ var overridingTextures = {
     occlusionTexture : argv.occlusionTexture,
     normalTexture : argv.normalTexture,
     baseColorTexture : argv.baseColorTexture,
-    emissiveTexture : argv.emissiveTexture
+    emissiveTexture : argv.emissiveTexture,
+    alphaTexture : argv.alphaTexture
 };
 
 var options = {

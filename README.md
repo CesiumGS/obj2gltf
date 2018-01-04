@@ -112,6 +112,7 @@ map_Bump | normal texture | normal texture | normal texture
 |`--normalTexture`|Path to the normal texture that should override textures in the .mtl file.|No|
 |`--baseColorTexture`|Path to the baseColor/diffuse texture that should override textures in the .mtl file.|No|
 |`--emissiveTexture`|Path to the emissive texture that should override textures in the .mtl file.|No|
+|`--alphaTexture`|Path to the alpha texture that should override textures in the .mtl file.|No|
 
 ## Build Instructions
 
