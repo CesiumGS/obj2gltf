@@ -6,16 +6,16 @@ Convert OBJ assets to [glTF](https://www.khronos.org/gltf) 2.0.
 
 Install [Node.js](https://nodejs.org/en/) if you don't already have it, and then:
 ```
-npm install --save obj2gltf
+npm install -g obj2gltf
 ```
 
 ### Using obj2gltf as a command-line tool:
 
-`node bin/obj2gltf.js -i model.obj`
+`obj2gltf -i model.obj`
 
-`node bin/obj2gltf.js -i model.obj -o model.gltf`
+`obj2gltf -i model.obj -o model.gltf`
 
-`node bin/obj2gltf.js -i model.obj -o model.glb`
+`obj2gltf -i model.obj -o model.glb`
 
 ### Using obj2gltf as a library:
 

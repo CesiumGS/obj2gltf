@@ -4,6 +4,7 @@ Change Log
 ### 2.2.0 ???
 
 * Fixed handling of `usemtl` when appearing before an `o` or `g` token. [#121](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/121)
+* Fixed output name when running from the command line. [#126](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/126)
 
 ### 2.1.0 2017-12-28
 
