@@ -6,6 +6,7 @@ var path = require('path');
 var yargs = require('yargs');
 var obj2gltf = require('../lib/obj2gltf');
 
+var defaultValue = Cesium.defaultValue;
 var defined = Cesium.defined;
 
 var defaults = obj2gltf.defaults;
@@ -126,18 +127,13 @@ if (defined(argv.metallicRoughnessOcclusionTexture) && defined(argv.specularGlos
 
 var objPath = argv.input;
 var gltfPath = argv.output;
-var name = path.basename(objPath, path.extname(objPath));
 
-if (!defined(gltfPath)) {
-    gltfPath = path.join(path.dirname(objPath), name + '.gltf');
-}
+var filename = defaultValue(gltfPath, objPath);
+var name = path.basename(filename, path.extname(filename));
+var outputDirectory = path.dirname(filename);
+var binary = argv.binary || path.extname(filename).toLowerCase() === '.glb';
+var extension = binary ? '.glb' : '.gltf';
 
-var outputDirectory = path.dirname(gltfPath);
-var extension = path.extname(gltfPath).toLowerCase();
-if (argv.binary || extension === '.glb') {
-    argv.binary = true;
-    extension = '.glb';
-}
 gltfPath = path.join(outputDirectory, name + extension);
 
 var overridingTextures = {
@@ -151,7 +147,7 @@ var overridingTextures = {
 };
 
 var options = {
-    binary : argv.binary,
+    binary : binary,
     separate : argv.separate,
     separateTextures : argv.separateTextures,
     checkTransparency : argv.checkTransparency,
@@ -168,7 +164,7 @@ console.time('Total');
 
 obj2gltf(objPath, options)
     .then(function(gltf) {
-        if (argv.binary) {
+        if (binary) {
             // gltf is a glb buffer
             return fsExtra.outputFile(gltfPath, gltf);
         }
