@@ -5,7 +5,7 @@ var pngTexturePath = 'specs/data/box-complex-material/shininess.png';
 var jpgTexturePath = 'specs/data/box-complex-material/emission.jpg';
 var jpegTexturePath = 'specs/data/box-complex-material/specular.jpeg';
 var gifTexturePath = 'specs/data/box-complex-material/ambient.gif';
-var grayscaleTexturePath = 'specs/data/box-complex-material/alpha.png';
+var grayscaleTexturePath = 'specs/data/box-complex-material-alpha/alpha.png';
 var transparentTexturePath = 'specs/data/box-complex-material/diffuse.png';
 
 describe('loadTexture', function() {
