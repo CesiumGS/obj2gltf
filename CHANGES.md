@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-### 2.2.0 ???
+### 2.2.0 2017-01-29
 
 * Fixed handling of materials where the diffuse and ambient texture are the same. [#127](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/127)
 * Added ability to load alpha textures. [#124](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/124)
