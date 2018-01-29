@@ -16,4 +16,5 @@ map_Kd diffuse.png
 map_Ks specular.jpeg
 map_Ns shininess.png
 map_Bump bump.png
+map_d alpha.png
 illum 2

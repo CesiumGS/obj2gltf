@@ -78,7 +78,8 @@ describe('obj2gltf', function() {
                 metallicRoughnessOcclusionTexture : textureUrl,
                 normalTexture : textureUrl,
                 baseColorTexture : textureUrl,
-                emissiveTexture : textureUrl
+                emissiveTexture : textureUrl,
+                alphaTexture : textureUrl
             },
             separateTextures : true,
             outputDirectory : outputDirectory
@@ -100,7 +101,8 @@ describe('obj2gltf', function() {
                 occlusionTexture : textureUrl,
                 normalTexture : textureUrl,
                 baseColorTexture : textureUrl,
-                emissiveTexture : textureUrl
+                emissiveTexture : textureUrl,
+                alphaTexture : textureUrl
             },
             separateTextures : true,
             outputDirectory : outputDirectory
