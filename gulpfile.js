@@ -1,6 +1,7 @@
 'use strict';
 
 var Cesium = require('cesium');
+var Promise = require('bluebird');
 var child_process = require('child_process');
 var fsExtra = require('fs-extra');
 var gulp = require('gulp');
@@ -59,4 +60,43 @@ gulp.task('coverage', function () {
         stdio: [process.stdin, process.stdout, process.stderr]
     });
     open('coverage/lcov-report/index.html');
+});
+
+
+gulp.task('cloc', function() {
+    var cmdLine;
+    var clocPath = path.join('node_modules', 'cloc', 'lib', 'cloc');
+
+    //Run cloc on primary Source files only
+    var source = new Promise(function(resolve, reject) {
+        cmdLine = 'perl ' + clocPath + ' --quiet --progress-rate=0' +
+            ' lib/';
+
+        child_process.exec(cmdLine, function(error, stdout, stderr) {
+            if (error) {
+                console.log(stderr);
+                return reject(error);
+            }
+            console.log('Source:');
+            console.log(stdout);
+            resolve();
+        });
+    });
+
+    //If running cloc on source succeeded, also run it on the tests.
+    return source.then(function() {
+        return new Promise(function(resolve, reject) {
+            cmdLine = 'perl ' + clocPath + ' --quiet --progress-rate=0' +
+                ' specs/lib/';
+            child_process.exec(cmdLine, function(error, stdout, stderr) {
+                if (error) {
+                    console.log(stderr);
+                    return reject(error);
+                }
+                console.log('Specs:');
+                console.log(stdout);
+                resolve();
+            });
+        });
+    });
 });
