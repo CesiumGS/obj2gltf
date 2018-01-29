@@ -3,6 +3,7 @@ Change Log
 
 ### 2.2.0 ???
 
+* Fixed handling of materials where the diffuse and ambient texture are the same. [#127](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/127)
 * Added ability to load alpha textures. [#124](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/124)
 * Fixed handling of `usemtl` when appearing before an `o` or `g` token. [#123](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/123)
 * Fixed output name when running from the command line. [#126](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/126)

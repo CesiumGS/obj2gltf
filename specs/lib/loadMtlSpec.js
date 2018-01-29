@@ -17,6 +17,7 @@ var externalMaterialPath = 'specs/data/box-external-resources/box-external-resou
 var resourcesInRootMaterialPath = 'specs/data/box-resources-in-root/box-resources-in-root.mtl';
 var externalInRootMaterialPath = 'specs/data/box-external-resources-in-root/box-external-resources-in-root.mtl';
 var transparentMaterialPath = 'specs/data/box-transparent/box-transparent.mtl';
+var diffuseAmbientSameMaterialPath = 'specs/data/box-diffuse-ambient-same/box-diffuse-ambient-same.mtl';
 
 var diffuseTexturePath = 'specs/data/box-textured/cesium.png';
 var transparentDiffuseTexturePath = 'specs/data/box-complex-material/diffuse.png';
@@ -248,6 +249,17 @@ describe('loadMtl', function() {
                 expect(pbr.baseColorFactor[3]).toEqual(1.0);
                 expect(material.alphaMode).toBe('OPAQUE');
                 expect(material.doubleSided).toBe(false);
+            }), done).toResolve();
+    });
+
+    it('ambient texture is ignored if it is the same as the diffuse texture', function(done) {
+        expect(loadMtl(diffuseAmbientSameMaterialPath, options)
+            .then(function(materials) {
+                expect(materials.length).toBe(1);
+                var material = materials[0];
+                var pbr = material.pbrMetallicRoughness;
+                expect(pbr.baseColorTexture).toBeDefined();
+                expect(pbr.occlusionTexture).toBeUndefined();
             }), done).toResolve();
     });
 
