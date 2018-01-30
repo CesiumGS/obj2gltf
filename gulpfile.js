@@ -70,7 +70,7 @@ gulp.task('cloc', function() {
     //Run cloc on primary Source files only
     var source = new Promise(function(resolve, reject) {
         cmdLine = 'perl ' + clocPath + ' --quiet --progress-rate=0' +
-            ' lib/';
+            ' lib/ bin/';
 
         child_process.exec(cmdLine, function(error, stdout, stderr) {
             if (error) {
