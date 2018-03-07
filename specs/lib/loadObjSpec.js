@@ -25,6 +25,7 @@ var objUncleanedPath = 'specs/data/box-uncleaned/box-uncleaned.obj';
 var objMtllibPath = 'specs/data/box-mtllib/box-mtllib.obj';
 var objMtllibSpacesPath = 'specs/data/box-mtllib-spaces/box mtllib.obj';
 var objMissingMtllibPath = 'specs/data/box-missing-mtllib/box-missing-mtllib.obj';
+var objMissingUsemtlPath = 'specs/data/box-missing-usemtl/box-missing-usemtl.obj';
 var objExternalResourcesPath = 'specs/data/box-external-resources/box-external-resources.obj';
 var objResourcesInRootPath = 'specs/data/box-resources-in-root/box-resources-in-root.obj';
 var objExternalResourcesInRootPath = 'specs/data/box-external-resources-in-root/box-external-resources-in-root.obj';
@@ -360,6 +361,14 @@ describe('loadObj', function() {
                 expect(spy.calls.argsFor(1)[0].indexOf('Attempting to read the material file from within the obj directory instead.') >= 0).toBe(true);
                 expect(spy.calls.argsFor(2)[0].indexOf('ENOENT') >= 0).toBe(true);
                 expect(spy.calls.argsFor(3)[0].indexOf('Could not read material file') >= 0).toBe(true);
+            }), done).toResolve();
+    });
+
+    it('loads obj with missing usemtl', function(done) {
+        expect(loadObj(objMissingUsemtlPath, options)
+            .then(function(data) {
+                expect(data.materials.length).toBe(1);
+                expect(data.nodes[0].meshes[0].primitives[0].material).toBe('Material');
             }), done).toResolve();
     });
 
