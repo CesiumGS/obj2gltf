@@ -4,6 +4,7 @@ Change Log
 ### 2.3.0 ???
 
 * Added ability to use the first material in the mtl file when the obj is missing `usemtl`. [#133](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/133)
+* Fixed handling of unnormalized input normals. [#136](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/136)
 
 ### 2.2.0 2017-01-29
 
