@@ -4,6 +4,8 @@ var Promise = require('bluebird');
 var loadObj = require('../../lib/loadObj');
 var obj2gltf = require('../../lib/obj2gltf');
 
+var Cartesian3 = Cesium.Cartesian3;
+var CesiumMath = Cesium.Math;
 var clone = Cesium.clone;
 var RuntimeError = Cesium.RuntimeError;
 
@@ -33,6 +35,7 @@ var objMissingTexturePath = 'specs/data/box-missing-texture/box-missing-texture.
 var objSubdirectoriesPath = 'specs/data/box-subdirectories/box-textured.obj';
 var objInvalidContentsPath = 'specs/data/box/box.mtl';
 var objConcavePath = 'specs/data/concave/concave.obj';
+var objUnnormalizedPath = 'specs/data/box-unnormalized/box-unnormalized.obj';
 var objInvalidPath = 'invalid.obj';
 
 function getMeshes(data) {
@@ -104,6 +107,23 @@ describe('loadObj', function() {
                 expect(mesh.positions.length / 3).toBe(24);
                 expect(mesh.normals.length / 3).toBe(24);
                 expect(mesh.uvs.length / 2).toBe(0);
+            }), done).toResolve();
+    });
+
+    it('normalizes normals', function(done) {
+        expect(loadObj(objUnnormalizedPath, options)
+            .then(function(data) {
+                var scratchNormal = new Cesium.Cartesian3();
+                var mesh = getMeshes(data)[0];
+                var normals = mesh.normals;
+                var normalsLength = normals.length / 3;
+                for (var i = 0; i < normalsLength; ++i) {
+                    var normalX = normals.get(i * 3);
+                    var normalY = normals.get(i * 3 + 1);
+                    var normalZ = normals.get(i * 3 + 2);
+                    var normal = Cartesian3.fromElements(normalX, normalY, normalZ, scratchNormal);
+                    expect(Cartesian3.magnitude(normal)).toEqualEpsilon(1.0, CesiumMath.EPSILON5);
+                }
             }), done).toResolve();
     });
 
