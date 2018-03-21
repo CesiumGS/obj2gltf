@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### 2.3.0 ???
+
+* Added ability to use the first material in the mtl file when the obj is missing `usemtl`. [#133](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/133)
+
 ### 2.2.0 2017-01-29
 
 * Fixed handling of materials where the diffuse and ambient texture are the same. [#127](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/127)
