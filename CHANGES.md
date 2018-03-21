@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### 2.3.0 ???
+
+* Fixed handling of unnormalized input normals. [#136](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/136)
+
 ### 2.2.0 2017-01-29
 
 * Fixed handling of materials where the diffuse and ambient texture are the same. [#127](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/127)
