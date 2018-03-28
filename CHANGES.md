@@ -1,6 +1,9 @@
 Change Log
 ==========
 
+### 1.3.1 2018-03-28
+* Maintenance release to update major version Node dependencies.
+
 ### 1.3.0 2017-08-11
 * Fixed parsing models with concave or n-sided faces. [#85](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/85)
 * Fixed parsing models with line breaks. [#85](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/85)
