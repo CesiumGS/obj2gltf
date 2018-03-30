@@ -128,6 +128,16 @@ if (defined(argv.metallicRoughnessOcclusionTexture) && defined(argv.specularGlos
 var objPath = argv.input;
 var gltfPath = argv.output;
 
+if (objPath === '.') {
+    console.log('Input path is required');
+    return;
+}
+
+if (gltfPath === '.') {
+    console.log('Output path must be a filename');
+    return;
+}
+
 var filename = defaultValue(gltfPath, objPath);
 var name = path.basename(filename, path.extname(filename));
 var outputDirectory = path.dirname(filename);
