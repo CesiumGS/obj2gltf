@@ -23,14 +23,24 @@ var argv = yargs
             alias : 'i',
             describe : 'Path to the obj file.',
             type : 'string',
-            normalize : true,
-            demandOption : true
+            demandOption : true,
+            coerce : function (p) {
+                if (p.length === 0) {
+                    throw new Error('Input path must be a file name');
+                }
+                return path.resolve(p);
+            }
         },
         output : {
             alias : 'o',
             describe : 'Path of the converted glTF or glb file.',
             type : 'string',
-            normalize : true
+            coerce : function (p) {
+                if (p.length === 0) {
+                    throw new Error('Output path must be a file name');
+                }
+                return path.resolve(p);
+            }
         },
         binary : {
             alias : 'b',
@@ -127,16 +137,6 @@ if (defined(argv.metallicRoughnessOcclusionTexture) && defined(argv.specularGlos
 
 var objPath = argv.input;
 var gltfPath = argv.output;
-
-if (objPath === '.') {
-    console.log('Input path is required');
-    return;
-}
-
-if (gltfPath === '.') {
-    console.log('Output path must be a filename');
-    return;
-}
 
 var filename = defaultValue(gltfPath, objPath);
 var name = path.basename(filename, path.extname(filename));
