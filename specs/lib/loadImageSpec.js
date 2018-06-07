@@ -60,7 +60,7 @@ describe('loadImage', function() {
         expect(loadImage(grayscaleImage, defaultOptions)
             .then(function(info) {
                 expect(info.transparent).toBe(false);
-                expect(info.format).toBe(WebGLConstants.ALPHA);
+                expect(info.format).toBe(WebGLConstants.LUMINANCE);
                 expect(info.source).toBeDefined();
                 expect(info.extension).toBe('.png');
             }), done).toResolve();
