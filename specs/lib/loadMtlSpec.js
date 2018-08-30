@@ -5,7 +5,6 @@ var fsExtra = require('fs-extra');
 var loadMtl = require('../../lib/loadMtl');
 var loadTexture = require('../../lib/loadTexture');
 var obj2gltf = require('../../lib/obj2gltf');
-var Texture = require('../../lib/Texture');
 
 var clone = Cesium.clone;
 
