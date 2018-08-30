@@ -133,42 +133,42 @@ describe('createGltf', function() {
     });
 
     it('runs without normals', function() {
-        boxObjData.nodes[0].meshes[0].normals.length = 0;
+        boxObjData.nodes[0].meshes[0].primitives[0].normals.length = 0;
 
         var gltf = createGltf(boxObjData, options);
-        var attributes = gltf.meshes[Object.keys(gltf.meshes)[0]].primitives[0].attributes;
+        var attributes = gltf.meshes[0].primitives[0].attributes;
         expect(attributes.POSITION).toBeDefined();
         expect(attributes.NORMAL).toBeUndefined();
         expect(attributes.TEXCOORD_0).toBeDefined();
     });
 
     it('runs without uvs', function() {
-        boxObjData.nodes[0].meshes[0].uvs.length = 0;
+        boxObjData.nodes[0].meshes[0].primitives[0].uvs.length = 0;
 
         var gltf = createGltf(boxObjData, options);
-        var attributes = gltf.meshes[Object.keys(gltf.meshes)[0]].primitives[0].attributes;
+        var attributes = gltf.meshes[0].primitives[0].attributes;
         expect(attributes.POSITION).toBeDefined();
         expect(attributes.NORMAL).toBeDefined();
         expect(attributes.TEXCOORD_0).toBeUndefined();
     });
 
     it('runs without uvs and normals', function() {
-        boxObjData.nodes[0].meshes[0].normals.length = 0;
-        boxObjData.nodes[0].meshes[0].uvs.length = 0;
+        boxObjData.nodes[0].meshes[0].primitives[0].normals.length = 0;
+        boxObjData.nodes[0].meshes[0].primitives[0].uvs.length = 0;
 
         var gltf = createGltf(boxObjData, options);
-        var attributes = gltf.meshes[Object.keys(gltf.meshes)[0]].primitives[0].attributes;
+        var attributes = gltf.meshes[0].primitives[0].attributes;
         expect(attributes.POSITION).toBeDefined();
         expect(attributes.NORMAL).toBeUndefined();
         expect(attributes.TEXCOORD_0).toBeUndefined();
     });
 
     function expandObjData(objData, duplicatesLength) {
-        var mesh = objData.nodes[0].meshes[0];
-        var indices = mesh.primitives[0].indices;
-        var positions = mesh.positions;
-        var normals = mesh.normals;
-        var uvs = mesh.uvs;
+        var primitive = objData.nodes[0].meshes[0].primitives[0];
+        var indices = primitive.indices;
+        var positions = primitive.positions;
+        var normals = primitive.normals;
+        var uvs = primitive.uvs;
 
         var indicesLength = indices.length;
         var vertexCount = positions.length / 3;
@@ -192,12 +192,12 @@ describe('createGltf', function() {
 
     it('detects need to use uint32 indices', function() {
         expandObjData(boxObjData, 2731); // Right above 65536 limit
-        var mesh = boxObjData.nodes[0].meshes[0];
-        var indicesLength = mesh.primitives[0].indices.length;
-        var vertexCount = mesh.positions.length / 3;
+        var primitive = boxObjData.nodes[0].meshes[0].primitives[0];
+        var indicesLength = primitive.indices.length;
+        var vertexCount = primitive.positions.length / 3;
 
         var gltf = createGltf(boxObjData, options);
-        var primitive = gltf.meshes[Object.keys(gltf.meshes)[0]].primitives[0];
+        primitive = gltf.meshes[0].primitives[0];
         var indicesAccessor = gltf.accessors[primitive.indices];
         expect(indicesAccessor.count).toBe(indicesLength);
         expect(indicesAccessor.max[0]).toBe(vertexCount - 1);
