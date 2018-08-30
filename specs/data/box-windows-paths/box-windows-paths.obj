@@ -1,6 +1,6 @@
 # Blender v2.78 (sub 0) OBJ File: 'box.blend'
 # www.blender.org
-mtllib box-texture-options.mtl
+mtllib materials\\box-windows-paths.mtl
 o Cube
 v -1.000000 -1.000000 1.000000
 v -1.000000 1.000000 1.000000
