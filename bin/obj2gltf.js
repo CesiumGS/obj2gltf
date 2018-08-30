@@ -85,11 +85,6 @@ var argv = yargs
             type : 'boolean',
             default : defaults.specularGlossiness
         },
-        materialsCommon : {
-            describe : 'The glTF will be saved with the KHR_materials_common extension.',
-            type : 'boolean',
-            default : defaults.materialsCommon
-        },
         metallicRoughnessOcclusionTexture : {
             describe : 'Path to the metallic-roughness-occlusion texture that should override textures in the .mtl file, where occlusion is stored in the red channel, roughness is stored in the green channel, and metallic is stored in the blue channel. The model will be saved with a pbrMetallicRoughness material. This is often convenient in workflows where the .mtl does not exist or is not set up to use PBR materials. Intended for models with a single material',
             type : 'string',
@@ -122,11 +117,16 @@ var argv = yargs
         },
         alphaTexture : {
             describe : 'Path to the alpha texture that should override textures in the .mtl file.'
-        }
+        },
+        unlit : {
+            describe : 'The glTF will be saved with the KHR_materials_unlit extension.',
+            type : 'boolean',
+            default : defaults.unlit
+        },
     }).parse(args);
 
-if (argv.metallicRoughness + argv.specularGlossiness + argv.materialsCommon > 1) {
-    console.error('Only one material type may be set from [--metallicRoughness, --specularGlossiness, --materialsCommon].');
+if (argv.metallicRoughness + argv.specularGlossiness > 1) {
+    console.error('Only one material type may be set from [--metallicRoughness, --specularGlossiness].');
     process.exit(1);
 }
 
@@ -165,7 +165,7 @@ var options = {
     packOcclusion : argv.packOcclusion,
     metallicRoughness : argv.metallicRoughness,
     specularGlossiness : argv.specularGlossiness,
-    materialsCommon : argv.materialsCommon,
+    unlit : argv.unlit,
     overridingTextures : overridingTextures,
     outputDirectory : outputDirectory
 };
