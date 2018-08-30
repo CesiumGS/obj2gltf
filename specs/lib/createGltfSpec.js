@@ -125,11 +125,11 @@ describe('createGltf', function() {
         expect(gltf.extensionsRequired).toEqual(['KHR_materials_pbrSpecularGlossiness']);
     });
 
-    it('adds KHR_materials_common extension when materialsCommon is set', function() {
-        options.materialsCommon = true;
+    it('adds KHR_materials_unlit extension when unlit is set', function() {
+        options.unlit = true;
         var gltf = createGltf(noMaterialsObjData, options);
-        expect(gltf.extensionsUsed).toEqual(['KHR_materials_common']);
-        expect(gltf.extensionsRequired).toEqual(['KHR_materials_common']);
+        expect(gltf.extensionsUsed).toEqual(['KHR_materials_unlit']);
+        expect(gltf.extensionsRequired).toEqual(['KHR_materials_unlit']);
     });
 
     it('runs without normals', function() {
