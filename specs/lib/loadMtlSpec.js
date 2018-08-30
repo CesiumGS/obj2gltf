@@ -6,7 +6,7 @@ var complexMaterialUrl = 'specs/data/box-complex-material/box-complex-material.m
 var multipleMaterialsUrl = 'specs/data/box-multiple-materials/box-multiple-materials.mtl';
 
 function getImagePath(objPath, relativePath) {
-    return path.resolve(path.dirname(objPath), relativePath);
+    return path.normalize(path.join(path.dirname(objPath), relativePath));
 }
 
 describe('loadMtl', function() {

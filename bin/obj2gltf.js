@@ -21,14 +21,23 @@ var argv = yargs
             alias: 'i',
             describe: 'Path to the obj file.',
             type: 'string',
-            normalize: true,
-            demandOption: true
+            coerce : function (p) {
+                if (p.length === 0) {
+                    throw new Error('Input path must be a file name');
+                }
+                return path.resolve(p);
+            }
         },
         output : {
             alias: 'o',
             describe: 'Path of the converted glTF file.',
             type: 'string',
-            normalize: true
+            coerce : function (p) {
+                if (p.length === 0) {
+                    throw new Error('Output path must be a file name');
+                }
+                return path.resolve(p);
+            }
         },
         binary : {
             alias: 'b',
