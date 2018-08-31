@@ -38,6 +38,7 @@ var objWindowsPaths = 'specs/data/box-windows-paths/box-windows-paths.obj';
 var objInvalidContentsPath = 'specs/data/box/box.mtl';
 var objConcavePath = 'specs/data/concave/concave.obj';
 var objUnnormalizedPath = 'specs/data/box-unnormalized/box-unnormalized.obj';
+var objMixedAttributesPath = 'specs/data/box-mixed-attributes/box-mixed-attributes.obj';
 var objInvalidPath = 'invalid.obj';
 
 function getMeshes(data) {
@@ -483,6 +484,14 @@ describe('loadObj', function() {
                 var baseColorTexture = data.materials[0].pbrMetallicRoughness.baseColorTexture;
                 expect(baseColorTexture.name).toBe('cesium');
                 expect(baseColorTexture.source).toBeDefined();
+            }), done).toResolve();
+    });
+
+    it('discards faces that don\'t use the same attributes as other faces in the primitive', function(done) {
+        expect(loadObj(objMixedAttributesPath, options)
+            .then(function(data) {
+                var primitive = getPrimitives(data)[0];
+                expect(primitive.indices.length).toBe(18); // 3 faces removed
             }), done).toResolve();
     });
 
