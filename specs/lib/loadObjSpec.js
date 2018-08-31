@@ -30,6 +30,7 @@ var objExternalResourcesUrl = 'specs/data/box-external-resources/box-external-re
 var objTexturedUrl = 'specs/data/box-textured/box-textured.obj';
 var objMissingTextureUrl = 'specs/data/box-missing-texture/box-missing-texture.obj';
 var objSubdirectoriesUrl = 'specs/data/box-subdirectories/box-textured.obj';
+var objWindowsPathsUrl = 'specs/data/box-windows-paths/box-windows-paths.obj';
 var objComplexMaterialUrl = 'specs/data/box-complex-material/box-complex-material.obj';
 var objInvalidContentsUrl = 'specs/data/box/box.mtl';
 var objInvalidUrl = 'invalid.obj';
@@ -59,7 +60,7 @@ function getPrimitives(data) {
 }
 
 function getImagePath(objPath, relativePath) {
-    return path.resolve(path.dirname(objPath), relativePath);
+    return path.normalize(path.join(path.dirname(objPath), relativePath));
 }
 
 var defaultOptions = obj2gltf.defaults;
@@ -341,6 +342,15 @@ describe('loadObj', function() {
         expect(loadObj(objSubdirectoriesUrl, defaultOptions)
             .then(function(data) {
                 var imagePath = getImagePath(objSubdirectoriesUrl, path.join('materials', 'images', 'cesium.png'));
+                expect(data.images[imagePath]).toBeDefined();
+                expect(data.materials.Material.diffuseTexture).toEqual(imagePath);
+            }), done).toResolve();
+    });
+
+    it('loads obj with windows paths', function(done) {
+        expect(loadObj(objWindowsPathsUrl, defaultOptions)
+            .then(function(data) {
+                var imagePath = getImagePath(objWindowsPathsUrl, path.join('materials', 'images', 'cesium.png'));
                 expect(data.images[imagePath]).toBeDefined();
                 expect(data.materials.Material.diffuseTexture).toEqual(imagePath);
             }), done).toResolve();
