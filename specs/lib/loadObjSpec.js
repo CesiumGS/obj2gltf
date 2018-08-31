@@ -34,6 +34,7 @@ var objExternalResourcesInRootPath = 'specs/data/box-external-resources-in-root/
 var objTexturedPath = 'specs/data/box-textured/box-textured.obj';
 var objMissingTexturePath = 'specs/data/box-missing-texture/box-missing-texture.obj';
 var objSubdirectoriesPath = 'specs/data/box-subdirectories/box-textured.obj';
+var objWindowsPaths = 'specs/data/box-windows-paths/box-windows-paths.obj';
 var objInvalidContentsPath = 'specs/data/box/box.mtl';
 var objConcavePath = 'specs/data/concave/concave.obj';
 var objUnnormalizedPath = 'specs/data/box-unnormalized/box-unnormalized.obj';
@@ -471,6 +472,15 @@ describe('loadObj', function() {
 
     it('loads obj with subdirectories', function(done) {
         expect(loadObj(objSubdirectoriesPath, options)
+            .then(function(data) {
+                var baseColorTexture = data.materials[0].pbrMetallicRoughness.baseColorTexture;
+                expect(baseColorTexture.name).toBe('cesium');
+                expect(baseColorTexture.source).toBeDefined();
+            }), done).toResolve();
+    });
+
+    it('loads obj with windows paths', function(done) {
+        expect(loadObj(objWindowsPaths, options)
             .then(function(data) {
                 var baseColorTexture = data.materials[0].pbrMetallicRoughness.baseColorTexture;
                 expect(baseColorTexture.name).toBe('cesium');
