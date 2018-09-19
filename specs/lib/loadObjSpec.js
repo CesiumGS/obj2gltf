@@ -32,6 +32,7 @@ var objMissingTextureUrl = 'specs/data/box-missing-texture/box-missing-texture.o
 var objSubdirectoriesUrl = 'specs/data/box-subdirectories/box-textured.obj';
 var objWindowsPathsUrl = 'specs/data/box-windows-paths/box-windows-paths.obj';
 var objComplexMaterialUrl = 'specs/data/box-complex-material/box-complex-material.obj';
+var objMixedAttributesUrl = 'specs/data/box-mixed-attributes/box-mixed-attributes.obj';
 var objInvalidContentsUrl = 'specs/data/box/box.mtl';
 var objInvalidUrl = 'invalid.obj';
 
@@ -406,6 +407,14 @@ describe('loadObj', function() {
                     }
                 }
                 return Promise.all(promises);
+            }), done).toResolve();
+    });
+
+    it('discards faces that don\'t use the same attributes as other faces in the primitive', function(done) {
+        expect(loadObj(objMixedAttributesUrl, defaultOptions)
+            .then(function(data) {
+                var primitive = getPrimitives(data)[0];
+                expect(primitive.indices.length).toBe(18); // 3 faces removed
             }), done).toResolve();
     });
 
