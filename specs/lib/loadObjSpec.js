@@ -38,6 +38,7 @@ var objWindowsPaths = 'specs/data/box-windows-paths/box-windows-paths.obj';
 var objInvalidContentsPath = 'specs/data/box/box.mtl';
 var objConcavePath = 'specs/data/concave/concave.obj';
 var objUnnormalizedPath = 'specs/data/box-unnormalized/box-unnormalized.obj';
+var objMixedAttributesPath = 'specs/data/box-mixed-attributes/box-mixed-attributes.obj';
 var objInvalidPath = 'invalid.obj';
 
 function getMeshes(data) {
@@ -94,9 +95,9 @@ describe('loadObj', function() {
 
                 expect(node.name).toBe('Cube');
                 expect(mesh.name).toBe('Cube-Mesh');
-                expect(mesh.positions.length / 3).toBe(24);
-                expect(mesh.normals.length / 3).toBe(24);
-                expect(mesh.uvs.length / 2).toBe(24);
+                expect(primitive.positions.length / 3).toBe(24);
+                expect(primitive.normals.length / 3).toBe(24);
+                expect(primitive.uvs.length / 2).toBe(24);
                 expect(primitive.indices.length).toBe(36);
                 expect(primitive.material).toBe('Material');
             }), done).toResolve();
@@ -105,10 +106,10 @@ describe('loadObj', function() {
     it('loads obj with normals', function(done) {
         expect(loadObj(objNormalsPath, options)
             .then(function(data) {
-                var mesh = getMeshes(data)[0];
-                expect(mesh.positions.length / 3).toBe(24);
-                expect(mesh.normals.length / 3).toBe(24);
-                expect(mesh.uvs.length / 2).toBe(0);
+                var primitive = getPrimitives(data)[0];
+                expect(primitive.positions.length / 3).toBe(24);
+                expect(primitive.normals.length / 3).toBe(24);
+                expect(primitive.uvs.length / 2).toBe(0);
             }), done).toResolve();
     });
 
@@ -116,8 +117,8 @@ describe('loadObj', function() {
         expect(loadObj(objUnnormalizedPath, options)
             .then(function(data) {
                 var scratchNormal = new Cesium.Cartesian3();
-                var mesh = getMeshes(data)[0];
-                var normals = mesh.normals;
+                var primitive = getPrimitives(data)[0];
+                var normals = primitive.normals;
                 var normalsLength = normals.length / 3;
                 for (var i = 0; i < normalsLength; ++i) {
                     var normalX = normals.get(i * 3);
@@ -132,10 +133,10 @@ describe('loadObj', function() {
     it('loads obj with uvs', function(done) {
         expect(loadObj(objUvsPath, options)
             .then(function(data) {
-                var mesh = getMeshes(data)[0];
-                expect(mesh.positions.length / 3).toBe(20);
-                expect(mesh.normals.length / 3).toBe(0);
-                expect(mesh.uvs.length / 2).toBe(20);
+                var primitive = getPrimitives(data)[0];
+                expect(primitive.positions.length / 3).toBe(20);
+                expect(primitive.normals.length / 3).toBe(0);
+                expect(primitive.uvs.length / 2).toBe(20);
             }), done).toResolve();
     });
 
@@ -145,8 +146,8 @@ describe('loadObj', function() {
             loadObj(objNegativeIndicesPath, options)
         ])
             .then(function(results) {
-                var positionsReference = getMeshes(results[0])[0].positions.toFloatBuffer();
-                var positions = getMeshes(results[1])[0].positions.toFloatBuffer();
+                var positionsReference = getPrimitives(results[0])[0].positions.toFloatBuffer();
+                var positions = getPrimitives(results[1])[0].positions.toFloatBuffer();
                 expect(positions).toEqual(positionsReference);
             }), done).toResolve();
     });
@@ -154,9 +155,8 @@ describe('loadObj', function() {
     it('loads obj with triangle faces', function(done) {
         expect(loadObj(objTrianglesPath, options)
             .then(function(data) {
-                var mesh = getMeshes(data)[0];
                 var primitive = getPrimitives(data)[0];
-                expect(mesh.positions.length / 3).toBe(24);
+                expect(primitive.positions.length / 3).toBe(24);
                 expect(primitive.indices.length).toBe(36);
             }), done).toResolve();
     });
@@ -256,9 +256,8 @@ describe('loadObj', function() {
     it('loads obj with concave face containing 5 vertices', function(done) {
         expect(loadObj(objConcavePath, options)
             .then(function(data) {
-                var mesh = getMeshes(data)[0];
                 var primitive = getPrimitives(data)[0];
-                expect(mesh.positions.length / 3).toBe(30);
+                expect(primitive.positions.length / 3).toBe(30);
                 expect(primitive.indices.length).toBe(48);
             }), done).toResolve();
     });
@@ -485,6 +484,14 @@ describe('loadObj', function() {
                 var baseColorTexture = data.materials[0].pbrMetallicRoughness.baseColorTexture;
                 expect(baseColorTexture.name).toBe('cesium');
                 expect(baseColorTexture.source).toBeDefined();
+            }), done).toResolve();
+    });
+
+    it('discards faces that don\'t use the same attributes as other faces in the primitive', function(done) {
+        expect(loadObj(objMixedAttributesPath, options)
+            .then(function(data) {
+                var primitive = getPrimitives(data)[0];
+                expect(primitive.indices.length).toBe(18); // 3 faces removed
             }), done).toResolve();
     });
 
