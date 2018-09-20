@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-### 1.3.3 2018-??-??
+### 1.3.3 2018-09-19
 
 * Fixed handling of objs with mismatching attribute layouts. [#154](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/154)
 
