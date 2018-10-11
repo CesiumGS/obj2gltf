@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### 2.3.1 2018-10-11
+
+* Fixed handling of objs with interleaved materials. [#155](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/155)
+
 ### 2.3.0 2018-09-19
 
 * Fixed handling of objs with mismatching attribute layouts. [#153](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/153)
