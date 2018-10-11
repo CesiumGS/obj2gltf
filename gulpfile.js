@@ -62,7 +62,6 @@ gulp.task('coverage', function () {
     open('coverage/lcov-report/index.html');
 });
 
-
 gulp.task('cloc', function() {
     var cmdLine;
     var clocPath = path.join('node_modules', 'cloc', 'lib', 'cloc');
