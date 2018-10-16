@@ -1,8 +1,9 @@
 Change Log
 ==========
 
-### 1.3.4 2018-10-11
+### 1.3.4 2018-10-16
 
+* Improved parsing models with concave or n-sided faces. [#158](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/158)
 * Fixed handling of objs with interleaved materials. [#156](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/156)
 
 ### 1.3.3 2018-09-19
