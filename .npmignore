@@ -7,7 +7,6 @@
 .eslintcache
 .eslintignore
 .eslintrc.json
-.gitattributes
 .nyc_output
 .npmignore
 .travis.yml
