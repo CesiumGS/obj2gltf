@@ -175,8 +175,6 @@ describe('createGltf', function() {
         var gltf = createGltf(mixedAttributesObjData, options);
         var materials = gltf.materials;
         var meshes = gltf.meshes;
-        var i;
-        var material;
 
         var referenceMaterial = mixedAttributesObjData.materials[0];
         delete referenceMaterial.name;
@@ -225,13 +223,13 @@ describe('createGltf', function() {
 
         // Test that primitives without uvs reference materials without textures
         var meshesLength = meshes.length;
-        for (i = 0; i < meshesLength; ++i) {
+        for (var i = 0; i < meshesLength; ++i) {
             var mesh = meshes[i];
             var primitives = mesh.primitives;
             var primitivesLength = primitives.length;
             for (var j = 0; j < primitivesLength; ++j) {
                 var primitive = primitives[j];
-                material = materials[primitive.material];
+                var material = materials[primitive.material];
                 if (!defined(primitive.attributes.TEXCOORD_0)) {
                     expect(material.pbrMetallicRoughness.baseColorTexture).toBeUndefined();
                 }
