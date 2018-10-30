@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### 1.3.5 ????-??-??
+
+* Improved handling of materials with alpha. If the alpha value is 0.0 it is now treated as 1.0. [#164](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/164)
+
 ### 1.3.4 2018-10-16
 
 * Improved parsing models with concave or n-sided faces. [#158](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/158)
