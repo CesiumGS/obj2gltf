@@ -417,11 +417,15 @@ describe('loadObj', function() {
             }), done).toResolve();
     });
 
-    it('discards faces that don\'t use the same attributes as other faces in the primitive', function(done) {
+    it('separates faces that don\'t use the same attributes as other faces in the primitive', function(done) {
         expect(loadObj(objMixedAttributesUrl, defaultOptions)
             .then(function(data) {
-                var primitive = getPrimitives(data)[0];
-                expect(primitive.indices.length).toBe(18); // 3 faces removed
+                var primitives = getPrimitives(data);
+                expect(primitives.length).toBe(4);
+                expect(primitives[0].indices.length).toBe(18); // 6 faces
+                expect(primitives[1].indices.length).toBe(6); // 2 faces
+                expect(primitives[2].indices.length).toBe(6); // 2 faces
+                expect(primitives[3].indices.length).toBe(6); // 2 faces
             }), done).toResolve();
     });
 
