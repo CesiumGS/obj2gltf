@@ -4,6 +4,7 @@ var loadMtl = require('../../lib/loadMtl');
 
 var complexMaterialUrl = 'specs/data/box-complex-material/box-complex-material.mtl';
 var multipleMaterialsUrl = 'specs/data/box-multiple-materials/box-multiple-materials.mtl';
+var transparentMaterialUrl = 'specs/data/box-transparent/box-transparent.mtl';
 
 function getImagePath(objPath, relativePath) {
     return path.normalize(path.join(path.dirname(objPath), relativePath));
@@ -38,6 +39,14 @@ describe('loadMtl', function() {
                 expect(materials.Red.diffuseColor).toEqual([0.64, 0.0, 0.0, 1.0]);
                 expect(materials.Green.diffuseColor).toEqual([0.0, 0.64, 0.0, 1.0]);
                 expect(materials.Blue.diffuseColor).toEqual([0.0, 0.0, 0.64, 1.0]);
+            }), done).toResolve();
+    });
+
+    it('alpha of 0.0 is treated as 1.0', function(done) {
+        expect(loadMtl(transparentMaterialUrl)
+            .then(function(materials) {
+                var material = materials.Material;
+                expect(material.alpha).toBe(1.0);
             }), done).toResolve();
     });
 });
