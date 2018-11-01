@@ -27,6 +27,7 @@ var objNoMaterialsUrl = 'specs/data/box-no-materials/box-no-materials.obj';
 var objMultipleMaterialsUrl = 'specs/data/box-multiple-materials/box-multiple-materials.obj';
 var objUncleanedUrl = 'specs/data/box-uncleaned/box-uncleaned.obj';
 var objMtllibUrl = 'specs/data/box-mtllib/box-mtllib.obj';
+var objMtllibSpacesUrl = 'specs/data/box-mtllib-spaces/box mtllib.obj';
 var objMissingMtllibUrl = 'specs/data/box-missing-mtllib/box-missing-mtllib.obj';
 var objMissingUsemtlUrl = 'specs/data/box-missing-usemtl/box-missing-usemtl.obj';
 var objExternalResourcesUrl = 'specs/data/box-external-resources/box-external-resources.obj';
@@ -310,6 +311,17 @@ describe('loadObj', function() {
                 expect(materials.Red.diffuseColor).toEqual([0.64, 0.0, 0.0, 1.0]);
                 expect(materials.Green.diffuseColor).toEqual([0.0, 0.64, 0.0, 1.0]);
                 expect(materials.Blue.diffuseColor).toEqual([0.0, 0.0, 0.64, 1.0]);
+            }), done).toResolve();
+    });
+
+    it('loads obj with mtllib paths with spaces', function(done) {
+        expect(loadObj(objMtllibSpacesUrl, defaultOptions)
+            .then(function(data) {
+                var materials = data.materials;
+                expect(Object.keys(materials).length).toBe(3);
+                expect(materials['Blue'].diffuseColor).toEqual([0.0, 0.0, 0.64, 1.0]);
+                expect(materials['Green'].diffuseColor).toEqual([0.0, 0.64, 0.0, 1.0]);
+                expect(materials['Red'].diffuseColor).toEqual([0.64, 0.0, 0.0, 1.0]);
             }), done).toResolve();
     });
 
