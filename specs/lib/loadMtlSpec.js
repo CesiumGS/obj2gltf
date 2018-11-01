@@ -4,6 +4,7 @@ var loadMtl = require('../../lib/loadMtl');
 
 var complexMaterialUrl = 'specs/data/box-complex-material/box-complex-material.mtl';
 var multipleMaterialsUrl = 'specs/data/box-multiple-materials/box-multiple-materials.mtl';
+var texturedWithOptionsMaterialUrl = 'specs/data/box-texture-options/box-texture-options.mtl';
 
 function getImagePath(objPath, relativePath) {
     return path.normalize(path.join(path.dirname(objPath), relativePath));
@@ -38,6 +39,28 @@ describe('loadMtl', function() {
                 expect(materials.Red.diffuseColor).toEqual([0.64, 0.0, 0.0, 1.0]);
                 expect(materials.Green.diffuseColor).toEqual([0.0, 0.64, 0.0, 1.0]);
                 expect(materials.Blue.diffuseColor).toEqual([0.0, 0.0, 0.64, 1.0]);
+            }), done).toResolve();
+    });
+
+    it('loads mtl with textures having options', function(done) {
+        options.metallicRoughness = true;
+        expect(loadMtl(texturedWithOptionsMaterialUrl)
+            .then(function(materials) {
+                expect(materials.length).toBe(1);
+                var material = materials[0];
+                var pbr = material.pbrMetallicRoughness;
+                expect(pbr.baseColorTexture).toBeDefined();
+                expect(pbr.metallicRoughnessTexture).toBeDefined();
+                expect(pbr.baseColorFactor).toEqual([1.0, 1.0, 1.0, 0.9]);
+                expect(pbr.metallicFactor).toBe(1.0);
+                expect(pbr.roughnessFactor).toBe(1.0);
+                expect(material.name).toBe('Material');
+                expect(material.emissiveTexture).toBeDefined();
+                expect(material.normalTexture).toBeDefined();
+                expect(material.occlusionTexture).toBeDefined();
+                expect(material.emissiveFactor).toEqual([1.0, 1.0, 1.0]);
+                expect(material.alphaMode).toBe('BLEND');
+                expect(material.doubleSided).toBe(true);
             }), done).toResolve();
     });
 });

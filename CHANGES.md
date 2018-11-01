@@ -17,6 +17,7 @@ Change Log
 ### 1.3.3 2018-09-19
 
 * Fixed handling of objs with mismatching attribute layouts. [#154](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/154)
+* Fixed parsing mtl textures that contain texture map options. [#151](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/151)
 
 ### 1.3.2 2018-06-07
 * Fixed greyscale images loading as alpha instead of luminance. [#144](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/144)
