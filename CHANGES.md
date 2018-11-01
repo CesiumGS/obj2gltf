@@ -9,6 +9,7 @@ Change Log
 * Added ability to use the first material in the mtl file when the obj is missing `usemtl`. [#163](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/163)
 * Fixed loading faces that contain less than 3 vertices. [#163](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/163)
 * Fixed loading mtllib paths that contain spaces. [#163](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/163)
+* Attempt to load missing materials and textures from within the same directory as the obj. [#163](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/163)
 
 ### 1.3.4 2018-10-16
 

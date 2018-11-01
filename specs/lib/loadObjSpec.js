@@ -31,6 +31,8 @@ var objMtllibSpacesUrl = 'specs/data/box-mtllib-spaces/box mtllib.obj';
 var objMissingMtllibUrl = 'specs/data/box-missing-mtllib/box-missing-mtllib.obj';
 var objMissingUsemtlUrl = 'specs/data/box-missing-usemtl/box-missing-usemtl.obj';
 var objExternalResourcesUrl = 'specs/data/box-external-resources/box-external-resources.obj';
+var objResourcesInRootUrl = 'specs/data/box-resources-in-root/box-resources-in-root.obj';
+var objExternalResourcesInRootUrl = 'specs/data/box-external-resources-in-root/box-external-resources-in-root.obj';
 var objTexturedUrl = 'specs/data/box-textured/box-textured.obj';
 var objMissingTextureUrl = 'specs/data/box-missing-texture/box-missing-texture.obj';
 var objSubdirectoriesUrl = 'specs/data/box-subdirectories/box-textured.obj';
@@ -329,7 +331,10 @@ describe('loadObj', function() {
         expect(loadObj(objMissingMtllibUrl, defaultOptions)
             .then(function(data) {
                 expect(data.materials).toEqual({});
-                expect(console.log.calls.argsFor(0)[0].indexOf('Could not read mtl file') >= 0).toBe(true);
+                expect(spy.calls.argsFor(0)[0].indexOf('ENOENT') >= 0).toBe(true);
+                expect(spy.calls.argsFor(1)[0].indexOf('Attempting to read the material file from within the obj directory instead.') >= 0).toBe(true);
+                expect(spy.calls.argsFor(2)[0].indexOf('ENOENT') >= 0).toBe(true);
+                expect(spy.calls.argsFor(3)[0].indexOf('Could not read material file') >= 0).toBe(true);
             }), done).toResolve();
     });
 
@@ -360,8 +365,27 @@ describe('loadObj', function() {
                 expect(data.images[imagePath]).toBeUndefined();
                 expect(data.materials.MaterialTextured).toBeDefined();
                 expect(data.materials.Material).toBeUndefined(); // Not in directory, so not included
-                expect(console.log.calls.argsFor(0)[0].indexOf('Could not read mtl file') >= 0).toBe(true);
-                expect(console.log.calls.argsFor(1)[0].indexOf('Could not read image file') >= 0).toBe(true);
+                expect(spy.calls.argsFor(0)[0].indexOf('The material file is outside of the obj directory and the secure flag is true. Attempting to read the material file from within the obj directory instead.') >= 0).toBe(true);
+                expect(spy.calls.argsFor(1)[0].indexOf('ENOENT') >= 0).toBe(true);
+                expect(spy.calls.argsFor(2)[0].indexOf('Could not read material file') >= 0).toBe(true);
+            }), done).toResolve();
+    });
+
+    it('loads resources from root directory when the .mtl path does not exist', function(done) {
+        expect(loadObj(objResourcesInRootUrl, options)
+            .then(function(data) {
+                expect(data.materials['Material'].diffuseTexture.source).toBeDefined();
+                expect(diffuseTexture.source).toBeDefined();
+            }), done).toResolve();
+    });
+
+    it('loads resources from root directory when the .mtl path is outside of the obj directory and secure is true', function(done) {
+        options.secure = true;
+        expect(loadObj(objExternalResourcesInRootUrl, options)
+            .then(function(data) {
+                var materials = data.materials;
+                expect(Object.keys(materials).length).toBe(2);
+                expect(materials['MaterialTextured'].diffuseTexture.source).toBeDefined();
             }), done).toResolve();
     });
 
@@ -380,7 +404,10 @@ describe('loadObj', function() {
                 var imagePath = getImagePath(objMissingTextureUrl, 'cesium.png');
                 expect(data.images[imagePath]).toBeUndefined();
                 expect(data.materials.Material.diffuseTexture).toEqual(imagePath);
-                expect(console.log.calls.argsFor(0)[0].indexOf('Could not read image file') >= 0).toBe(true);
+                expect(spy.calls.argsFor(0)[0].indexOf('ENOENT') >= 0).toBe(true);
+                expect(spy.calls.argsFor(1)[0].indexOf('Attempting to read the image file from within the obj directory instead.') >= 0).toBe(true);
+                expect(spy.calls.argsFor(2)[0].indexOf('ENOENT') >= 0).toBe(true);
+                expect(spy.calls.argsFor(3)[0].indexOf('Could not read image file') >= 0).toBe(true);
             }), done).toResolve();
     });
 
