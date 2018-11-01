@@ -3,6 +3,7 @@ var path = require('path');
 var loadMtl = require('../../lib/loadMtl');
 
 var complexMaterialUrl = 'specs/data/box-complex-material/box-complex-material.mtl';
+var diffuseAmbientSameMaterialUrl = 'specs/data/box-diffuse-ambient-same/box-diffuse-ambient-same.mtl';
 var multipleMaterialsUrl = 'specs/data/box-multiple-materials/box-multiple-materials.mtl';
 var texturedWithOptionsMaterialUrl = 'specs/data/box-texture-options/box-texture-options.mtl';
 
@@ -61,6 +62,16 @@ describe('loadMtl', function() {
                 expect(material.emissiveFactor).toEqual([1.0, 1.0, 1.0]);
                 expect(material.alphaMode).toBe('BLEND');
                 expect(material.doubleSided).toBe(true);
+            }), done).toResolve();
+    });
+
+    it('ambient texture is ignored if it is the same as the diffuse texture', function(done) {
+        expect(loadMtl(diffuseAmbientSameMaterialUrl, options)
+            .then(function(materials) {
+                expect(Object.keys(materials).length).toBe(1);
+                var material = materials['Material'];
+                expect(material.diffuseTexture).toBeDefined();
+                expect(material.ambientTexture).toBeUndefined();
             }), done).toResolve();
     });
 });
