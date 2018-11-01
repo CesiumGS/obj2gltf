@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### 2.3.2 ????-??-??
+
+* Improved parsing of faces with mismatching attributes. [#161](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/161)
+
 ### 2.3.1 2018-10-16
 
 * Improved parsing models with concave or n-sided faces. [#157](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/157)
