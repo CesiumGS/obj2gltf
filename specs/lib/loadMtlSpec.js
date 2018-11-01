@@ -6,6 +6,7 @@ var complexMaterialUrl = 'specs/data/box-complex-material/box-complex-material.m
 var diffuseAmbientSameMaterialUrl = 'specs/data/box-diffuse-ambient-same/box-diffuse-ambient-same.mtl';
 var multipleMaterialsUrl = 'specs/data/box-multiple-materials/box-multiple-materials.mtl';
 var texturedWithOptionsMaterialUrl = 'specs/data/box-texture-options/box-texture-options.mtl';
+var transparentMaterialUrl = 'specs/data/box-transparent/box-transparent.mtl';
 
 function getImagePath(objPath, relativePath) {
     return path.normalize(path.join(path.dirname(objPath), relativePath));
@@ -72,6 +73,14 @@ describe('loadMtl', function() {
                 var material = materials['Material'];
                 expect(material.diffuseTexture).toBeDefined();
                 expect(material.ambientTexture).toBeUndefined();
+            }), done).toResolve();
+    });
+
+    it('alpha of 0.0 is treated as 1.0', function(done) {
+        expect(loadMtl(transparentMaterialUrl)
+            .then(function(materials) {
+                var material = materials.Material;
+                expect(material.alpha).toBe(1.0);
             }), done).toResolve();
     });
 });

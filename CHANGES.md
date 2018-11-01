@@ -12,6 +12,7 @@ Change Log
 * Attempt to load missing materials and textures from within the same directory as the obj. [#163](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/163)
 * Fixed handling of `usemtl` when appearing before an `o` or `g` token. [#163](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/163)
 * Fixed handling of materials where the diffuse and ambient texture are the same. [#163](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/163)
+* Improved handling of materials with alpha. If the alpha value is 0.0 it is now treated as 1.0. [#164](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/164)
 
 ### 1.3.4 2018-10-16
 
