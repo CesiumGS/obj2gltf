@@ -7,6 +7,7 @@ var obj2gltf = require('../../lib/obj2gltf');
 
 var Cartesian3 = Cesium.Cartesian3;
 var clone = Cesium.clone;
+var CesiumMath = Cesium.Math;
 var RuntimeError = Cesium.RuntimeError;
 
 var objUrl = 'specs/data/box/box.obj';
@@ -20,12 +21,14 @@ var objObjectsUrl = 'specs/data/box-objects/box-objects.obj';
 var objGroupsUrl = 'specs/data/box-groups/box-groups.obj';
 var objObjectsGroupsUrl = 'specs/data/box-objects-groups/box-objects-groups.obj';
 var objConcaveUrl = 'specs/data/concave/concave.obj';
+var objUnnormalizedUrl = 'specs/data/box-unnormalized/box-unnormalized.obj';
 var objUsemtlUrl = 'specs/data/box-usemtl/box-usemtl.obj';
 var objNoMaterialsUrl = 'specs/data/box-no-materials/box-no-materials.obj';
 var objMultipleMaterialsUrl = 'specs/data/box-multiple-materials/box-multiple-materials.obj';
 var objUncleanedUrl = 'specs/data/box-uncleaned/box-uncleaned.obj';
 var objMtllibUrl = 'specs/data/box-mtllib/box-mtllib.obj';
 var objMissingMtllibUrl = 'specs/data/box-missing-mtllib/box-missing-mtllib.obj';
+var objMissingUsemtlUrl = 'specs/data/box-missing-usemtl/box-missing-usemtl.obj';
 var objExternalResourcesUrl = 'specs/data/box-external-resources/box-external-resources.obj';
 var objTexturedUrl = 'specs/data/box-textured/box-textured.obj';
 var objMissingTextureUrl = 'specs/data/box-missing-texture/box-missing-texture.obj';
@@ -107,6 +110,23 @@ describe('loadObj', function() {
                 expect(primitive.positions.length / 3).toBe(24);
                 expect(primitive.normals.length / 3).toBe(24);
                 expect(primitive.uvs.length / 2).toBe(0);
+            }), done).toResolve();
+    });
+
+    it('normalizes normals', function(done) {
+        expect(loadObj(objUnnormalizedUrl, defaultOptions)
+            .then(function(data) {
+                var scratchNormal = new Cesium.Cartesian3();
+                var mesh = getMeshes(data)[0];
+                var normals = mesh.normals;
+                var normalsLength = normals.length / 3;
+                for (var i = 0; i < normalsLength; ++i) {
+                    var normalX = normals.get(i * 3);
+                    var normalY = normals.get(i * 3 + 1);
+                    var normalZ = normals.get(i * 3 + 2);
+                    var normal = Cartesian3.fromElements(normalX, normalY, normalZ, scratchNormal);
+                    expect(Cartesian3.magnitude(normal)).toEqualEpsilon(1.0, CesiumMath.EPSILON5);
+                }
             }), done).toResolve();
     });
 
@@ -298,6 +318,14 @@ describe('loadObj', function() {
             .then(function(data) {
                 expect(data.materials).toEqual({});
                 expect(console.log.calls.argsFor(0)[0].indexOf('Could not read mtl file') >= 0).toBe(true);
+            }), done).toResolve();
+    });
+
+    it('loads obj with missing usemtl', function(done) {
+        expect(loadObj(objMissingUsemtlUrl, defaultOptions)
+            .then(function(data) {
+                expect(data.materials.length).toBe(1);
+                expect(data.nodes[0].meshes[0].primitives[0].material).toBe('Material');
             }), done).toResolve();
     });
 

@@ -5,6 +5,9 @@ Change Log
 * Improved handling of primitives with different attributes using the same material. Materials are now duplicated. [#163](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/163)
 * Fixed a bug where primitives without texture coordinates could use materials containing textures. Those textures are now removed. [#163](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/163)
 * Improved parsing of faces with mismatching attributes. [#163](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/163)
+* Fixed handling of unnormalized input normals. [#163](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/163)
+* Added ability to use the first material in the mtl file when the obj is missing `usemtl`. [#163](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/163)
+* Fixed loading faces that contain less than 3 vertices. [#163](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/163)
 
 ### 1.3.4 2018-10-16
 
