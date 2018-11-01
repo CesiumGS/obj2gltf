@@ -17,7 +17,6 @@ var diffuseTextureUrl = 'specs/data/box-textured/cesium.png';
 var transparentDiffuseTextureUrl = 'specs/data/box-complex-material/diffuse.png';
 
 var defaultOptions = obj2gltf.defaults;
-var defined = Cesium.defined;
 var checkTransparencyOptions = clone(defaultOptions);
 checkTransparencyOptions.checkTransparency = true;
 
@@ -25,7 +24,6 @@ describe('createGltf', function() {
     var boxObjData;
     var duplicateBoxObjData;
     var groupObjData;
-    var mixedAttributesObjData;
     var diffuseTexture;
     var transparentDiffuseTexture;
 
@@ -50,12 +48,7 @@ describe('createGltf', function() {
             loadImage(transparentDiffuseTextureUrl, checkTransparencyOptions)
                 .then(function(image) {
                    transparentDiffuseTexture = image;
-                }),
-            loadObj(mixedAttributesObjUrl, defaultOptions)
-                .then(function(data) {
-                    mixedAttributesObjData = data;
                 })
-
         ]).then(done);
     });
 
@@ -266,8 +259,8 @@ describe('createGltf', function() {
         boxObjData.nodes[1].meshes[0].primitives[0].normals.length = 0;
 
         var gltf = createGltf(boxObjData, defaultOptions);
-        var kmc1 = gltf.materials.Material.extensions.KHR_materials_common;
-        var kmc2 = gltf.materials.Material_constant.extensions.KHR_materials_common;
+        var kmc1 = gltf.materials['Material'].extensions.KHR_materials_common;
+        var kmc2 = gltf.materials['Material-2'].extensions.KHR_materials_common;
 
         expect(kmc1.technique).toBe('PHONG');
         expect(kmc2.technique).toBe('CONSTANT');
@@ -279,8 +272,8 @@ describe('createGltf', function() {
         boxObjData.nodes[0].meshes[0].primitives[0].normals.length = 0;
 
         var gltf = createGltf(boxObjData, defaultOptions);
-        var kmc1 = gltf.materials.Material.extensions.KHR_materials_common;
-        var kmc2 = gltf.materials.Material_shaded.extensions.KHR_materials_common;
+        var kmc1 = gltf.materials['Material'].extensions.KHR_materials_common;
+        var kmc2 = gltf.materials['Material-2'].extensions.KHR_materials_common;
 
         expect(kmc1.technique).toBe('CONSTANT');
         expect(kmc2.technique).toBe('PHONG');
@@ -315,62 +308,6 @@ describe('createGltf', function() {
         expect(attributes.POSITION).toBeDefined();
         expect(attributes.NORMAL).toBeUndefined();
         expect(attributes.TEXCOORD_0).toBeUndefined();
-    });
-
-    function getDiffuse(material) {
-        return material.extensions.KHR_materials_common.values.diffuse;
-    }
-
-    fit('splits incompatible materials', function() {
-        var gltf = createGltf(mixedAttributesObjData, defaultOptions);
-        var materials = gltf.materials;
-        var materialNames = Object.keys(materials).sort();
-
-        // Expect three copies of each material for
-        // * positions/normals/uvs
-        // * positions/normals
-        // * positions/uvs
-        expect(materialNames).toEqual([
-            'Material',
-            'Material-2',
-            'Material-3',
-            'Missing',
-            'Missing-2',
-            'Missing-3',
-            'default',
-            'default-2',
-            'default-3'
-        ]);
-        console.log(materials['Material']);
-        console.log(materials['Material-2']);
-        console.log(materials['Material-3']);
-
-
-        expect(getDiffuse(materials['Material'])).toBe('texture_cesium');
-        expect(getDiffuse(materials['Material-2'])).toEqual('texture_cesium');
-        //expect(getDiffuse(materials['Material-3'])).toBe('texture_cesium');
-        // expect(getDiffuse(materials['Missing'])).toEqual([0.0, 0.0, 0.0, 1.0]);
-        // expect(getDiffuse(materials['Missing-2'])).toEqual([0.0, 0.0, 0.0, 1.0]);
-        // expect(getDiffuse(materials['Missing-3'])).toEqual([0.0, 0.0, 0.0, 1.0]);
-        // expect(getDiffuse(materials['default'])).toEqual([0.0, 0.0, 0.0, 1.0]);
-        // expect(getDiffuse(materials['default-2'])).toEqual([0.0, 0.0, 0.0, 1.0]);
-        // expect(getDiffuse(materials['default-3'])).toEqual([0.0, 0.0, 0.0, 1.0]);
-
-        // // Test that primitives without uvs reference materials without textures
-        // for (var meshName in meshes) {
-        //     if (meshes.hasOwnProperty(meshName)) {
-        //         var mesh = meshes[meshName];
-        //         var primitives = mesh.primitives;
-        //         var primitivesLength = primitives.length;
-        //         for (var i = 0; i < primitivesLength; ++i) {
-        //             var primitive = primitives[i];
-        //             var material = materials[primitive.material];
-        //             if (!defined(primitive.attributes.TEXCOORD_0)) {
-        //                 expect(material.extensions.KHR_materials_common.diffuse).toEqual([ 0.5, 0.5, 0.5, 1 ]);
-        //             }
-        //         }
-        //     }
-        // }
     });
 
     function expandObjData(objData, duplicatesLength) {

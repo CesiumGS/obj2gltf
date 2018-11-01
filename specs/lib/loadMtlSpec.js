@@ -2,7 +2,7 @@
 var path = require('path');
 var loadMtl = require('../../lib/loadMtl');
 
-var complexMaterialUrl = 'specs/data/box-complex-material/box-complex-material.mtl';
+var complexMaterialAlphaUrl = 'specs/data/box-complex-material-alpha/box-complex-material-alpha.mtl';
 var diffuseAmbientSameMaterialUrl = 'specs/data/box-diffuse-ambient-same/box-diffuse-ambient-same.mtl';
 var multipleMaterialsUrl = 'specs/data/box-multiple-materials/box-multiple-materials.mtl';
 var texturedWithOptionsMaterialUrl = 'specs/data/box-texture-options/box-texture-options.mtl';
@@ -14,7 +14,7 @@ function getImagePath(objPath, relativePath) {
 
 describe('loadMtl', function() {
     it('loads complex material', function(done) {
-        expect(loadMtl(complexMaterialUrl)
+        expect(loadMtl(complexMaterialAlphaUrl)
             .then(function(materials) {
                 var material = materials.Material;
                 expect(material).toBeDefined();
@@ -24,13 +24,13 @@ describe('loadMtl', function() {
                 expect(material.specularColor).toEqual([0.5, 0.5, 0.5, 1.0]);
                 expect(material.specularShininess).toEqual(96.078431);
                 expect(material.alpha).toEqual(0.9);
-                expect(material.ambientTexture).toEqual(getImagePath(complexMaterialUrl, 'ambient.gif'));
-                expect(material.emissionTexture).toEqual(getImagePath(complexMaterialUrl, 'emission.jpg'));
-                expect(material.diffuseTexture).toEqual(getImagePath(complexMaterialUrl, 'diffuse.png'));
-                expect(material.specularTexture).toEqual(getImagePath(complexMaterialUrl, 'specular.jpeg'));
-                expect(material.specularShininessMap).toEqual(getImagePath(complexMaterialUrl, 'shininess.png'));
-                expect(material.normalMap).toEqual(getImagePath(complexMaterialUrl, 'bump.png'));
-                expect(material.alphaMap).toEqual(getImagePath(complexMaterialUrl, 'alpha.png'));
+                expect(material.ambientTexture).toEqual(getImagePath(complexMaterialAlphaUrl, 'ambient.gif'));
+                expect(material.emissionTexture).toEqual(getImagePath(complexMaterialAlphaUrl, 'emission.jpg'));
+                expect(material.diffuseTexture).toEqual(getImagePath(complexMaterialAlphaUrl, 'diffuse.png'));
+                expect(material.specularTexture).toEqual(getImagePath(complexMaterialAlphaUrl, 'specular.jpeg'));
+                expect(material.specularShininessMap).toEqual(getImagePath(complexMaterialAlphaUrl, 'shininess.png'));
+                expect(material.normalMap).toEqual(getImagePath(complexMaterialAlphaUrl, 'bump.png'));
+                expect(material.alphaMap).toEqual(getImagePath(complexMaterialAlphaUrl, 'alpha.png'));
             }), done).toResolve();
     });
 
@@ -45,29 +45,27 @@ describe('loadMtl', function() {
     });
 
     it('loads mtl with textures having options', function(done) {
-        options.metallicRoughness = true;
         expect(loadMtl(texturedWithOptionsMaterialUrl)
             .then(function(materials) {
-                expect(materials.length).toBe(1);
-                var material = materials[0];
-                var pbr = material.pbrMetallicRoughness;
-                expect(pbr.baseColorTexture).toBeDefined();
-                expect(pbr.metallicRoughnessTexture).toBeDefined();
-                expect(pbr.baseColorFactor).toEqual([1.0, 1.0, 1.0, 0.9]);
-                expect(pbr.metallicFactor).toBe(1.0);
-                expect(pbr.roughnessFactor).toBe(1.0);
-                expect(material.name).toBe('Material');
-                expect(material.emissiveTexture).toBeDefined();
-                expect(material.normalTexture).toBeDefined();
-                expect(material.occlusionTexture).toBeDefined();
-                expect(material.emissiveFactor).toEqual([1.0, 1.0, 1.0]);
-                expect(material.alphaMode).toBe('BLEND');
-                expect(material.doubleSided).toBe(true);
+                var material = materials.Material;
+                expect(material).toBeDefined();
+                expect(material.ambientColor).toEqual([0.2, 0.2, 0.2, 1.0]);
+                expect(material.emissionColor).toEqual([0.1, 0.1, 0.1, 1.0]);
+                expect(material.diffuseColor).toEqual([0.64, 0.64, 0.64, 1.0]);
+                expect(material.specularColor).toEqual([0.5, 0.5, 0.5, 1.0]);
+                expect(material.specularShininess).toEqual(96.078431);
+                expect(material.alpha).toEqual(0.9);
+                expect(material.ambientTexture).toEqual(getImagePath(texturedWithOptionsMaterialUrl, 'ambient.gif'));
+                expect(material.emissionTexture).toEqual(getImagePath(texturedWithOptionsMaterialUrl, 'emission.jpg'));
+                expect(material.diffuseTexture).toEqual(getImagePath(texturedWithOptionsMaterialUrl, 'diffuse.png'));
+                expect(material.specularTexture).toEqual(getImagePath(texturedWithOptionsMaterialUrl, 'specular.jpeg'));
+                expect(material.specularShininessMap).toEqual(getImagePath(texturedWithOptionsMaterialUrl, 'shininess.png'));
+                expect(material.normalMap).toEqual(getImagePath(texturedWithOptionsMaterialUrl, 'bump.png'));
             }), done).toResolve();
     });
 
     it('ambient texture is ignored if it is the same as the diffuse texture', function(done) {
-        expect(loadMtl(diffuseAmbientSameMaterialUrl, options)
+        expect(loadMtl(diffuseAmbientSameMaterialUrl)
             .then(function(materials) {
                 expect(Object.keys(materials).length).toBe(1);
                 var material = materials['Material'];

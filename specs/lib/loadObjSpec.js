@@ -122,8 +122,8 @@ describe('loadObj', function() {
         expect(loadObj(objUnnormalizedUrl, defaultOptions)
             .then(function(data) {
                 var scratchNormal = new Cesium.Cartesian3();
-                var mesh = getMeshes(data)[0];
-                var normals = mesh.normals;
+                var primitive = getPrimitives(data)[0];
+                var normals = primitive.normals;
                 var normalsLength = normals.length / 3;
                 for (var i = 0; i < normalsLength; ++i) {
                     var normalX = normals.get(i * 3);
@@ -365,7 +365,11 @@ describe('loadObj', function() {
     });
 
     it('loads obj with missing mtllib', function(done) {
-        expect(loadObj(objMissingMtllibUrl, defaultOptions)
+        var options = clone(defaultOptions);
+        var spy = jasmine.createSpy('logger');
+        options.logger = spy;
+
+        expect(loadObj(objMissingMtllibUrl, options)
             .then(function(data) {
                 expect(data.materials).toEqual({});
                 expect(spy.calls.argsFor(0)[0].indexOf('ENOENT') >= 0).toBe(true);
@@ -378,7 +382,7 @@ describe('loadObj', function() {
     it('loads obj with missing usemtl', function(done) {
         expect(loadObj(objMissingUsemtlUrl, defaultOptions)
             .then(function(data) {
-                expect(data.materials.length).toBe(1);
+                expect(Object.keys(data.materials).length).toBe(1);
                 expect(data.nodes[0].meshes[0].primitives[0].material).toBe('Material');
             }), done).toResolve();
     });
@@ -394,6 +398,8 @@ describe('loadObj', function() {
 
     it('does not load resources outside of the obj directory when secure is true', function(done) {
         var options = clone(defaultOptions);
+        var spy = jasmine.createSpy('logger');
+        options.logger = spy;
         options.secure = true;
 
         expect(loadObj(objExternalResourcesUrl, options)
@@ -409,20 +415,23 @@ describe('loadObj', function() {
     });
 
     it('loads resources from root directory when the .mtl path does not exist', function(done) {
-        expect(loadObj(objResourcesInRootUrl, options)
+        expect(loadObj(objResourcesInRootUrl, defaultOptions)
             .then(function(data) {
-                expect(data.materials['Material'].diffuseTexture.source).toBeDefined();
-                expect(diffuseTexture.source).toBeDefined();
+                var material = data.materials['Material'];
+                var image = data.images[material.diffuseTexture];
+                expect(image.source).toBeDefined();
             }), done).toResolve();
     });
 
     it('loads resources from root directory when the .mtl path is outside of the obj directory and secure is true', function(done) {
+        var options = clone(defaultOptions);
         options.secure = true;
         expect(loadObj(objExternalResourcesInRootUrl, options)
             .then(function(data) {
-                var materials = data.materials;
-                expect(Object.keys(materials).length).toBe(2);
-                expect(materials['MaterialTextured'].diffuseTexture.source).toBeDefined();
+                expect(Object.keys(data.materials).length).toBe(2);
+                var material = data.materials['MaterialTextured'];
+                var image = data.images[material.diffuseTexture];
+                expect(image.source).toBeDefined();
             }), done).toResolve();
     });
 
@@ -436,7 +445,11 @@ describe('loadObj', function() {
     });
 
     it('loads obj with missing texture', function(done) {
-        expect(loadObj(objMissingTextureUrl, defaultOptions)
+        var options = clone(defaultOptions);
+        var spy = jasmine.createSpy('logger');
+        options.logger = spy;
+
+        expect(loadObj(objMissingTextureUrl, options)
             .then(function(data) {
                 var imagePath = getImagePath(objMissingTextureUrl, 'cesium.png');
                 expect(data.images[imagePath]).toBeUndefined();
