@@ -12,7 +12,6 @@ var WebGLConstants = Cesium.WebGLConstants;
 
 var boxObjUrl = 'specs/data/box/box.obj';
 var groupObjUrl = 'specs/data/box-objects-groups-materials/box-objects-groups-materials.obj';
-var mixedAttributesObjUrl = 'specs/data/box-mixed-attributes-2/box-mixed-attributes-2.obj';
 var diffuseTextureUrl = 'specs/data/box-textured/cesium.png';
 var transparentDiffuseTextureUrl = 'specs/data/box-complex-material/diffuse.png';
 
