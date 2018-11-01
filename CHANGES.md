@@ -3,6 +3,16 @@ Change Log
 
 ### 1.3.5 ????-??-??
 
+* Improved handling of primitives with different attributes using the same material. Materials are now duplicated. [#163](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/163)
+* Fixed a bug where primitives without texture coordinates could use materials containing textures. Those textures are now removed. [#163](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/163)
+* Improved parsing of faces with mismatching attributes. [#163](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/163)
+* Added ability to use the first material in the mtl file when the obj is missing `usemtl`. [#163](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/163)
+* Fixed handling of unnormalized input normals. [#163](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/163)
+* Fixed handling of materials where the diffuse and ambient texture are the same. [#163](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/163)
+* Fixed handling of `usemtl` when appearing before an `o` or `g` token. [#163](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/163)
+* Fixed loading faces that contain less than 3 vertices. [#163](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/163)
+* Attempt to load missing materials and textures from within the same directory as the obj. [#163](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/163)
+* Fixed loading mtllib paths that contain spaces. [#163](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/163)
 * Improved handling of materials with alpha. If the alpha value is 0.0 it is now treated as 1.0. [#164](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/164)
 
 ### 1.3.4 2018-10-16
@@ -13,6 +23,8 @@ Change Log
 ### 1.3.3 2018-09-19
 
 * Fixed handling of objs with mismatching attribute layouts. [#154](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/154)
+* Fixed parsing mtl textures that contain texture map options. [#151](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/151)
+* Fixed normalization of Windows paths when running the converter on Linux. [#151](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/151)
 
 ### 1.3.2 2018-06-07
 * Fixed greyscale images loading as alpha instead of luminance. [#144](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/144)

@@ -7,6 +7,7 @@ var obj2gltf = require('../../lib/obj2gltf');
 
 var Cartesian3 = Cesium.Cartesian3;
 var clone = Cesium.clone;
+var CesiumMath = Cesium.Math;
 var RuntimeError = Cesium.RuntimeError;
 
 var objUrl = 'specs/data/box/box.obj';
@@ -19,14 +20,21 @@ var objTrianglesUrl = 'specs/data/box-triangles/box-triangles.obj';
 var objObjectsUrl = 'specs/data/box-objects/box-objects.obj';
 var objGroupsUrl = 'specs/data/box-groups/box-groups.obj';
 var objObjectsGroupsUrl = 'specs/data/box-objects-groups/box-objects-groups.obj';
+var objObjectsGroupsMaterialsUrl = 'specs/data/box-objects-groups-materials/box-objects-groups-materials.obj';
+var objObjectsGroupsMaterials2Url = 'specs/data/box-objects-groups-materials-2/box-objects-groups-materials-2.obj';
 var objConcaveUrl = 'specs/data/concave/concave.obj';
+var objUnnormalizedUrl = 'specs/data/box-unnormalized/box-unnormalized.obj';
 var objUsemtlUrl = 'specs/data/box-usemtl/box-usemtl.obj';
 var objNoMaterialsUrl = 'specs/data/box-no-materials/box-no-materials.obj';
 var objMultipleMaterialsUrl = 'specs/data/box-multiple-materials/box-multiple-materials.obj';
 var objUncleanedUrl = 'specs/data/box-uncleaned/box-uncleaned.obj';
 var objMtllibUrl = 'specs/data/box-mtllib/box-mtllib.obj';
+var objMtllibSpacesUrl = 'specs/data/box-mtllib-spaces/box mtllib.obj';
 var objMissingMtllibUrl = 'specs/data/box-missing-mtllib/box-missing-mtllib.obj';
+var objMissingUsemtlUrl = 'specs/data/box-missing-usemtl/box-missing-usemtl.obj';
 var objExternalResourcesUrl = 'specs/data/box-external-resources/box-external-resources.obj';
+var objResourcesInRootUrl = 'specs/data/box-resources-in-root/box-resources-in-root.obj';
+var objExternalResourcesInRootUrl = 'specs/data/box-external-resources-in-root/box-external-resources-in-root.obj';
 var objTexturedUrl = 'specs/data/box-textured/box-textured.obj';
 var objMissingTextureUrl = 'specs/data/box-missing-texture/box-missing-texture.obj';
 var objSubdirectoriesUrl = 'specs/data/box-subdirectories/box-textured.obj';
@@ -107,6 +115,23 @@ describe('loadObj', function() {
                 expect(primitive.positions.length / 3).toBe(24);
                 expect(primitive.normals.length / 3).toBe(24);
                 expect(primitive.uvs.length / 2).toBe(0);
+            }), done).toResolve();
+    });
+
+    it('normalizes normals', function(done) {
+        expect(loadObj(objUnnormalizedUrl, defaultOptions)
+            .then(function(data) {
+                var scratchNormal = new Cesium.Cartesian3();
+                var primitive = getPrimitives(data)[0];
+                var normals = primitive.normals;
+                var normalsLength = normals.length / 3;
+                for (var i = 0; i < normalsLength; ++i) {
+                    var normalX = normals.get(i * 3);
+                    var normalY = normals.get(i * 3 + 1);
+                    var normalZ = normals.get(i * 3 + 2);
+                    var normal = Cartesian3.fromElements(normalX, normalY, normalZ, scratchNormal);
+                    expect(Cartesian3.magnitude(normal)).toEqualEpsilon(1.0, CesiumMath.EPSILON5);
+                }
             }), done).toResolve();
     });
 
@@ -195,6 +220,41 @@ describe('loadObj', function() {
                 expect(primitives[0].material).toBe('Blue');
                 expect(primitives[1].material).toBe('Green');
                 expect(primitives[2].material).toBe('Red');
+            }), done).toResolve();
+    });
+
+    function loadsObjWithObjectsGroupsAndMaterials(data) {
+        var nodes = data.nodes;
+        expect(nodes.length).toBe(1);
+        expect(nodes[0].name).toBe('Cube');
+        var meshes = getMeshes(data);
+        expect(meshes.length).toBe(3);
+        expect(meshes[0].name).toBe('Blue');
+        expect(meshes[1].name).toBe('Green');
+        expect(meshes[2].name).toBe('Red');
+        var primitives = getPrimitives(data);
+        expect(primitives.length).toBe(6);
+        expect(primitives[0].material).toBe('Blue');
+        expect(primitives[1].material).toBe('Green');
+        expect(primitives[2].material).toBe('Green');
+        expect(primitives[3].material).toBe('Red');
+        expect(primitives[4].material).toBe('Red');
+        expect(primitives[5].material).toBe('Blue');
+    }
+
+    it('loads obj with objects, groups, and materials', function(done) {
+        expect(loadObj(objObjectsGroupsMaterialsUrl, defaultOptions)
+            .then(function(data) {
+                loadsObjWithObjectsGroupsAndMaterials(data);
+            }), done).toResolve();
+    });
+
+    it('loads obj with objects, groups, and materials (2)', function(done) {
+        // The usemtl lines are placed in an unordered fashion but
+        // should produce the same result as the previous test
+        expect(loadObj(objObjectsGroupsMaterials2Url, defaultOptions)
+            .then(function(data) {
+                loadsObjWithObjectsGroupsAndMaterials(data);
             }), done).toResolve();
     });
 
@@ -293,11 +353,37 @@ describe('loadObj', function() {
             }), done).toResolve();
     });
 
+    it('loads obj with mtllib paths with spaces', function(done) {
+        expect(loadObj(objMtllibSpacesUrl, defaultOptions)
+            .then(function(data) {
+                var materials = data.materials;
+                expect(Object.keys(materials).length).toBe(3);
+                expect(materials['Blue'].diffuseColor).toEqual([0.0, 0.0, 0.64, 1.0]);
+                expect(materials['Green'].diffuseColor).toEqual([0.0, 0.64, 0.0, 1.0]);
+                expect(materials['Red'].diffuseColor).toEqual([0.64, 0.0, 0.0, 1.0]);
+            }), done).toResolve();
+    });
+
     it('loads obj with missing mtllib', function(done) {
-        expect(loadObj(objMissingMtllibUrl, defaultOptions)
+        var options = clone(defaultOptions);
+        var spy = jasmine.createSpy('logger');
+        options.logger = spy;
+
+        expect(loadObj(objMissingMtllibUrl, options)
             .then(function(data) {
                 expect(data.materials).toEqual({});
-                expect(console.log.calls.argsFor(0)[0].indexOf('Could not read mtl file') >= 0).toBe(true);
+                expect(spy.calls.argsFor(0)[0].indexOf('ENOENT') >= 0).toBe(true);
+                expect(spy.calls.argsFor(1)[0].indexOf('Attempting to read the material file from within the obj directory instead.') >= 0).toBe(true);
+                expect(spy.calls.argsFor(2)[0].indexOf('ENOENT') >= 0).toBe(true);
+                expect(spy.calls.argsFor(3)[0].indexOf('Could not read material file') >= 0).toBe(true);
+            }), done).toResolve();
+    });
+
+    it('loads obj with missing usemtl', function(done) {
+        expect(loadObj(objMissingUsemtlUrl, defaultOptions)
+            .then(function(data) {
+                expect(Object.keys(data.materials).length).toBe(1);
+                expect(data.nodes[0].meshes[0].primitives[0].material).toBe('Material');
             }), done).toResolve();
     });
 
@@ -312,6 +398,8 @@ describe('loadObj', function() {
 
     it('does not load resources outside of the obj directory when secure is true', function(done) {
         var options = clone(defaultOptions);
+        var spy = jasmine.createSpy('logger');
+        options.logger = spy;
         options.secure = true;
 
         expect(loadObj(objExternalResourcesUrl, options)
@@ -320,8 +408,30 @@ describe('loadObj', function() {
                 expect(data.images[imagePath]).toBeUndefined();
                 expect(data.materials.MaterialTextured).toBeDefined();
                 expect(data.materials.Material).toBeUndefined(); // Not in directory, so not included
-                expect(console.log.calls.argsFor(0)[0].indexOf('Could not read mtl file') >= 0).toBe(true);
-                expect(console.log.calls.argsFor(1)[0].indexOf('Could not read image file') >= 0).toBe(true);
+                expect(spy.calls.argsFor(0)[0].indexOf('The material file is outside of the obj directory and the secure flag is true. Attempting to read the material file from within the obj directory instead.') >= 0).toBe(true);
+                expect(spy.calls.argsFor(1)[0].indexOf('ENOENT') >= 0).toBe(true);
+                expect(spy.calls.argsFor(2)[0].indexOf('Could not read material file') >= 0).toBe(true);
+            }), done).toResolve();
+    });
+
+    it('loads resources from root directory when the .mtl path does not exist', function(done) {
+        expect(loadObj(objResourcesInRootUrl, defaultOptions)
+            .then(function(data) {
+                var material = data.materials['Material'];
+                var image = data.images[material.diffuseTexture];
+                expect(image.source).toBeDefined();
+            }), done).toResolve();
+    });
+
+    it('loads resources from root directory when the .mtl path is outside of the obj directory and secure is true', function(done) {
+        var options = clone(defaultOptions);
+        options.secure = true;
+        expect(loadObj(objExternalResourcesInRootUrl, options)
+            .then(function(data) {
+                expect(Object.keys(data.materials).length).toBe(2);
+                var material = data.materials['MaterialTextured'];
+                var image = data.images[material.diffuseTexture];
+                expect(image.source).toBeDefined();
             }), done).toResolve();
     });
 
@@ -335,12 +445,19 @@ describe('loadObj', function() {
     });
 
     it('loads obj with missing texture', function(done) {
-        expect(loadObj(objMissingTextureUrl, defaultOptions)
+        var options = clone(defaultOptions);
+        var spy = jasmine.createSpy('logger');
+        options.logger = spy;
+
+        expect(loadObj(objMissingTextureUrl, options)
             .then(function(data) {
                 var imagePath = getImagePath(objMissingTextureUrl, 'cesium.png');
                 expect(data.images[imagePath]).toBeUndefined();
                 expect(data.materials.Material.diffuseTexture).toEqual(imagePath);
-                expect(console.log.calls.argsFor(0)[0].indexOf('Could not read image file') >= 0).toBe(true);
+                expect(spy.calls.argsFor(0)[0].indexOf('ENOENT') >= 0).toBe(true);
+                expect(spy.calls.argsFor(1)[0].indexOf('Attempting to read the image file from within the obj directory instead.') >= 0).toBe(true);
+                expect(spy.calls.argsFor(2)[0].indexOf('ENOENT') >= 0).toBe(true);
+                expect(spy.calls.argsFor(3)[0].indexOf('Could not read image file') >= 0).toBe(true);
             }), done).toResolve();
     });
 
@@ -417,11 +534,15 @@ describe('loadObj', function() {
             }), done).toResolve();
     });
 
-    it('discards faces that don\'t use the same attributes as other faces in the primitive', function(done) {
+    it('separates faces that don\'t use the same attributes as other faces in the primitive', function(done) {
         expect(loadObj(objMixedAttributesUrl, defaultOptions)
             .then(function(data) {
-                var primitive = getPrimitives(data)[0];
-                expect(primitive.indices.length).toBe(18); // 3 faces removed
+                var primitives = getPrimitives(data);
+                expect(primitives.length).toBe(4);
+                expect(primitives[0].indices.length).toBe(18); // 6 faces
+                expect(primitives[1].indices.length).toBe(6); // 2 faces
+                expect(primitives[2].indices.length).toBe(6); // 2 faces
+                expect(primitives[3].indices.length).toBe(6); // 2 faces
             }), done).toResolve();
     });
 
