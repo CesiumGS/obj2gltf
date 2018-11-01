@@ -20,6 +20,8 @@ var objTrianglesUrl = 'specs/data/box-triangles/box-triangles.obj';
 var objObjectsUrl = 'specs/data/box-objects/box-objects.obj';
 var objGroupsUrl = 'specs/data/box-groups/box-groups.obj';
 var objObjectsGroupsUrl = 'specs/data/box-objects-groups/box-objects-groups.obj';
+var objObjectsGroupsMaterialsUrl = 'specs/data/box-objects-groups-materials/box-objects-groups-materials.obj';
+var objObjectsGroupsMaterials2Url = 'specs/data/box-objects-groups-materials-2/box-objects-groups-materials-2.obj';
 var objConcaveUrl = 'specs/data/concave/concave.obj';
 var objUnnormalizedUrl = 'specs/data/box-unnormalized/box-unnormalized.obj';
 var objUsemtlUrl = 'specs/data/box-usemtl/box-usemtl.obj';
@@ -218,6 +220,41 @@ describe('loadObj', function() {
                 expect(primitives[0].material).toBe('Blue');
                 expect(primitives[1].material).toBe('Green');
                 expect(primitives[2].material).toBe('Red');
+            }), done).toResolve();
+    });
+
+    function loadsObjWithObjectsGroupsAndMaterials(data) {
+        var nodes = data.nodes;
+        expect(nodes.length).toBe(1);
+        expect(nodes[0].name).toBe('Cube');
+        var meshes = getMeshes(data);
+        expect(meshes.length).toBe(3);
+        expect(meshes[0].name).toBe('Blue');
+        expect(meshes[1].name).toBe('Green');
+        expect(meshes[2].name).toBe('Red');
+        var primitives = getPrimitives(data);
+        expect(primitives.length).toBe(6);
+        expect(primitives[0].material).toBe('Blue');
+        expect(primitives[1].material).toBe('Green');
+        expect(primitives[2].material).toBe('Green');
+        expect(primitives[3].material).toBe('Red');
+        expect(primitives[4].material).toBe('Red');
+        expect(primitives[5].material).toBe('Blue');
+    }
+
+    it('loads obj with objects, groups, and materials', function(done) {
+        expect(loadObj(objObjectsGroupsMaterialsUrl, defaultOptions)
+            .then(function(data) {
+                loadsObjWithObjectsGroupsAndMaterials(data);
+            }), done).toResolve();
+    });
+
+    it('loads obj with objects, groups, and materials (2)', function(done) {
+        // The usemtl lines are placed in an unordered fashion but
+        // should produce the same result as the previous test
+        expect(loadObj(objObjectsGroupsMaterials2Url, defaultOptions)
+            .then(function(data) {
+                loadsObjWithObjectsGroupsAndMaterials(data);
             }), done).toResolve();
     });
 
