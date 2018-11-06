@@ -1,5 +1,7 @@
 # OBJ2GLTF
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/AnalyticalGraphicsInc/obj2gltf.svg)](https://greenkeeper.io/)
+
 Convert OBJ assets to [glTF](https://www.khronos.org/gltf) 2.0.
 
 ## Getting Started
