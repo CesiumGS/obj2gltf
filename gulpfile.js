@@ -42,7 +42,7 @@ function test(done) {
 }
 
 function testWatch() {
-    gulp.watch(specFiles).on('change', function () {
+    return gulp.watch(specFiles).on('change', function () {
         // We can't simply depend on the test task because Jasmine
         // does not like being run multiple times in the same process.
         try {
@@ -55,7 +55,7 @@ function testWatch() {
     });
 }
 
-function coverage() {
+async function coverage() {
     fsExtra.removeSync('coverage/server');
     child_process.execSync('nyc' +
         ' --all' +
@@ -66,7 +66,7 @@ function coverage() {
         ' JASMINE_CONFIG_PATH=specs/jasmine.json', {
             stdio: [process.stdin, process.stdout, process.stderr]
         });
-    return open('coverage/lcov-report/index.html');
+    open('coverage/lcov-report/index.html');
 }
 
 function cloc() {
