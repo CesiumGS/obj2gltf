@@ -4,14 +4,17 @@ var Promise = require('bluebird');
 var obj2gltf = require('../../lib/obj2gltf');
 var createGltf = require('../../lib/createGltf');
 var loadObj = require('../../lib/loadObj');
+var getDefaultMaterial = require('../../lib/loadMtl').getDefaultMaterial;
 
 var clone = Cesium.clone;
+var defined = Cesium.defined;
 var WebGLConstants = Cesium.WebGLConstants;
 
 var boxObjPath = 'specs/data/box/box.obj';
 var groupObjPath = 'specs/data/box-objects-groups-materials/box-objects-groups-materials.obj';
 var complexObjPath = 'specs/data/box-complex-material/box-complex-material.obj';
 var noMaterialsObjPath = 'specs/data/box-no-materials/box-no-materials.obj';
+var mixedAttributesObjPath = 'specs/data/box-mixed-attributes-2/box-mixed-attributes-2.obj';
 
 var options;
 
@@ -20,6 +23,7 @@ describe('createGltf', function() {
     var groupObjData;
     var complexObjData;
     var noMaterialsObjData;
+    var mixedAttributesObjData;
 
     beforeEach(function(done) {
         options = clone(obj2gltf.defaults);
@@ -42,6 +46,10 @@ describe('createGltf', function() {
             loadObj(noMaterialsObjPath, options)
                 .then(function(data) {
                     noMaterialsObjData = data;
+                }),
+            loadObj(mixedAttributesObjPath, options)
+                .then(function(data) {
+                    mixedAttributesObjData = data;
                 })
         ]).then(done);
     });
@@ -133,42 +141,108 @@ describe('createGltf', function() {
     });
 
     it('runs without normals', function() {
-        boxObjData.nodes[0].meshes[0].normals.length = 0;
+        boxObjData.nodes[0].meshes[0].primitives[0].normals.length = 0;
 
         var gltf = createGltf(boxObjData, options);
-        var attributes = gltf.meshes[Object.keys(gltf.meshes)[0]].primitives[0].attributes;
+        var attributes = gltf.meshes[0].primitives[0].attributes;
         expect(attributes.POSITION).toBeDefined();
         expect(attributes.NORMAL).toBeUndefined();
         expect(attributes.TEXCOORD_0).toBeDefined();
     });
 
     it('runs without uvs', function() {
-        boxObjData.nodes[0].meshes[0].uvs.length = 0;
+        boxObjData.nodes[0].meshes[0].primitives[0].uvs.length = 0;
 
         var gltf = createGltf(boxObjData, options);
-        var attributes = gltf.meshes[Object.keys(gltf.meshes)[0]].primitives[0].attributes;
+        var attributes = gltf.meshes[0].primitives[0].attributes;
         expect(attributes.POSITION).toBeDefined();
         expect(attributes.NORMAL).toBeDefined();
         expect(attributes.TEXCOORD_0).toBeUndefined();
     });
 
     it('runs without uvs and normals', function() {
-        boxObjData.nodes[0].meshes[0].normals.length = 0;
-        boxObjData.nodes[0].meshes[0].uvs.length = 0;
+        boxObjData.nodes[0].meshes[0].primitives[0].normals.length = 0;
+        boxObjData.nodes[0].meshes[0].primitives[0].uvs.length = 0;
 
         var gltf = createGltf(boxObjData, options);
-        var attributes = gltf.meshes[Object.keys(gltf.meshes)[0]].primitives[0].attributes;
+        var attributes = gltf.meshes[0].primitives[0].attributes;
         expect(attributes.POSITION).toBeDefined();
         expect(attributes.NORMAL).toBeUndefined();
         expect(attributes.TEXCOORD_0).toBeUndefined();
     });
 
+    it('splits incompatible materials', function() {
+        var gltf = createGltf(mixedAttributesObjData, options);
+        var materials = gltf.materials;
+        var meshes = gltf.meshes;
+
+        var referenceMaterial = mixedAttributesObjData.materials[0];
+        delete referenceMaterial.name;
+        referenceMaterial.pbrMetallicRoughness.baseColorTexture = {
+            index : 0
+        };
+
+        var referenceMaterialNoTextures = clone(referenceMaterial, true);
+        referenceMaterialNoTextures.pbrMetallicRoughness.baseColorTexture = undefined;
+
+        var defaultMaterial = getDefaultMaterial(options);
+        delete defaultMaterial.name;
+
+        var materialNames = materials.map(function(material) {
+            var name = material.name;
+            delete material.name;
+            return name;
+        });
+
+        // Expect three copies of each material for
+        // * positions/normals/uvs
+        // * positions/normals
+        // * positions/uvs
+        expect(materialNames).toEqual([
+            'default',
+            'default-2',
+            'default-3',
+            'Material',
+            'Material-2',
+            'Material-3',
+            'Missing',
+            'Missing-2',
+            'Missing-3'
+        ]);
+
+        expect(materials.length).toBe(9);
+        expect(materials[0]).toEqual(defaultMaterial);
+        expect(materials[1]).toEqual(defaultMaterial);
+        expect(materials[2]).toEqual(defaultMaterial);
+        expect(materials[3]).toEqual(referenceMaterial);
+        expect(materials[4]).toEqual(referenceMaterial);
+        expect(materials[5]).toEqual(referenceMaterialNoTextures);
+        expect(materials[6]).toEqual(defaultMaterial);
+        expect(materials[7]).toEqual(defaultMaterial);
+        expect(materials[8]).toEqual(defaultMaterial);
+
+        // Test that primitives without uvs reference materials without textures
+        var meshesLength = meshes.length;
+        for (var i = 0; i < meshesLength; ++i) {
+            var mesh = meshes[i];
+            var primitives = mesh.primitives;
+            var primitivesLength = primitives.length;
+            for (var j = 0; j < primitivesLength; ++j) {
+                var primitive = primitives[j];
+                var material = materials[primitive.material];
+                if (!defined(primitive.attributes.TEXCOORD_0)) {
+                    expect(material.pbrMetallicRoughness.baseColorTexture).toBeUndefined();
+                }
+            }
+        }
+    });
+
     function expandObjData(objData, duplicatesLength) {
-        var mesh = objData.nodes[0].meshes[0];
-        var indices = mesh.primitives[0].indices;
-        var positions = mesh.positions;
-        var normals = mesh.normals;
-        var uvs = mesh.uvs;
+        var primitive = objData.nodes[0].meshes[0].primitives[0];
+        var indices = primitive.indices;
+        var positions = primitive.positions;
+        var normals = primitive.normals;
+        var uvs = primitive.uvs;
 
         var indicesLength = indices.length;
         var vertexCount = positions.length / 3;
@@ -192,12 +266,12 @@ describe('createGltf', function() {
 
     it('detects need to use uint32 indices', function() {
         expandObjData(boxObjData, 2731); // Right above 65536 limit
-        var mesh = boxObjData.nodes[0].meshes[0];
-        var indicesLength = mesh.primitives[0].indices.length;
-        var vertexCount = mesh.positions.length / 3;
+        var primitive = boxObjData.nodes[0].meshes[0].primitives[0];
+        var indicesLength = primitive.indices.length;
+        var vertexCount = primitive.positions.length / 3;
 
         var gltf = createGltf(boxObjData, options);
-        var primitive = gltf.meshes[Object.keys(gltf.meshes)[0]].primitives[0];
+        primitive = gltf.meshes[0].primitives[0];
         var indicesAccessor = gltf.accessors[primitive.indices];
         expect(indicesAccessor.count).toBe(indicesLength);
         expect(indicesAccessor.max[0]).toBe(vertexCount - 1);

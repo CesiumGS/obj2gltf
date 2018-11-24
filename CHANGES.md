@@ -1,12 +1,25 @@
 Change Log
 ==========
 
-### 2.3.0 ???
+### 2.3.2 2018-11-02
 
+* Improved handling of primitives with different attributes using the same material. Materials are now duplicated. [#162](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/162)
+* Fixed a bug where primitives without texture coordinates could use materials containing textures. Those textures are now removed. [#162](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/162)
+* Improved parsing of faces with mismatching attributes. [#161](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/161)
+
+### 2.3.1 2018-10-16
+
+* Improved parsing models with concave or n-sided faces. [#157](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/157)
+* Fixed handling of objs with interleaved materials. [#155](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/155)
+
+### 2.3.0 2018-09-19
+
+* Fixed handling of objs with mismatching attribute layouts. [#153](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/153)
+* Fixed normalization of Windows paths when running the converter on Linux. [#150](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/150)
 * Added ability to use the first material in the mtl file when the obj is missing `usemtl`. [#133](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/133)
 * Fixed handling of unnormalized input normals. [#136](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/136)
 
-### 2.2.0 2017-01-29
+### 2.2.0 2018-01-29
 
 * Fixed handling of materials where the diffuse and ambient texture are the same. [#127](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/127)
 * Added ability to load alpha textures. [#124](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/124)
