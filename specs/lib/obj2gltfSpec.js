@@ -184,17 +184,4 @@ describe('obj2gltf', function() {
             obj2gltf(texturedObjPath, options);
         }).toThrowDeveloperError();
     });
-
-    it('adds KHR_materials_unlit to materials if unlit is set', function(done) {
-        var options = {
-            unlit : true
-        };
-        expect(obj2gltf(texturedObjPath, options)
-            .then(function(glb) {
-                for(var i = 0;i < glb.materials.length; i++) {
-                    var material = glb.materials[i];
-                    expect(material.extensions.KHR_materials_unlit).toBeDefined();
-                }
-            }), done).toResolve();
-    });
 });

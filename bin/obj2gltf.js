@@ -122,7 +122,7 @@ var argv = yargs
             describe : 'The glTF will be saved with the KHR_materials_unlit extension.',
             type : 'boolean',
             default : defaults.unlit
-        },
+        }
     }).parse(args);
 
 if (argv.metallicRoughness + argv.specularGlossiness > 1) {
