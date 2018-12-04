@@ -73,21 +73,21 @@ As a convenience the PBR textures may be supplied directly to the command line.
 
 **Mapping of mtl slots to shading models**
 
-Slot | Metallic roughness | Specular glossiness | Materials common
+Slot | Metallic roughness | Specular glossiness
 --- | --- | --- | ---
-Ka | occlusion value |  occlusion value | ambient color
-Ke | emissive color | emissive color | emissive color
-Kd | base color | diffuse color | diffuse color
-Ks | metallic value | specular color | specular color
-Ns | roughness value | glossiness value | specular shininess value
-d | alpha | alpha | alpha
-Tr | 1.0 - alpha | 1.0 - alpha | 1.0 - alpha
-map_Ka | occlusion texture | occlusion texture | ambient texture
-map_Ke | emissive texture | emissive texture | emissive texture
-map_Kd | base color texture | diffuse texture | diffuse texture
-map_Ks | metallic texture | specular texture | specular texture
-map_Ns | roughness texture | glossiness texture | specular shininess texture
-map_Bump | normal texture | normal texture | normal texture
+Ka | occlusion value |  occlusion value
+Ke | emissive color | emissive color
+Kd | base color | diffuse color
+Ks | metallic value | specular color
+Ns | roughness value | glossiness value
+d | alpha | alpha
+Tr | 1.0 - alpha | 1.0 - alpha
+map_Ka | occlusion texture | occlusion texture
+map_Ke | emissive texture | emissive texture
+map_Kd | base color texture | diffuse texture
+map_Ks | metallic texture | specular texture
+map_Ns | roughness texture | glossiness texture
+map_Bump | normal texture | normal texture
 
 ## Usage
 
