@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+### 3.0.0 ????-??-??
+
+* Breaking changes
+    * The `--materialsCommon` flag has been removed. Use `--unlit` instead which uses the `KHR_materials_unlit` extension. [#152](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/152)
+
 ### 2.3.2 2018-11-02
 
 * Improved handling of primitives with different attributes using the same material. Materials are now duplicated. [#162](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/162)

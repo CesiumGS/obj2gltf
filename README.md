@@ -56,14 +56,13 @@ There are three shading models supported by `obj2gltf`:
 
 * Metallic roughness PBR
 * Specular glossiness PBR (via `KHR_materials_pbrSpecularGlossiness` extension)
-* Materials common (via `KHR_materials_common` extension)
+* Unlit materials (via `KHR_materials_unlit` extension)
 
-If the material type is known in advance, it should be specified with either the `metallicRoughness`, `specularGlossiness`, or `materialsCommon` flag.
+If the material type is known in advance, it should be specified with either the `metallicRoughness` or `specularGlossiness` flag.
 
-In general, if a model is authored with traditional diffuse, specular, and shininess textures the `materialsCommon` flag should be passed in.
-The glTF will be saved with the `KHR_materials_common` extension and the Blinn-Phong shading model will be used.
+If lighting information is already present in the model, the `unlit` flag should be used. This will save the glTF with the `KHR_materials_unlit` extension. 
 
-However if the model is created with PBR textures, either the `metallicRoughness` or `specularGlossiness` flag should be passed in.
+If the model is created with PBR textures, either the `metallicRoughness` or `specularGlossiness` flag should be passed in.
 See the table below for more information about how to specify PBR values inside the .mtl file.
 
 If none of these flags are provided, the .mtl is assumed to contain traditional Blinn-Phong materials which will be converted to metallic-roughness PBR.
@@ -74,21 +73,21 @@ As a convenience the PBR textures may be supplied directly to the command line.
 
 **Mapping of mtl slots to shading models**
 
-Slot | Metallic roughness | Specular glossiness | Materials common
+Slot | Metallic roughness | Specular glossiness
 --- | --- | --- | ---
-Ka | occlusion value |  occlusion value | ambient color
-Ke | emissive color | emissive color | emissive color
-Kd | base color | diffuse color | diffuse color
-Ks | metallic value | specular color | specular color
-Ns | roughness value | glossiness value | specular shininess value
-d | alpha | alpha | alpha
-Tr | 1.0 - alpha | 1.0 - alpha | 1.0 - alpha
-map_Ka | occlusion texture | occlusion texture | ambient texture
-map_Ke | emissive texture | emissive texture | emissive texture
-map_Kd | base color texture | diffuse texture | diffuse texture
-map_Ks | metallic texture | specular texture | specular texture
-map_Ns | roughness texture | glossiness texture | specular shininess texture
-map_Bump | normal texture | normal texture | normal texture
+Ka | occlusion value |  occlusion value
+Ke | emissive color | emissive color
+Kd | base color | diffuse color
+Ks | metallic value | specular color
+Ns | roughness value | glossiness value
+d | alpha | alpha
+Tr | 1.0 - alpha | 1.0 - alpha
+map_Ka | occlusion texture | occlusion texture
+map_Ke | emissive texture | emissive texture
+map_Kd | base color texture | diffuse texture
+map_Ks | metallic texture | specular texture
+map_Ns | roughness texture | glossiness texture
+map_Bump | normal texture | normal texture
 
 ## Usage
 
@@ -107,7 +106,7 @@ map_Bump | normal texture | normal texture | normal texture
 |`--packOcclusion`|Pack the occlusion texture in the red channel of metallic-roughness texture.|No, default `false`|
 |`--metallicRoughness`|The values in the mtl file are already metallic-roughness PBR values and no conversion step should be applied. Metallic is stored in the Ks and map_Ks slots and roughness is stored in the Ns and map_Ns slots.|No, default `false`|
 |`--specularGlossiness`|The values in the mtl file are already specular-glossiness PBR values and no conversion step should be applied. Specular is stored in the Ks and map_Ks slots and glossiness is stored in the Ns and map_Ns slots. The glTF will be saved with the `KHR_materials_pbrSpecularGlossiness` extension.|No, default `false`|
-|`--materialsCommon`|The glTF will be saved with the KHR_materials_common extension.|No, default `false`|
+|`--unlit`|The glTF will be saved with the KHR_materials_unlit extension.|No, default `false`|
 |`--metallicRoughnessOcclusionTexture`|Path to the metallic-roughness-occlusion texture that should override textures in the .mtl file, where occlusion is stored in the red channel, roughness is stored in the green channel, and metallic is stored in the blue channel. The model will be saved with a pbrMetallicRoughness material. This is often convenient in workflows where the .mtl does not exist or is not set up to use PBR materials. Intended for models with a single material.|No|
 |`--specularGlossinessTexture`|Path to the specular-glossiness texture that should override textures in the .mtl file, where specular color is stored in the red, green, and blue channels and specular glossiness is stored in the alpha channel. The model will be saved with a material using the KHR_materials_pbrSpecularGlossiness extension.|No|
 |`--occlusionTexture`|Path to the occlusion texture that should override textures in the .mtl file.|No|
