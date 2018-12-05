@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-### 3.0.0 ????-??-??
+### 3.0.0 2018-12-05
 
 * Breaking changes
     * The `--materialsCommon` flag has been removed. Use `--unlit` instead which uses the `KHR_materials_unlit` extension. [#152](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/152)
