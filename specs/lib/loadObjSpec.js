@@ -32,6 +32,7 @@ var objMtllibUrl = 'specs/data/box-mtllib/box-mtllib.obj';
 var objMtllibSpacesUrl = 'specs/data/box-mtllib-spaces/box mtllib.obj';
 var objMissingMtllibUrl = 'specs/data/box-missing-mtllib/box-missing-mtllib.obj';
 var objMissingUsemtlUrl = 'specs/data/box-missing-usemtl/box-missing-usemtl.obj';
+var objUnnamedMaterialUrl = 'specs/data/box-unnamed-material/box-unnamed-material.obj';
 var objExternalResourcesUrl = 'specs/data/box-external-resources/box-external-resources.obj';
 var objResourcesInRootUrl = 'specs/data/box-resources-in-root/box-resources-in-root.obj';
 var objExternalResourcesInRootUrl = 'specs/data/box-external-resources-in-root/box-external-resources-in-root.obj';
@@ -384,6 +385,14 @@ describe('loadObj', function() {
             .then(function(data) {
                 expect(Object.keys(data.materials).length).toBe(1);
                 expect(data.nodes[0].meshes[0].primitives[0].material).toBe('Material');
+            }), done).toResolve();
+    });
+
+    it('loads obj with unnamed material', function(done) {
+        expect(loadObj(objUnnamedMaterialUrl, defaultOptions)
+            .then(function(data) {
+                expect(Object.keys(data.materials).length).toBe(1);
+                expect(data.nodes[0].meshes[0].primitives[0].material).toBe('unnamed');
             }), done).toResolve();
     });
 
