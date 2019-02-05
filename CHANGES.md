@@ -5,6 +5,7 @@ Change Log
 
 * Breaking changes
     * The `--materialsCommon` flag has been removed. Use `--unlit` instead which uses the `KHR_materials_unlit` extension. [#152](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/152)
+* No longer throws an error always if the glTF buffer is greater than 192 MB. The string node size limitation increased in Node 9.0.0. See https://bugs.chromium.org/p/v8/issues/detail?id=6148#c10.
 
 ### 2.3.2 2018-11-02
 
