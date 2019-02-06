@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 'use strict';
+const json = require('big-json');
+const writer = require('flush-write-stream');
 const Cesium = require('cesium');
 const fsExtra = require('fs-extra');
 const path = require('path');
@@ -178,10 +180,8 @@ obj2gltf(objPath, options)
             // gltf is a glb buffer
             return fsExtra.outputFile(gltfPath, gltf);
         }
-        const jsonOptions = {
-            spaces : 2
-        };
-        return fsExtra.outputJson(gltfPath, gltf, jsonOptions);
+
+        return streamJson(gltfPath, gltf);
     })
     .then(function() {
         console.timeEnd('Total');
@@ -190,3 +190,35 @@ obj2gltf(objPath, options)
         console.log(error.message);
         process.exit(1);
     });
+
+function streamJson(gltfPath, gltf) {
+    return new Promise(function(resolve, reject) {
+        const writeStream = fsExtra.createWriteStream(gltfPath);
+
+        const stringifyStream = json.createStringifyStream({
+            body: gltf
+        });
+
+        stringifyStream.pipe(writeStream);
+
+        writeStream.on('error', function(error) {
+            reject(error);
+        });
+
+        writeStream.on('close', function() {
+            resolve();
+        });
+
+        // stringifyStream.on('data', function(str) {
+        //     writeStream.write(str);
+        // });
+
+        stringifyStream.on('end', function() {
+            writeStream.end();
+        });
+
+        stringifyStream.on('error', function(error) {
+            reject(error);
+        });
+    });
+}

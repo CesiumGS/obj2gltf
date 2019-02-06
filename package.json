@@ -26,8 +26,10 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
+    "big-json": "^2.0.2",
     "bluebird": "^3.5.3",
     "cesium": "^1.54.0",
+    "flush-write-stream": "^1.1.0",
     "fs-extra": "^7.0.1",
     "jpeg-js": "^0.3.4",
     "mime": "^2.4.0",
