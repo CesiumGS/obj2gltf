@@ -1,117 +1,99 @@
 'use strict';
-var loadTexture = require('../../lib/loadTexture');
+const loadTexture = require('../../lib/loadTexture');
 
-var pngTexturePath = 'specs/data/box-complex-material/shininess.png';
-var jpgTexturePath = 'specs/data/box-complex-material/emission.jpg';
-var jpegTexturePath = 'specs/data/box-complex-material/specular.jpeg';
-var gifTexturePath = 'specs/data/box-complex-material/ambient.gif';
-var grayscaleTexturePath = 'specs/data/box-complex-material-alpha/alpha.png';
-var transparentTexturePath = 'specs/data/box-complex-material/diffuse.png';
+const pngTexturePath = 'specs/data/box-complex-material/shininess.png';
+const jpgTexturePath = 'specs/data/box-complex-material/emission.jpg';
+const jpegTexturePath = 'specs/data/box-complex-material/specular.jpeg';
+const gifTexturePath = 'specs/data/box-complex-material/ambient.gif';
+const grayscaleTexturePath = 'specs/data/box-complex-material-alpha/alpha.png';
+const transparentTexturePath = 'specs/data/box-complex-material/diffuse.png';
 
-describe('loadTexture', function() {
-    it('loads png texture', function(done) {
-        expect(loadTexture(pngTexturePath)
-            .then(function(texture) {
-                expect(texture.transparent).toBe(false);
-                expect(texture.source).toBeDefined();
-                expect(texture.name).toBe('shininess');
-                expect(texture.extension).toBe('.png');
-                expect(texture.path).toBe(pngTexturePath);
-                expect(texture.pixels).toBeUndefined();
-                expect(texture.width).toBeUndefined();
-                expect(texture.height).toBeUndefined();
-            }), done).toResolve();
+describe('loadTexture', () => {
+    it('loads png texture', async () => {
+        const texture = await loadTexture(pngTexturePath);
+        expect(texture.transparent).toBe(false);
+        expect(texture.source).toBeDefined();
+        expect(texture.name).toBe('shininess');
+        expect(texture.extension).toBe('.png');
+        expect(texture.path).toBe(pngTexturePath);
+        expect(texture.pixels).toBeUndefined();
+        expect(texture.width).toBeUndefined();
+        expect(texture.height).toBeUndefined();
     });
 
-    it('loads jpg texture', function(done) {
-        expect(loadTexture(jpgTexturePath)
-            .then(function(texture) {
-                expect(texture.transparent).toBe(false);
-                expect(texture.source).toBeDefined();
-                expect(texture.name).toBe('emission');
-                expect(texture.extension).toBe('.jpg');
-                expect(texture.path).toBe(jpgTexturePath);
-                expect(texture.pixels).toBeUndefined();
-                expect(texture.width).toBeUndefined();
-                expect(texture.height).toBeUndefined();
-            }), done).toResolve();
+    it('loads jpg texture', async () => {
+        const texture = await loadTexture(jpgTexturePath);
+        expect(texture.transparent).toBe(false);
+        expect(texture.source).toBeDefined();
+        expect(texture.name).toBe('emission');
+        expect(texture.extension).toBe('.jpg');
+        expect(texture.path).toBe(jpgTexturePath);
+        expect(texture.pixels).toBeUndefined();
+        expect(texture.width).toBeUndefined();
+        expect(texture.height).toBeUndefined();
     });
 
-    it('loads jpeg texture', function(done) {
-        expect(loadTexture(jpegTexturePath)
-            .then(function(texture) {
-                expect(texture.transparent).toBe(false);
-                expect(texture.source).toBeDefined();
-                expect(texture.name).toBe('specular');
-                expect(texture.extension).toBe('.jpeg');
-                expect(texture.path).toBe(jpegTexturePath);
-                expect(texture.pixels).toBeUndefined();
-                expect(texture.width).toBeUndefined();
-                expect(texture.height).toBeUndefined();
-            }), done).toResolve();
+    it('loads jpeg texture', async () => {
+        const texture = await loadTexture(jpegTexturePath);
+        expect(texture.transparent).toBe(false);
+        expect(texture.source).toBeDefined();
+        expect(texture.name).toBe('specular');
+        expect(texture.extension).toBe('.jpeg');
+        expect(texture.path).toBe(jpegTexturePath);
+        expect(texture.pixels).toBeUndefined();
+        expect(texture.width).toBeUndefined();
+        expect(texture.height).toBeUndefined();
     });
 
-    it('loads gif texture', function(done) {
-        expect(loadTexture(gifTexturePath)
-            .then(function(texture) {
-                expect(texture.transparent).toBe(false);
-                expect(texture.source).toBeDefined();
-                expect(texture.name).toBe('ambient');
-                expect(texture.extension).toBe('.gif');
-                expect(texture.path).toBe(gifTexturePath);
-                expect(texture.pixels).toBeUndefined();
-                expect(texture.width).toBeUndefined();
-                expect(texture.height).toBeUndefined();
-            }), done).toResolve();
+    it('loads gif texture', async () => {
+        const texture = await loadTexture(gifTexturePath);
+        expect(texture.transparent).toBe(false);
+        expect(texture.source).toBeDefined();
+        expect(texture.name).toBe('ambient');
+        expect(texture.extension).toBe('.gif');
+        expect(texture.path).toBe(gifTexturePath);
+        expect(texture.pixels).toBeUndefined();
+        expect(texture.width).toBeUndefined();
+        expect(texture.height).toBeUndefined();
     });
 
-    it('loads grayscale texture', function(done) {
-        expect(loadTexture(grayscaleTexturePath)
-            .then(function(texture) {
-                expect(texture.transparent).toBe(false);
-                expect(texture.source).toBeDefined();
-                expect(texture.extension).toBe('.png');
-            }), done).toResolve();
+    it('loads grayscale texture', async () => {
+        const texture = await loadTexture(grayscaleTexturePath);
+        expect(texture.transparent).toBe(false);
+        expect(texture.source).toBeDefined();
+        expect(texture.extension).toBe('.png');
     });
 
-    it('loads texture with alpha channel', function(done) {
-        expect(loadTexture(transparentTexturePath)
-            .then(function(texture) {
-                expect(texture.transparent).toBe(false);
-            }), done).toResolve();
+    it('loads texture with alpha channel', async () => {
+        const texture = await loadTexture(transparentTexturePath);
+        expect(texture.transparent).toBe(false);
     });
 
-    it('loads texture with checkTransparency flag', function(done) {
-        var options = {
+    it('loads texture with checkTransparency flag', async () => {
+        const options = {
             checkTransparency : true
         };
-        expect(loadTexture(transparentTexturePath, options)
-            .then(function(texture) {
-                expect(texture.transparent).toBe(true);
-            }), done).toResolve();
+        const texture = await loadTexture(transparentTexturePath, options);
+        expect(texture.transparent).toBe(true);
     });
 
-    it('loads and decodes png', function(done) {
-        var options = {
+    it('loads and decodes png', async () => {
+        const options = {
             decode : true
         };
-        expect(loadTexture(pngTexturePath, options)
-            .then(function(texture) {
-                expect(texture.pixels).toBeDefined();
-                expect(texture.width).toBe(211);
-                expect(texture.height).toBe(211);
-            }), done).toResolve();
+        const texture = await loadTexture(pngTexturePath, options);
+        expect(texture.pixels).toBeDefined();
+        expect(texture.width).toBe(211);
+        expect(texture.height).toBe(211);
     });
 
-    it('loads and decodes jpeg', function(done) {
-        var options = {
+    it('loads and decodes jpeg', async () => {
+        const options = {
             decode : true
         };
-        expect(loadTexture(jpegTexturePath, options)
-            .then(function(texture) {
-                expect(texture.pixels).toBeDefined();
-                expect(texture.width).toBe(211);
-                expect(texture.height).toBe(211);
-            }), done).toResolve();
+        const texture = await loadTexture(jpegTexturePath, options);
+        expect(texture.pixels).toBeDefined();
+        expect(texture.width).toBe(211);
+        expect(texture.height).toBe(211);
     });
 });
