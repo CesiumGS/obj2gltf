@@ -1,271 +1,222 @@
 'use strict';
-var Cesium = require('cesium');
-var Promise = require('bluebird');
-var fsExtra = require('fs-extra');
-var loadMtl = require('../../lib/loadMtl');
-var loadTexture = require('../../lib/loadTexture');
-var obj2gltf = require('../../lib/obj2gltf');
+const Cesium = require('cesium');
+const fsExtra = require('fs-extra');
+const loadMtl = require('../../lib/loadMtl');
+const loadTexture = require('../../lib/loadTexture');
+const obj2gltf = require('../../lib/obj2gltf');
 
-var clone = Cesium.clone;
+const clone = Cesium.clone;
 
-var coloredMaterialPath = 'specs/data/box/box.mtl';
-var texturedMaterialPath = 'specs/data/box-complex-material/box-complex-material.mtl';
-var texturedWithOptionsMaterialPath = 'specs/data/box-texture-options/box-texture-options.mtl';
-var multipleMaterialsPath = 'specs/data/box-multiple-materials/box-multiple-materials.mtl';
-var externalMaterialPath = 'specs/data/box-external-resources/box-external-resources.mtl';
-var resourcesInRootMaterialPath = 'specs/data/box-resources-in-root/box-resources-in-root.mtl';
-var externalInRootMaterialPath = 'specs/data/box-external-resources-in-root/box-external-resources-in-root.mtl';
-var transparentMaterialPath = 'specs/data/box-transparent/box-transparent.mtl';
-var diffuseAmbientSameMaterialPath = 'specs/data/box-diffuse-ambient-same/box-diffuse-ambient-same.mtl';
+const coloredMaterialPath = 'specs/data/box/box.mtl';
+const texturedMaterialPath = 'specs/data/box-complex-material/box-complex-material.mtl';
+const texturedWithOptionsMaterialPath = 'specs/data/box-texture-options/box-texture-options.mtl';
+const multipleMaterialsPath = 'specs/data/box-multiple-materials/box-multiple-materials.mtl';
+const externalMaterialPath = 'specs/data/box-external-resources/box-external-resources.mtl';
+const resourcesInRootMaterialPath = 'specs/data/box-resources-in-root/box-resources-in-root.mtl';
+const externalInRootMaterialPath = 'specs/data/box-external-resources-in-root/box-external-resources-in-root.mtl';
+const transparentMaterialPath = 'specs/data/box-transparent/box-transparent.mtl';
+const diffuseAmbientSameMaterialPath = 'specs/data/box-diffuse-ambient-same/box-diffuse-ambient-same.mtl';
 
-var diffuseTexturePath = 'specs/data/box-textured/cesium.png';
-var transparentDiffuseTexturePath = 'specs/data/box-complex-material/diffuse.png';
-var alphaTexturePath = 'specs/data/box-complex-material-alpha/alpha.png';
-var ambientTexturePath = 'specs/data/box-complex-material/ambient.gif';
-var normalTexturePath = 'specs/data/box-complex-material/bump.png';
-var emissiveTexturePath = 'specs/data/box-complex-material/emission.jpg';
-var specularTexturePath = 'specs/data/box-complex-material/specular.jpeg';
-var specularShininessTexturePath = 'specs/data/box-complex-material/shininess.png';
+const diffuseTexturePath = 'specs/data/box-textured/cesium.png';
+const transparentDiffuseTexturePath = 'specs/data/box-complex-material/diffuse.png';
+const alphaTexturePath = 'specs/data/box-complex-material-alpha/alpha.png';
+const ambientTexturePath = 'specs/data/box-complex-material/ambient.gif';
+const normalTexturePath = 'specs/data/box-complex-material/bump.png';
+const emissiveTexturePath = 'specs/data/box-complex-material/emission.jpg';
+const specularTexturePath = 'specs/data/box-complex-material/specular.jpeg';
+const specularShininessTexturePath = 'specs/data/box-complex-material/shininess.png';
 
-var diffuseTexture;
-var transparentDiffuseTexture;
-var alphaTexture;
-var ambientTexture;
-var normalTexture;
-var emissiveTexture;
-var specularTexture;
-var specularShininessTexture;
+let diffuseTexture;
+let transparentDiffuseTexture;
+let alphaTexture;
+let ambientTexture;
+let normalTexture;
+let emissiveTexture;
+let specularTexture;
+let specularShininessTexture;
 
-var checkTransparencyOptions = {
+const checkTransparencyOptions = {
     checkTransparency : true
 };
-var decodeOptions = {
+const decodeOptions = {
     decode : true
 };
 
-var options;
+let options;
 
-describe('loadMtl', function() {
-    beforeAll(function(done) {
-        return Promise.all([
-            loadTexture(diffuseTexturePath, decodeOptions)
-                .then(function(texture) {
-                    diffuseTexture = texture;
-                }),
-            loadTexture(transparentDiffuseTexturePath, checkTransparencyOptions)
-                .then(function(texture) {
-                    transparentDiffuseTexture = texture;
-                }),
-            loadTexture(alphaTexturePath, decodeOptions)
-                .then(function(texture) {
-                    alphaTexture = texture;
-                }),
-            loadTexture(ambientTexturePath)
-                .then(function(texture) {
-                    ambientTexture = texture;
-                }),
-            loadTexture(normalTexturePath)
-                .then(function(texture) {
-                    normalTexture = texture;
-                }),
-            loadTexture(emissiveTexturePath)
-                .then(function(texture) {
-                    emissiveTexture = texture;
-                }),
-            loadTexture(specularTexturePath, decodeOptions)
-                .then(function(texture) {
-                    specularTexture = texture;
-                }),
-            loadTexture(specularShininessTexturePath, decodeOptions)
-                .then(function(texture) {
-                    specularShininessTexture = texture;
-                })
-        ]).then(done);
+describe('loadMtl', () => {
+    beforeAll(async () => {
+        diffuseTexture = await loadTexture(diffuseTexturePath, decodeOptions);
+        transparentDiffuseTexture = await loadTexture(transparentDiffuseTexturePath, checkTransparencyOptions);
+        alphaTexture = await loadTexture(alphaTexturePath, decodeOptions);
+        ambientTexture = await loadTexture(ambientTexturePath);
+        normalTexture = await loadTexture(normalTexturePath);
+        emissiveTexture = await loadTexture(emissiveTexturePath);
+        specularTexture = await loadTexture(specularTexturePath, decodeOptions);
+        specularShininessTexture = await loadTexture(specularShininessTexturePath, decodeOptions);
     });
 
-    beforeEach(function() {
+    beforeEach(() => {
         options = clone(obj2gltf.defaults);
         options.overridingTextures = {};
-        options.logger = function() {};
+        options.logger = () => {};
         options.hasNormals = true;
     });
 
-    it('loads mtl', function(done) {
+    it('loads mtl', async () => {
         options.metallicRoughness = true;
-        expect(loadMtl(coloredMaterialPath, options)
-            .then(function(materials) {
-                expect(materials.length).toBe(1);
-                var material = materials[0];
-                var pbr = material.pbrMetallicRoughness;
-                expect(pbr.baseColorTexture).toBeUndefined();
-                expect(pbr.metallicRoughnessTexture).toBeUndefined();
-                expect(pbr.baseColorFactor).toEqual([0.64, 0.64, 0.64, 1.0]);
-                expect(pbr.metallicFactor).toBe(0.5);
-                expect(pbr.roughnessFactor).toBe(96.078431);
-                expect(material.name).toBe('Material');
-                expect(material.emissiveTexture).toBeUndefined();
-                expect(material.normalTexture).toBeUndefined();
-                expect(material.ambientTexture).toBeUndefined();
-                expect(material.emissiveFactor).toEqual([0.0, 0.0, 0.1]);
-                expect(material.alphaMode).toBe('OPAQUE');
-                expect(material.doubleSided).toBe(false);
-            }), done).toResolve();
+        const materials = await loadMtl(coloredMaterialPath, options);
+        expect(materials.length).toBe(1);
+        const material = materials[0];
+        const pbr = material.pbrMetallicRoughness;
+        expect(pbr.baseColorTexture).toBeUndefined();
+        expect(pbr.metallicRoughnessTexture).toBeUndefined();
+        expect(pbr.baseColorFactor).toEqual([0.64, 0.64, 0.64, 1.0]);
+        expect(pbr.metallicFactor).toBe(0.5);
+        expect(pbr.roughnessFactor).toBe(96.078431);
+        expect(material.name).toBe('Material');
+        expect(material.emissiveTexture).toBeUndefined();
+        expect(material.normalTexture).toBeUndefined();
+        expect(material.ambientTexture).toBeUndefined();
+        expect(material.emissiveFactor).toEqual([0.0, 0.0, 0.1]);
+        expect(material.alphaMode).toBe('OPAQUE');
+        expect(material.doubleSided).toBe(false);
     });
 
-    it('loads mtl with textures', function(done) {
+    it('loads mtl with textures', async () => {
         options.metallicRoughness = true;
-        expect(loadMtl(texturedMaterialPath, options)
-            .then(function(materials) {
-                expect(materials.length).toBe(1);
-                var material = materials[0];
-                var pbr = material.pbrMetallicRoughness;
-                expect(pbr.baseColorTexture).toBeDefined();
-                expect(pbr.metallicRoughnessTexture).toBeDefined();
-                expect(pbr.baseColorFactor).toEqual([1.0, 1.0, 1.0, 0.9]);
-                expect(pbr.metallicFactor).toBe(1.0);
-                expect(pbr.roughnessFactor).toBe(1.0);
-                expect(material.name).toBe('Material');
-                expect(material.emissiveTexture).toBeDefined();
-                expect(material.normalTexture).toBeDefined();
-                expect(material.occlusionTexture).toBeDefined();
-                expect(material.emissiveFactor).toEqual([1.0, 1.0, 1.0]);
-                expect(material.alphaMode).toBe('BLEND');
-                expect(material.doubleSided).toBe(true);
-            }), done).toResolve();
+        const materials = await loadMtl(texturedMaterialPath, options);
+        expect(materials.length).toBe(1);
+        const material = materials[0];
+        const pbr = material.pbrMetallicRoughness;
+        expect(pbr.baseColorTexture).toBeDefined();
+        expect(pbr.metallicRoughnessTexture).toBeDefined();
+        expect(pbr.baseColorFactor).toEqual([1.0, 1.0, 1.0, 0.9]);
+        expect(pbr.metallicFactor).toBe(1.0);
+        expect(pbr.roughnessFactor).toBe(1.0);
+        expect(material.name).toBe('Material');
+        expect(material.emissiveTexture).toBeDefined();
+        expect(material.normalTexture).toBeDefined();
+        expect(material.occlusionTexture).toBeDefined();
+        expect(material.emissiveFactor).toEqual([1.0, 1.0, 1.0]);
+        expect(material.alphaMode).toBe('BLEND');
+        expect(material.doubleSided).toBe(true);
     });
 
-    it('loads mtl with textures having options', function(done) {
+    it('loads mtl with textures having options', async () => {
         options.metallicRoughness = true;
-        expect(loadMtl(texturedWithOptionsMaterialPath, options)
-            .then(function(materials) {
-                expect(materials.length).toBe(1);
-                var material = materials[0];
-                var pbr = material.pbrMetallicRoughness;
-                expect(pbr.baseColorTexture).toBeDefined();
-                expect(pbr.metallicRoughnessTexture).toBeDefined();
-                expect(pbr.baseColorFactor).toEqual([1.0, 1.0, 1.0, 0.9]);
-                expect(pbr.metallicFactor).toBe(1.0);
-                expect(pbr.roughnessFactor).toBe(1.0);
-                expect(material.name).toBe('Material');
-                expect(material.emissiveTexture).toBeDefined();
-                expect(material.normalTexture).toBeDefined();
-                expect(material.occlusionTexture).toBeDefined();
-                expect(material.emissiveFactor).toEqual([1.0, 1.0, 1.0]);
-                expect(material.alphaMode).toBe('BLEND');
-                expect(material.doubleSided).toBe(true);
-            }), done).toResolve();
+        const materials = await loadMtl(texturedWithOptionsMaterialPath, options);
+        expect(materials.length).toBe(1);
+        const material = materials[0];
+        const pbr = material.pbrMetallicRoughness;
+        expect(pbr.baseColorTexture).toBeDefined();
+        expect(pbr.metallicRoughnessTexture).toBeDefined();
+        expect(pbr.baseColorFactor).toEqual([1.0, 1.0, 1.0, 0.9]);
+        expect(pbr.metallicFactor).toBe(1.0);
+        expect(pbr.roughnessFactor).toBe(1.0);
+        expect(material.name).toBe('Material');
+        expect(material.emissiveTexture).toBeDefined();
+        expect(material.normalTexture).toBeDefined();
+        expect(material.occlusionTexture).toBeDefined();
+        expect(material.emissiveFactor).toEqual([1.0, 1.0, 1.0]);
+        expect(material.alphaMode).toBe('BLEND');
+        expect(material.doubleSided).toBe(true);
     });
 
-    it('loads mtl with multiple materials', function(done) {
+    it('loads mtl with multiple materials', async () => {
         options.metallicRoughness = true;
-        expect(loadMtl(multipleMaterialsPath, options)
-            .then(function(materials) {
-                expect(materials.length).toBe(3);
-                expect(materials[0].name).toBe('Blue');
-                expect(materials[0].pbrMetallicRoughness.baseColorFactor).toEqual([0.0, 0.0, 0.64, 1.0]);
-                expect(materials[1].name).toBe('Green');
-                expect(materials[1].pbrMetallicRoughness.baseColorFactor).toEqual([0.0, 0.64, 0.0, 1.0]);
-                expect(materials[2].name).toBe('Red');
-                expect(materials[2].pbrMetallicRoughness.baseColorFactor).toEqual([0.64, 0.0, 0.0, 1.0]);
-            }), done).toResolve();
+        const materials = await loadMtl(multipleMaterialsPath, options);
+        expect(materials.length).toBe(3);
+        expect(materials[0].name).toBe('Blue');
+        expect(materials[0].pbrMetallicRoughness.baseColorFactor).toEqual([0.0, 0.0, 0.64, 1.0]);
+        expect(materials[1].name).toBe('Green');
+        expect(materials[1].pbrMetallicRoughness.baseColorFactor).toEqual([0.0, 0.64, 0.0, 1.0]);
+        expect(materials[2].name).toBe('Red');
+        expect(materials[2].pbrMetallicRoughness.baseColorFactor).toEqual([0.64, 0.0, 0.0, 1.0]);
     });
 
-    it('sets overriding textures', function(done) {
+    it('sets overriding textures', async () => {
         spyOn(fsExtra, 'readFile').and.callThrough();
         options.overridingTextures = {
             metallicRoughnessOcclusionTexture : alphaTexturePath,
             baseColorTexture : alphaTexturePath,
             emissiveTexture : emissiveTexturePath
         };
-        expect(loadMtl(texturedMaterialPath, options)
-            .then(function(materials) {
-                var material = materials[0];
-                var pbr = material.pbrMetallicRoughness;
-                expect(pbr.baseColorTexture.name).toBe('alpha');
-                expect(pbr.metallicRoughnessTexture.name).toBe('alpha');
-                expect(material.emissiveTexture.name).toBe('emission');
-                expect(material.normalTexture.name).toBe('bump');
-                expect(fsExtra.readFile.calls.count()).toBe(3);
-            }), done).toResolve();
+        const materials = await loadMtl(texturedMaterialPath, options);
+        const material = materials[0];
+        const pbr = material.pbrMetallicRoughness;
+        expect(pbr.baseColorTexture.name).toBe('alpha');
+        expect(pbr.metallicRoughnessTexture.name).toBe('alpha');
+        expect(material.emissiveTexture.name).toBe('emission');
+        expect(material.normalTexture.name).toBe('bump');
+        expect(fsExtra.readFile.calls.count()).toBe(3);
     });
 
-    it('loads texture outside of the mtl directory', function(done) {
-        expect(loadMtl(externalMaterialPath, options)
-            .then(function(materials) {
-                var material = materials[0];
-                var baseColorTexture = material.pbrMetallicRoughness.baseColorTexture;
-                expect(baseColorTexture.source).toBeDefined();
-                expect(baseColorTexture.name).toBe('cesium');
-            }), done).toResolve();
+    it('loads texture outside of the mtl directory', async () => {
+        const materials = await loadMtl(externalMaterialPath, options);
+        const material = materials[0];
+        const baseColorTexture = material.pbrMetallicRoughness.baseColorTexture;
+        expect(baseColorTexture.source).toBeDefined();
+        expect(baseColorTexture.name).toBe('cesium');
     });
 
-    it('does not load texture outside of the mtl directory when secure is true', function(done) {
-        var spy = jasmine.createSpy('logger');
+    it('does not load texture outside of the mtl directory when secure is true', async () => {
+        const spy = jasmine.createSpy('logger');
         options.logger = spy;
         options.secure = true;
 
-        expect(loadMtl(externalMaterialPath, options)
-            .then(function(materials) {
-                var material = materials[0];
-                var baseColorTexture = material.pbrMetallicRoughness.baseColorTexture;
-                expect(baseColorTexture).toBeUndefined();
-                expect(spy.calls.argsFor(0)[0].indexOf('Texture file is outside of the mtl directory and the secure flag is true. Attempting to read the texture file from within the obj directory instead') >= 0).toBe(true);
-                expect(spy.calls.argsFor(1)[0].indexOf('ENOENT') >= 0).toBe(true);
-                expect(spy.calls.argsFor(2)[0].indexOf('Could not read texture file') >= 0).toBe(true);
-            }), done).toResolve();
+        const materials = await loadMtl(externalMaterialPath, options);
+        const material = materials[0];
+        const baseColorTexture = material.pbrMetallicRoughness.baseColorTexture;
+        expect(baseColorTexture).toBeUndefined();
+        expect(spy.calls.argsFor(0)[0].indexOf('Texture file is outside of the mtl directory and the secure flag is true. Attempting to read the texture file from within the obj directory instead') >= 0).toBe(true);
+        expect(spy.calls.argsFor(1)[0].indexOf('ENOENT') >= 0).toBe(true);
+        expect(spy.calls.argsFor(2)[0].indexOf('Could not read texture file') >= 0).toBe(true);
     });
 
-    it('loads textures from root directory when the texture paths do not exist', function(done) {
-        expect(loadMtl(resourcesInRootMaterialPath, options)
-            .then(function(materials) {
-                var material = materials[0];
-                var baseColorTexture = material.pbrMetallicRoughness.baseColorTexture;
-                expect(baseColorTexture.source).toBeDefined();
-                expect(baseColorTexture.name).toBe('cesium');
-            }), done).toResolve();
+    it('loads textures from root directory when the texture paths do not exist', async () => {
+        const materials = await loadMtl(resourcesInRootMaterialPath, options);
+        const material = materials[0];
+        const baseColorTexture = material.pbrMetallicRoughness.baseColorTexture;
+        expect(baseColorTexture.source).toBeDefined();
+        expect(baseColorTexture.name).toBe('cesium');
     });
 
-    it('loads textures from root directory when texture is outside of the mtl directory and secure is true', function(done) {
+    it('loads textures from root directory when texture is outside of the mtl directory and secure is true', async () => {
         options.secure = true;
 
-        expect(loadMtl(externalInRootMaterialPath, options)
-            .then(function(materials) {
-                var material = materials[0];
-                var baseColorTexture = material.pbrMetallicRoughness.baseColorTexture;
-                expect(baseColorTexture.source).toBeDefined();
-                expect(baseColorTexture.name).toBe('cesium');
-            }), done).toResolve();
+        const materials = await loadMtl(externalInRootMaterialPath, options);
+        const material = materials[0];
+        const baseColorTexture = material.pbrMetallicRoughness.baseColorTexture;
+        expect(baseColorTexture.source).toBeDefined();
+        expect(baseColorTexture.name).toBe('cesium');
     });
 
-    it('alpha of 0.0 is treated as 1.0', function(done) {
-        expect(loadMtl(transparentMaterialPath, options)
-            .then(function(materials) {
-                expect(materials.length).toBe(1);
-                var material = materials[0];
-                var pbr = material.pbrMetallicRoughness;
-                expect(pbr.baseColorTexture).toBeUndefined();
-                expect(pbr.metallicRoughnessTexture).toBeUndefined();
-                expect(pbr.baseColorFactor[3]).toEqual(1.0);
-                expect(material.alphaMode).toBe('OPAQUE');
-                expect(material.doubleSided).toBe(false);
-            }), done).toResolve();
+    it('alpha of 0.0 is treated as 1.0', async () => {
+        const materials = await loadMtl(transparentMaterialPath, options);
+        expect(materials.length).toBe(1);
+        const material = materials[0];
+        const pbr = material.pbrMetallicRoughness;
+        expect(pbr.baseColorTexture).toBeUndefined();
+        expect(pbr.metallicRoughnessTexture).toBeUndefined();
+        expect(pbr.baseColorFactor[3]).toEqual(1.0);
+        expect(material.alphaMode).toBe('OPAQUE');
+        expect(material.doubleSided).toBe(false);
     });
 
-    it('ambient texture is ignored if it is the same as the diffuse texture', function(done) {
-        expect(loadMtl(diffuseAmbientSameMaterialPath, options)
-            .then(function(materials) {
-                expect(materials.length).toBe(1);
-                var material = materials[0];
-                var pbr = material.pbrMetallicRoughness;
-                expect(pbr.baseColorTexture).toBeDefined();
-                expect(pbr.occlusionTexture).toBeUndefined();
-            }), done).toResolve();
+    it('ambient texture is ignored if it is the same as the diffuse texture', async () => {
+        const materials = await loadMtl(diffuseAmbientSameMaterialPath, options);
+        expect(materials.length).toBe(1);
+        const material = materials[0];
+        const pbr = material.pbrMetallicRoughness;
+        expect(pbr.baseColorTexture).toBeDefined();
+        expect(pbr.occlusionTexture).toBeUndefined();
     });
 
-    describe('metallicRoughness', function() {
-        it('creates default material', function() {
-            var material = loadMtl._createMaterial(undefined, options);
-            var pbr = material.pbrMetallicRoughness;
+    describe('metallicRoughness', () => {
+        it('creates default material', () => {
+            const material = loadMtl._createMaterial(undefined, options);
+            const pbr = material.pbrMetallicRoughness;
             expect(pbr.baseColorTexture).toBeUndefined();
             expect(pbr.metallicRoughnessTexture).toBeUndefined();
             expect(pbr.baseColorFactor).toEqual([0.5, 0.5, 0.5, 1.0]);
@@ -279,10 +230,10 @@ describe('loadMtl', function() {
             expect(material.doubleSided).toBe(false);
         });
 
-        it('creates material with textures', function() {
+        it('creates material with textures', () => {
             options.metallicRoughness = true;
 
-            var material = loadMtl._createMaterial({
+            const material = loadMtl._createMaterial({
                 diffuseTexture : diffuseTexture,
                 ambientTexture : ambientTexture,
                 normalTexture : normalTexture,
@@ -291,7 +242,7 @@ describe('loadMtl', function() {
                 specularShininessTexture : specularShininessTexture
             }, options);
 
-            var pbr = material.pbrMetallicRoughness;
+            const pbr = material.pbrMetallicRoughness;
             expect(pbr.baseColorTexture).toBeDefined();
             expect(pbr.metallicRoughnessTexture).toBeDefined();
             expect(pbr.baseColorFactor).toEqual([1.0, 1.0, 1.0, 1.0]);
@@ -305,63 +256,63 @@ describe('loadMtl', function() {
             expect(material.doubleSided).toBe(false);
         });
 
-        it('packs occlusion in metallic roughness texture', function() {
+        it('packs occlusion in metallic roughness texture', () => {
             options.metallicRoughness = true;
             options.packOcclusion = true;
 
-            var material = loadMtl._createMaterial({
+            const material = loadMtl._createMaterial({
                 ambientTexture : alphaTexture,
                 specularTexture : specularTexture,
                 specularShininessTexture : specularShininessTexture
             }, options);
 
-            var pbr = material.pbrMetallicRoughness;
+            const pbr = material.pbrMetallicRoughness;
             expect(pbr.metallicRoughnessTexture).toBeDefined();
             expect(pbr.metallicRoughnessTexture).toBe(material.occlusionTexture);
         });
 
-        it('does not create metallic roughness texture if decoded texture data is not available', function() {
+        it('does not create metallic roughness texture if decoded texture data is not available', () => {
             options.metallicRoughness = true;
             options.packOcclusion = true;
 
-            var material = loadMtl._createMaterial({
+            const material = loadMtl._createMaterial({
                 ambientTexture : ambientTexture, // Is a .gif which can't be decoded
                 specularTexture : specularTexture,
                 specularShininessTexture : specularShininessTexture
             }, options);
 
-            var pbr = material.pbrMetallicRoughness;
+            const pbr = material.pbrMetallicRoughness;
             expect(pbr.metallicRoughnessTexture).toBeUndefined();
             expect(material.occlusionTexture).toBeUndefined();
         });
 
-        it('sets material for transparent diffuse texture', function() {
+        it('sets material for transparent diffuse texture', () => {
             options.metallicRoughness = true;
 
-            var material = loadMtl._createMaterial({
+            const material = loadMtl._createMaterial({
                 diffuseTexture : transparentDiffuseTexture
             }, options);
             expect(material.alphaMode).toBe('BLEND');
             expect(material.doubleSided).toBe(true);
         });
 
-        it('packs alpha texture in base color texture', function() {
+        it('packs alpha texture in base color texture', () => {
             options.metallicRoughness = true;
 
-            var material = loadMtl._createMaterial({
+            const material = loadMtl._createMaterial({
                 diffuseTexture : diffuseTexture,
                 alphaTexture : alphaTexture
             }, options);
 
-            var pbr = material.pbrMetallicRoughness;
+            const pbr = material.pbrMetallicRoughness;
             expect(pbr.baseColorTexture).toBeDefined();
 
-            var hasBlack = false;
-            var hasWhite = false;
-            var pixels = pbr.baseColorTexture.pixels;
-            var pixelsLength = pixels.length / 4;
-            for (var i = 0; i < pixelsLength; ++i) {
-                var alpha = pixels[i * 4 + 3];
+            let hasBlack = false;
+            let hasWhite = false;
+            const pixels = pbr.baseColorTexture.pixels;
+            const pixelsLength = pixels.length / 4;
+            for (let i = 0; i < pixelsLength; ++i) {
+                const alpha = pixels[i * 4 + 3];
                 hasBlack = hasBlack || (alpha === 0);
                 hasWhite = hasWhite || (alpha === 255);
             }
@@ -373,11 +324,11 @@ describe('loadMtl', function() {
         });
     });
 
-    describe('specularGlossiness', function() {
-        it('creates default material', function() {
+    describe('specularGlossiness', () => {
+        it('creates default material', () => {
             options.specularGlossiness = true;
-            var material = loadMtl._createMaterial(undefined, options);
-            var pbr = material.extensions.KHR_materials_pbrSpecularGlossiness;
+            const material = loadMtl._createMaterial(undefined, options);
+            const pbr = material.extensions.KHR_materials_pbrSpecularGlossiness;
             expect(pbr.diffuseTexture).toBeUndefined();
             expect(pbr.specularGlossinessTexture).toBeUndefined();
             expect(pbr.diffuseFactor).toEqual([0.5, 0.5, 0.5, 1.0]);
@@ -391,10 +342,10 @@ describe('loadMtl', function() {
             expect(material.doubleSided).toBe(false);
         });
 
-        it('creates material with textures', function() {
+        it('creates material with textures', () => {
             options.specularGlossiness = true;
 
-            var material = loadMtl._createMaterial({
+            const material = loadMtl._createMaterial({
                 diffuseTexture : diffuseTexture,
                 ambientTexture : ambientTexture,
                 normalTexture : normalTexture,
@@ -403,7 +354,7 @@ describe('loadMtl', function() {
                 specularShininessTexture : specularShininessTexture
             }, options);
 
-            var pbr = material.extensions.KHR_materials_pbrSpecularGlossiness;
+            const pbr = material.extensions.KHR_materials_pbrSpecularGlossiness;
             expect(pbr.diffuseTexture).toBeDefined();
             expect(pbr.specularGlossinessTexture).toBeDefined();
             expect(pbr.diffuseFactor).toEqual([1.0, 1.0, 1.0, 1.0]);
@@ -417,22 +368,22 @@ describe('loadMtl', function() {
             expect(material.doubleSided).toBe(false);
         });
 
-        it('does not create specular glossiness texture if decoded texture data is not available', function() {
+        it('does not create specular glossiness texture if decoded texture data is not available', () => {
             options.specularGlossiness = true;
 
-            var material = loadMtl._createMaterial({
+            const material = loadMtl._createMaterial({
                 specularTexture : ambientTexture, // Is a .gif which can't be decoded
                 specularShininessTexture : specularShininessTexture
             }, options);
 
-            var pbr = material.extensions.KHR_materials_pbrSpecularGlossiness;
+            const pbr = material.extensions.KHR_materials_pbrSpecularGlossiness;
             expect(pbr.specularGlossinessTexture).toBeUndefined();
         });
 
-        it('sets material for transparent diffuse texture', function() {
+        it('sets material for transparent diffuse texture', () => {
             options.specularGlossiness = true;
 
-            var material = loadMtl._createMaterial({
+            const material = loadMtl._createMaterial({
                 diffuseTexture : transparentDiffuseTexture
             }, options);
 
@@ -440,23 +391,23 @@ describe('loadMtl', function() {
             expect(material.doubleSided).toBe(true);
         });
 
-        it('packs alpha texture in diffuse texture', function() {
+        it('packs alpha texture in diffuse texture', () => {
             options.specularGlossiness = true;
 
-            var material = loadMtl._createMaterial({
+            const material = loadMtl._createMaterial({
                 diffuseTexture : diffuseTexture,
                 alphaTexture : alphaTexture
             }, options);
 
-            var pbr = material.extensions.KHR_materials_pbrSpecularGlossiness;
+            const pbr = material.extensions.KHR_materials_pbrSpecularGlossiness;
             expect(pbr.diffuseTexture).toBeDefined();
 
-            var hasBlack = false;
-            var hasWhite = false;
-            var pixels = pbr.diffuseTexture.pixels;
-            var pixelsLength = pixels.length / 4;
-            for (var i = 0; i < pixelsLength; ++i) {
-                var alpha = pixels[i * 4 + 3];
+            let hasBlack = false;
+            let hasWhite = false;
+            const pixels = pbr.diffuseTexture.pixels;
+            const pixelsLength = pixels.length / 4;
+            for (let i = 0; i < pixelsLength; ++i) {
+                const alpha = pixels[i * 4 + 3];
                 hasBlack = hasBlack || (alpha === 0);
                 hasWhite = hasWhite || (alpha === 255);
             }
