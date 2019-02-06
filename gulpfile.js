@@ -1,26 +1,26 @@
 'use strict';
 
-var Cesium = require('cesium');
-var Promise = require('bluebird');
-var child_process = require('child_process');
-var fsExtra = require('fs-extra');
-var gulp = require('gulp');
-var Jasmine = require('jasmine');
-var JasmineSpecReporter = require('jasmine-spec-reporter').SpecReporter;
-var open = require('open');
-var path = require('path');
-var yargs = require('yargs');
+const Cesium = require('cesium');
+const Promise = require('bluebird');
+const child_process = require('child_process');
+const fsExtra = require('fs-extra');
+const gulp = require('gulp');
+const Jasmine = require('jasmine');
+const JasmineSpecReporter = require('jasmine-spec-reporter').SpecReporter;
+const open = require('open');
+const path = require('path');
+const yargs = require('yargs');
 
-var defined = Cesium.defined;
-var argv = yargs.argv;
+const defined = Cesium.defined;
+const argv = yargs.argv;
 
 // Add third-party node module binaries to the system path
 // since some tasks need to call them directly.
-var environmentSeparator = process.platform === 'win32' ? ';' : ':';
-var nodeBinaries = path.join(__dirname, 'node_modules', '.bin');
+const environmentSeparator = process.platform === 'win32' ? ';' : ':';
+const nodeBinaries = path.join(__dirname, 'node_modules', '.bin');
 process.env.PATH += environmentSeparator + nodeBinaries;
 
-var specFiles = ['**/*.js', '!node_modules/**', '!coverage/**', '!doc/**', '!bin/**'];
+const specFiles = ['**/*.js', '!node_modules/**', '!coverage/**', '!doc/**', '!bin/**'];
 
 module.exports = {
     test: test,
@@ -30,7 +30,7 @@ module.exports = {
 };
 
 function test(done) {
-    var jasmine = new Jasmine();
+    const jasmine = new Jasmine();
     jasmine.loadConfigFile('specs/jasmine.json');
     jasmine.addReporter(new JasmineSpecReporter({
         displaySuccessfulSpec: !defined(argv.suppressPassed) || !argv.suppressPassed
@@ -70,11 +70,11 @@ async function coverage() {
 }
 
 function cloc() {
-    var cmdLine;
-    var clocPath = path.join('node_modules', 'cloc', 'lib', 'cloc');
+    let cmdLine;
+    const clocPath = path.join('node_modules', 'cloc', 'lib', 'cloc');
 
     //Run cloc on primary Source files only
-    var source = new Promise(function(resolve, reject) {
+    const source = new Promise(function(resolve, reject) {
         cmdLine = 'perl ' + clocPath + ' --quiet --progress-rate=0' +
             ' lib/ bin/';
 

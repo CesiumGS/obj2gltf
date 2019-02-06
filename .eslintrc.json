@@ -1,6 +1,6 @@
 {
     "extends": "cesium/node",
     "rules": {
-        "no-var": "off"
+        "no-unused-vars": ["error", {"args": "none"}]
     }
 }
