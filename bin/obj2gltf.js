@@ -1,19 +1,19 @@
 #!/usr/bin/env node
 'use strict';
-var Cesium = require('cesium');
-var fsExtra = require('fs-extra');
-var path = require('path');
-var yargs = require('yargs');
-var obj2gltf = require('../lib/obj2gltf');
+const Cesium = require('cesium');
+const fsExtra = require('fs-extra');
+const path = require('path');
+const yargs = require('yargs');
+const obj2gltf = require('../lib/obj2gltf');
 
-var defaultValue = Cesium.defaultValue;
-var defined = Cesium.defined;
+const defaultValue = Cesium.defaultValue;
+const defined = Cesium.defined;
 
-var defaults = obj2gltf.defaults;
+const defaults = obj2gltf.defaults;
 
-var args = process.argv;
+const args = process.argv;
 
-var argv = yargs
+const argv = yargs
     .usage('Usage: node $0 -i inputPath -o outputPath')
     .example('node $0 -i ./specs/data/box/box.obj -o box.gltf')
     .help('h')
@@ -135,18 +135,18 @@ if (defined(argv.metallicRoughnessOcclusionTexture) && defined(argv.specularGlos
     process.exit(1);
 }
 
-var objPath = argv.input;
-var gltfPath = argv.output;
+const objPath = argv.input;
+let gltfPath = argv.output;
 
-var filename = defaultValue(gltfPath, objPath);
-var name = path.basename(filename, path.extname(filename));
-var outputDirectory = path.dirname(filename);
-var binary = argv.binary || path.extname(filename).toLowerCase() === '.glb';
-var extension = binary ? '.glb' : '.gltf';
+const filename = defaultValue(gltfPath, objPath);
+const name = path.basename(filename, path.extname(filename));
+const outputDirectory = path.dirname(filename);
+const binary = argv.binary || path.extname(filename).toLowerCase() === '.glb';
+const extension = binary ? '.glb' : '.gltf';
 
 gltfPath = path.join(outputDirectory, name + extension);
 
-var overridingTextures = {
+const overridingTextures = {
     metallicRoughnessOcclusionTexture : argv.metallicRoughnessOcclusionTexture,
     specularGlossinessTexture : argv.specularGlossinessTexture,
     occlusionTexture : argv.occlusionTexture,
@@ -156,7 +156,7 @@ var overridingTextures = {
     alphaTexture : argv.alphaTexture
 };
 
-var options = {
+const options = {
     binary : binary,
     separate : argv.separate,
     separateTextures : argv.separateTextures,
@@ -178,7 +178,7 @@ obj2gltf(objPath, options)
             // gltf is a glb buffer
             return fsExtra.outputFile(gltfPath, gltf);
         }
-        var jsonOptions = {
+        const jsonOptions = {
             spaces : 2
         };
         return fsExtra.outputJson(gltfPath, gltf, jsonOptions);

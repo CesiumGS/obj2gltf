@@ -24,11 +24,11 @@ npm install -g obj2gltf
 #### Converting an obj model to gltf:
 
 ```javascript
-var obj2gltf = require('obj2gltf');
-var fs = require('fs');
+const obj2gltf = require('obj2gltf');
+const fs = require('fs');
 obj2gltf('model.obj')
     .then(function(gltf) {
-        var data = Buffer.from(JSON.stringify(gltf));
+        const data = Buffer.from(JSON.stringify(gltf));
         fs.writeFileSync('model.gltf', data);
     });
 ```
@@ -36,9 +36,9 @@ obj2gltf('model.obj')
 #### Converting an obj model to glb
 
 ```javascript
-var obj2gltf = require('obj2gltf');
-var fs = require('fs');
-var options = {
+const obj2gltf = require('obj2gltf');
+const fs = require('fs');
+const options = {
     binary : true
 }
 obj2gltf('model.obj', options)
