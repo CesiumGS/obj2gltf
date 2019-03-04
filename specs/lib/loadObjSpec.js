@@ -28,6 +28,7 @@ const objMtllibPath = 'specs/data/box-mtllib/box-mtllib.obj';
 const objMtllibSpacesPath = 'specs/data/box-mtllib-spaces/box mtllib.obj';
 const objMissingMtllibPath = 'specs/data/box-missing-mtllib/box-missing-mtllib.obj';
 const objMissingUsemtlPath = 'specs/data/box-missing-usemtl/box-missing-usemtl.obj';
+const objUnnamedMaterialPath = 'specs/data/box-unnamed-material/box-unnamed-material.obj';
 const objExternalResourcesPath = 'specs/data/box-external-resources/box-external-resources.obj';
 const objResourcesInRootPath = 'specs/data/box-resources-in-root/box-resources-in-root.obj';
 const objExternalResourcesInRootPath = 'specs/data/box-external-resources-in-root/box-external-resources-in-root.obj';
@@ -357,6 +358,12 @@ describe('loadObj', () => {
         const data = await loadObj(objMissingUsemtlPath, options);
         expect(data.materials.length).toBe(1);
         expect(data.nodes[0].meshes[0].primitives[0].material).toBe('Material');
+    });
+
+    it('loads obj with unnamed material', async () => {
+        const data = await loadObj(objUnnamedMaterialPath, options);
+        expect(data.materials.length).toBe(1);
+        expect(data.nodes[0].meshes[0].primitives[0].material).toBe('');
     });
 
     it('loads .mtl outside of the obj directory', async () => {
