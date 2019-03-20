@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### 3.0.2 2019-03-??
+
+* Fixed a crash when saving separate resources that would exceed the Node buffer size limit. [#173](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/173)
+
 ### 3.0.1 2019-03-08
 
 * Fixed handling of materials that don't have names. [#173](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/173)
