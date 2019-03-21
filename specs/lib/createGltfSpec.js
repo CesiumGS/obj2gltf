@@ -60,6 +60,29 @@ describe('createGltf', () => {
         expect(indexAccessor.count).toBe(36);
     });
 
+    it('does not combine buffers when that buffer would exceed the Node buffer size limit', () => {
+        spyOn(createGltf, '_getBufferMaxByteLength').and.returnValue(0);
+        const clonedOptions = clone(options, true);
+        clonedOptions.separate = true;
+
+        const gltf = createGltf(boxObjData, clonedOptions);
+        expect(gltf.accessors.length).toBe(4);
+        expect(gltf.buffers.length).toBe(4);
+        expect(gltf.bufferViews.length).toBe(4);
+
+        const length = gltf.buffers.length;
+        for (let i = 0; i < length; ++i) {
+            const accessor = gltf.accessors[i];
+            const bufferView = gltf.bufferViews[i];
+            const buffer = gltf.buffers[i];
+            expect(accessor.bufferView).toBe(i);
+            expect(accessor.byteOffset).toBe(0);
+            expect(bufferView.buffer).toBe(i);
+            expect(bufferView.byteOffset).toBe(0);
+            expect(bufferView.byteLength).toBe(buffer.byteLength);
+        }
+    });
+
     it('multiple nodes, meshes, and primitives', () => {
         const gltf = createGltf(groupObjData, options);
 

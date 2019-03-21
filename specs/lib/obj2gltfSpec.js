@@ -3,6 +3,7 @@ const { DeveloperError } = require('cesium');
 const fsExtra = require('fs-extra');
 const path = require('path');
 const Promise = require('bluebird');
+const createGltf = require('../../lib/createGltf');
 const obj2gltf = require('../../lib/obj2gltf');
 
 const texturedObjPath = 'specs/data/box-textured/box-textured.obj';
@@ -41,6 +42,17 @@ describe('obj2gltf', () => {
         };
         await obj2gltf(texturedObjPath, options);
         expect(fsExtra.outputFile.calls.count()).toBe(2); // Saves out .png and .bin
+    });
+
+    it('convert obj to gltf with separate resources when buffer exceeds Node limit', async () => {
+        spyOn(createGltf, '_getBufferMaxByteLength').and.returnValue(0);
+        const options = {
+            separate : true,
+            separateTextures : true,
+            outputDirectory : outputDirectory
+        };
+        await obj2gltf(texturedObjPath, options);
+        expect(fsExtra.outputFile.calls.count()).toBe(5); // Saves out .png and four .bin for positions, normals, uvs, and indices
     });
 
     it('converts obj to glb with separate resources', async () => {
@@ -126,7 +138,7 @@ describe('obj2gltf', () => {
             }
         };
         await obj2gltf(texturedObjPath, options);
-        expect(filePaths).toEqual(['box-textured.bin', 'cesium.png']);
+        expect(filePaths).toEqual(['cesium.png', 'box-textured.bin']);
         expect(fileContents[0]).toBeDefined();
         expect(fileContents[1]).toBeDefined();
     });
