@@ -28,7 +28,7 @@
   "dependencies": {
     "bluebird": "^3.5.3",
     "cesium": "^1.55.0",
-    "fs-extra": "^7.0.1",
+    "fs-extra": "^8.0.0",
     "jpeg-js": "^0.3.4",
     "mime": "^2.4.0",
     "pngjs": "^3.3.3",
