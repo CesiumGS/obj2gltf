@@ -10,6 +10,7 @@ const clone = Cesium.clone;
 const RuntimeError = Cesium.RuntimeError;
 
 const objPath = 'specs/data/box/box.obj';
+const objTabsPath = 'specs/data/box-tabs/box-tabs.obj';
 const objNormalsPath = 'specs/data/box-normals/box-normals.obj';
 const objUvsPath = 'specs/data/box-uvs/box-uvs.obj';
 const objPositionsOnlyPath = 'specs/data/box-positions-only/box-positions-only.obj';
@@ -100,6 +101,25 @@ describe('loadObj', () => {
         expect(primitive.uvs.length / 2).toBe(24);
         expect(primitive.indices.length).toBe(36);
         expect(primitive.material).toBe('Material');
+    });
+
+    it('loads obj with tabs', async () => {
+        const data = await loadObj(objTabsPath, options);
+        const primitives = getPrimitives(data);
+        const primitive = primitives[0];
+
+        expect(primitive.positions.length / 3).toBe(24);
+        expect(primitive.normals.length / 3).toBe(24);
+        expect(primitive.uvs.length / 2).toBe(24);
+        expect(primitive.indices.length).toBe(36);
+        expect(primitive.material).toBe('Material');
+
+        const material = data.materials[0];
+        const pbr = material.pbrMetallicRoughness;
+        expect(pbr.baseColorFactor).toEqual([0.64, 0.64, 0.64, 1.0]);
+        expect(pbr.metallicFactor).toBe(0.0);
+        expect(CesiumMath.equalsEpsilon(pbr.roughnessFactor, 0.903921569, CesiumMath.EPSILON7)).toBe(true);
+        expect(material.emissiveFactor).toEqual([0.0, 0.0, 0.1]);
     });
 
     it('loads obj with normals', async () => {
