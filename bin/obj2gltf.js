@@ -122,6 +122,10 @@ const argv = yargs
             describe : 'The glTF will be saved with the KHR_materials_unlit extension.',
             type : 'boolean',
             default : defaults.unlit
+        },
+        extras : {
+            describe : 'An object for storing application-specific data. It will be saved to the root object for a gLTF asset.',
+            type : 'object'
         }
     }).parse(args);
 
@@ -167,7 +171,8 @@ const options = {
     specularGlossiness : argv.specularGlossiness,
     unlit : argv.unlit,
     overridingTextures : overridingTextures,
-    outputDirectory : outputDirectory
+    outputDirectory : outputDirectory,
+    extras: argv.extras
 };
 
 console.time('Total');
