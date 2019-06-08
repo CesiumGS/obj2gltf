@@ -123,9 +123,16 @@ const argv = yargs
             type : 'boolean',
             default : defaults.unlit
         },
-        extras : {
-            describe : 'An object for storing application-specific data. It will be saved to the root object for a gLTF asset.',
-            type : 'object'
+        extrasPath : {
+            describe : 'Path to the json file that contains an object for storing application-specific data. It will be saved to the top-level of the glTF.',
+            type : 'string',
+            normalize : true,
+            coerce : function (p) {
+                if (p.length === 0) {
+                    throw new Error('Input path must be a file name');
+                }
+                return path.resolve(p);
+            }
         }
     }).parse(args);
 
@@ -171,9 +178,12 @@ const options = {
     specularGlossiness : argv.specularGlossiness,
     unlit : argv.unlit,
     overridingTextures : overridingTextures,
-    outputDirectory : outputDirectory,
-    extras: argv.extras
+    outputDirectory : outputDirectory
 };
+
+if (defined(argv.extrasPath)) {
+    options.extras = JSON.parse(fsExtra.readFileSync(argv.extrasPath));
+}
 
 console.time('Total');
 
