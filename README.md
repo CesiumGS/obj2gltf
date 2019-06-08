@@ -114,7 +114,7 @@ As a convenience the PBR textures may be supplied directly to the command line.
 |`--baseColorTexture`|Path to the baseColor/diffuse texture that should override textures in the .mtl file.|No|
 |`--emissiveTexture`|Path to the emissive texture that should override textures in the .mtl file.|No|
 |`--alphaTexture`|Path to the alpha texture that should override textures in the .mtl file.|No|
-|`--extras`|An object for storing application-specific data. It will be saved to the root object for a gLTF asset.|No|
+|`--extrasPath`|Path to the json file that contains an object for storing application-specific data. It will be saved to the top-level of the glTF.|No|
 
 ## Build Instructions
 
