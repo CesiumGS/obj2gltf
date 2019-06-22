@@ -37,7 +37,7 @@
   "devDependencies": {
     "cloc": "^2.4.0",
     "coveralls": "^3.0.3",
-    "eslint": "^5.15.1",
+    "eslint": "^6.0.0",
     "eslint-config-cesium": "^7.0.0",
     "gulp": "^4.0.0",
     "jasmine": "^3.3.1",
