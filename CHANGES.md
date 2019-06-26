@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### 3.0.3 2019-06-26
+
+* Fixed parsing of negative face indices. [#191](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/191)
+
 ### 3.0.2 2019-03-21
 
 * Fixed a crash when saving separate resources that would exceed the Node buffer size limit. [#173](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/173)
