@@ -60,7 +60,6 @@ describe('loadMtl', () => {
         options = clone(obj2gltf.defaults);
         options.overridingTextures = {};
         options.logger = () => {};
-        options.hasNormals = true;
     });
 
     it('loads mtl', async () => {
