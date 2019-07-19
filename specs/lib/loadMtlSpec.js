@@ -321,6 +321,18 @@ describe('loadMtl', () => {
             expect(material.alphaMode).toBe('BLEND');
             expect(material.doubleSided).toBe(true);
         });
+
+        it('uses diffuse texture if diffuse and alpha are the same', () => {
+            options.metallicRoughness = true;
+
+            const material = loadMtl._createMaterial({
+                diffuseTexture : diffuseTexture,
+                alphaTexture : diffuseTexture
+            }, options);
+
+            const pbr = material.pbrMetallicRoughness;
+            expect(pbr.baseColorTexture).toBe(diffuseTexture);
+        });
     });
 
     describe('specularGlossiness', () => {
