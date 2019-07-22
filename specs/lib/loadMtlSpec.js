@@ -322,18 +322,16 @@ describe('loadMtl', () => {
             expect(material.doubleSided).toBe(true);
         });
 
-        it('uses diffuse texture if diffuse and alpha are the same', async () => {
+        it('uses diffuse texture if diffuse and alpha are the same', () => {
             options.metallicRoughness = true;
 
-            // The transparent property will be modified so make a copy
-            const diffuseTextureCopy = await loadTexture(diffuseTexturePath, decodeOptions);
             const material = loadMtl._createMaterial({
-                diffuseTexture : diffuseTextureCopy,
+                diffuseTexture : diffuseTexture,
                 alphaTexture : diffuseTexture
             }, options);
 
             const pbr = material.pbrMetallicRoughness;
-            expect(pbr.baseColorTexture).toBe(diffuseTextureCopy);
+            expect(pbr.baseColorTexture).toBe(diffuseTexture);
             expect(material.alphaMode).toBe('BLEND');
             expect(material.doubleSided).toBe(true);
         });
@@ -433,18 +431,16 @@ describe('loadMtl', () => {
             expect(material.doubleSided).toBe(true);
         });
 
-        it('uses diffuse texture if diffuse and alpha are the same', async () => {
+        it('uses diffuse texture if diffuse and alpha are the same', () => {
             options.specularGlossiness = true;
 
-            // The transparent property will be modified so make a copy
-            const diffuseTextureCopy = await loadTexture(diffuseTexturePath, decodeOptions);
             const material = loadMtl._createMaterial({
-                diffuseTexture : diffuseTextureCopy,
+                diffuseTexture : diffuseTexture,
                 alphaTexture : diffuseTexture
             }, options);
 
             const pbr = material.extensions.KHR_materials_pbrSpecularGlossiness;
-            expect(pbr.diffuseTexture).toEqual(diffuseTextureCopy);
+            expect(pbr.diffuseTexture).toEqual(diffuseTexture);
             expect(material.alphaMode).toBe('BLEND');
             expect(material.doubleSided).toBe(true);
         });
