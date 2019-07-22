@@ -321,6 +321,22 @@ describe('loadMtl', () => {
             expect(material.alphaMode).toBe('BLEND');
             expect(material.doubleSided).toBe(true);
         });
+
+        it('uses diffuse texture if diffuse and alpha are the same', async () => {
+            options.metallicRoughness = true;
+
+            // The transparent property will be modified so make a copy
+            const diffuseTextureCopy = await loadTexture(diffuseTexturePath, decodeOptions);
+            const material = loadMtl._createMaterial({
+                diffuseTexture : diffuseTextureCopy,
+                alphaTexture : diffuseTexture
+            }, options);
+
+            const pbr = material.pbrMetallicRoughness;
+            expect(pbr.baseColorTexture).toBe(diffuseTextureCopy);
+            expect(material.alphaMode).toBe('BLEND');
+            expect(material.doubleSided).toBe(true);
+        });
     });
 
     describe('specularGlossiness', () => {
@@ -413,6 +429,22 @@ describe('loadMtl', () => {
             expect(hasBlack).toBe(true);
             expect(hasWhite).toBe(true);
             expect(pbr.diffuseFactor[3]).toEqual(1);
+            expect(material.alphaMode).toBe('BLEND');
+            expect(material.doubleSided).toBe(true);
+        });
+
+        it('uses diffuse texture if diffuse and alpha are the same', async () => {
+            options.specularGlossiness = true;
+
+            // The transparent property will be modified so make a copy
+            const diffuseTextureCopy = await loadTexture(diffuseTexturePath, decodeOptions);
+            const material = loadMtl._createMaterial({
+                diffuseTexture : diffuseTextureCopy,
+                alphaTexture : diffuseTexture
+            }, options);
+
+            const pbr = material.extensions.KHR_materials_pbrSpecularGlossiness;
+            expect(pbr.diffuseTexture).toEqual(diffuseTextureCopy);
             expect(material.alphaMode).toBe('BLEND');
             expect(material.doubleSided).toBe(true);
         });
