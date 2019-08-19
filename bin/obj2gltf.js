@@ -66,9 +66,62 @@ const argv = yargs
             default : defaults.checkTransparency
         },
         secure : {
-            describe: 'Prevent the converter from reading image or mtl files outside of the input obj directory.',
-            type: 'boolean',
-            default: defaults.secure
+            describe : 'Prevent the converter from reading textures or mtl files outside of the input obj directory.',
+            type : 'boolean',
+            default : defaults.secure
+        },
+        packOcclusion : {
+            describe : 'Pack the occlusion texture in the red channel of metallic-roughness texture.',
+            type : 'boolean',
+            default : defaults.packOcclusion
+        },
+        metallicRoughness : {
+            describe : 'The values in the .mtl file are already metallic-roughness PBR values and no conversion step should be applied. Metallic is stored in the Ks and map_Ks slots and roughness is stored in the Ns and map_Ns slots.',
+            type : 'boolean',
+            default : defaults.metallicRoughness
+        },
+        specularGlossiness : {
+            describe : 'The values in the .mtl file are already specular-glossiness PBR values and no conversion step should be applied. Specular is stored in the Ks and map_Ks slots and glossiness is stored in the Ns and map_Ns slots. The glTF will be saved with the KHR_materials_pbrSpecularGlossiness extension.',
+            type : 'boolean',
+            default : defaults.specularGlossiness
+        },
+        metallicRoughnessOcclusionTexture : {
+            describe : 'Path to the metallic-roughness-occlusion texture that should override textures in the .mtl file, where occlusion is stored in the red channel, roughness is stored in the green channel, and metallic is stored in the blue channel. The model will be saved with a pbrMetallicRoughness material. This is often convenient in workflows where the .mtl does not exist or is not set up to use PBR materials. Intended for models with a single material',
+            type : 'string',
+            normalize : true
+        },
+        specularGlossinessTexture : {
+            describe : 'Path to the specular-glossiness texture that should override textures in the .mtl file, where specular color is stored in the red, green, and blue channels and specular glossiness is stored in the alpha channel. The model will be saved with a material using the KHR_materials_pbrSpecularGlossiness extension.',
+            type : 'string',
+            normalize : true
+        },
+        occlusionTexture : {
+            describe : 'Path to the occlusion texture that should override textures in the .mtl file.',
+            type : 'string',
+            normalize : true
+        },
+        normalTexture : {
+            describe : 'Path to the normal texture that should override textures in the .mtl file.',
+            type : 'string',
+            normalize : true
+        },
+        baseColorTexture : {
+            describe : 'Path to the baseColor/diffuse texture that should override textures in the .mtl file.',
+            type : 'string',
+            normalize : true
+        },
+        emissiveTexture : {
+            describe : 'Path to the emissive texture that should override textures in the .mtl file.',
+            type : 'string',
+            normalize : true
+        },
+        alphaTexture : {
+            describe : 'Path to the alpha texture that should override textures in the .mtl file.'
+        },
+        unlit : {
+            describe : 'The glTF will be saved with the KHR_materials_unlit extension.',
+            type : 'boolean',
+            default : defaults.unlit
         },
         inputUpAxis : {
             describe: 'Up axis of the obj.',
@@ -121,6 +174,12 @@ const options = {
     separateTextures : argv.separateTextures,
     checkTransparency : argv.checkTransparency,
     secure : argv.secure,
+    packOcclusion : argv.packOcclusion,
+    metallicRoughness : argv.metallicRoughness,
+    specularGlossiness : argv.specularGlossiness,
+    unlit : argv.unlit,
+    overridingTextures : overridingTextures,
+    outputDirectory : outputDirectory,
     inputUpAxis : argv.inputUpAxis,
     outputUpAxis : argv.outputUpAxis
 };
