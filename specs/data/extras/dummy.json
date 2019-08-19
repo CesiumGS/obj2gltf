@@ -1,0 +1,16 @@
+{
+    "cities": [
+        "Bangkok",
+        "Beijing",
+        "Jarkata",
+        "Sydney",
+        "London",
+        "Tokyo",
+        "San Francisco",
+        "New York"
+    ],
+    "coordinates": {
+        "x": 35.12,
+        "y": -21.49
+    }
+}

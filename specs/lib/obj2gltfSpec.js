@@ -14,6 +14,8 @@ const outputDirectory = 'output';
 
 const textureUrl = 'specs/data/box-textured/cesium.png';
 
+const extrasPath = 'specs/data/extras/dummy.json';
+
 describe('obj2gltf', () => {
     beforeEach(() => {
         spyOn(fsExtra, 'outputFile').and.returnValue(Promise.resolve());
@@ -53,6 +55,17 @@ describe('obj2gltf', () => {
         };
         await obj2gltf(texturedObjPath, options);
         expect(fsExtra.outputFile.calls.count()).toBe(5); // Saves out .png and four .bin for positions, normals, uvs, and indices
+    });
+
+    it('converts obj to gltf with extras', async () => {
+        const extras = JSON.parse(fsExtra.readFileSync(extrasPath));
+        const options = {
+            extras : extras
+        };
+        const gltf = await obj2gltf(texturedObjPath, options);
+        expect(gltf).toBeDefined();
+        expect(gltf.images.length).toBe(1);
+        expect(gltf.extras).toBe(extras);
     });
 
     it('converts obj to glb with separate resources', async () => {

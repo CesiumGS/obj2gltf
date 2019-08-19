@@ -122,6 +122,17 @@ const argv = yargs
             describe : 'The glTF will be saved with the KHR_materials_unlit extension.',
             type : 'boolean',
             default : defaults.unlit
+        },
+        extrasPath : {
+            describe : 'Path to the json file that contains an object for storing application-specific data. It will be saved to the top-level of the glTF.',
+            type : 'string',
+            normalize : true,
+            coerce : function (p) {
+                if (p.length === 0) {
+                    throw new Error('Input path must be a file name');
+                }
+                return path.resolve(p);
+            }
         }
     }).parse(args);
 
@@ -169,6 +180,10 @@ const options = {
     overridingTextures : overridingTextures,
     outputDirectory : outputDirectory
 };
+
+if (defined(argv.extrasPath)) {
+    options.extras = JSON.parse(fsExtra.readFileSync(argv.extrasPath));
+}
 
 console.time('Total');
 
