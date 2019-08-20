@@ -467,7 +467,7 @@ describe('loadObj', () => {
     }
 
     async function checkAxisConversion(inputUpAxis, outputUpAxis, position, normal) {
-        var sameAxis = (inputUpAxis === outputUpAxis);
+        const sameAxis = (inputUpAxis === outputUpAxis);
         options.inputUpAxis = inputUpAxis;
         options.outputUpAxis = outputUpAxis;
         const data = await loadObj(objRotatedUrl, options);
