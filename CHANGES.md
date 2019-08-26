@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### 3.?.? - 2019-??-??
+
+* Added back `inputUpAxis` and `outputUpAxis`. [#211](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/211)
+
 ### 3.0.4 - 2019-07-22
 
 * No longer printing texture decode warning if the diffuse and alpha textures are the same. [#205](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/205)
