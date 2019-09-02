@@ -90,10 +90,10 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@propelleraero/cesium@^1.58.0":
-  version "1.58.0"
-  resolved "https://registry.yarnpkg.com/@propelleraero/cesium/-/cesium-1.58.0.tgz#60f80dbfe05b7948f55e0e37b80ce03450b4c287"
-  integrity sha512-84TkrtqXf4D2C1yy9QkkdgIsw9civbK7Hdez5MqpKGOJflL757oZ1nRor5Wlr8jsh5bfqQRRSyC0dhRuzfOuoA==
+"@propelleraero/cesium@^1.58.1":
+  version "1.58.1"
+  resolved "https://registry.yarnpkg.com/@propelleraero/cesium/-/cesium-1.58.1.tgz#4d4cfeb81d64c6a9f52d4f674760676f678c4db3"
+  integrity sha512-4MfQJck08svnP31Iz6vOvXEK7RWYKSJNRhiQ0/iSgi3MGZcJDb/wk3GJFsWXGlsq3drDXK0jxiHk37BqtpPcBg==
   dependencies:
     requirejs "^2.3.2"
 

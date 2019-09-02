@@ -26,8 +26,8 @@
         "node": ">=4.0.0"
     },
     "dependencies": {
+        "@propelleraero/cesium": "^1.58.1",
         "bluebird": "^3.5.5",
-        "@propelleraero/cesium": "^1.58.0",
         "fs-extra": "^8.0.1",
         "jpeg-js": "^0.3.5",
         "mime": "^2.4.4",
