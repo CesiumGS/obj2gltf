@@ -40,6 +40,7 @@ const objInvalidContentsPath = 'specs/data/box/box.mtl';
 const objConcavePath = 'specs/data/concave/concave.obj';
 const objUnnormalizedPath = 'specs/data/box-unnormalized/box-unnormalized.obj';
 const objMixedAttributesPath = 'specs/data/box-mixed-attributes/box-mixed-attributes.obj';
+const objMissingAttributesPath = 'specs/data/box-missing-attributes/box-missing-attributes.obj';
 const objInvalidPath = 'invalid.obj';
 
 function getMeshes(data) {
@@ -453,6 +454,14 @@ describe('loadObj', () => {
         expect(primitives[1].indices.length).toBe(6); // 2 faces
         expect(primitives[2].indices.length).toBe(6); // 2 faces
         expect(primitives[3].indices.length).toBe(6); // 2 faces
+    });
+
+    it('does not add missing normals and uvs', async() => {
+        const data = await loadObj(objMissingAttributesPath, options);
+        const primitive = getPrimitives(data)[0];
+        expect(primitive.positions.length).toBeGreaterThan(0);
+        expect(primitive.normals.length).toBe(0);
+        expect(primitive.uvs.length).toBe(0);
     });
 
     it('throws when file has invalid contents', async () => {
