@@ -224,7 +224,7 @@ describe('loadMtl', () => {
         expect(pbr.metallicRoughnessTexture.source).toBeUndefined();
     });
 
-    it('texture referenced by diffuse and emission is not decoded', async() => {
+    it('texture referenced by diffuse and emissive is not decoded', async () => {
         const materials = await loadMtl(sharedTexturesMaterial2Path, options);
         expect(materials.length).toBe(1);
         const material = materials[0];
