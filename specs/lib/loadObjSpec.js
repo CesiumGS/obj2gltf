@@ -10,6 +10,7 @@ const clone = Cesium.clone;
 const RuntimeError = Cesium.RuntimeError;
 
 const objPath = 'specs/data/box/box.obj';
+const objRotatedUrl = 'specs/data/box-rotated/box-rotated.obj';
 const objNormalsPath = 'specs/data/box-normals/box-normals.obj';
 const objUvsPath = 'specs/data/box-uvs/box-uvs.obj';
 const objPositionsOnlyPath = 'specs/data/box-positions-only/box-positions-only.obj';
@@ -453,6 +454,46 @@ describe('loadObj', () => {
         expect(primitives[1].indices.length).toBe(6); // 2 faces
         expect(primitives[2].indices.length).toBe(6); // 2 faces
         expect(primitives[3].indices.length).toBe(6); // 2 faces
+    });
+
+    function getFirstPosition(data) {
+        const primitive = getPrimitives(data)[0];
+        return new Cartesian3(primitive.positions.get(0), primitive.positions.get(1), primitive.positions.get(2));
+    }
+
+    function getFirstNormal(data) {
+        const primitive = getPrimitives(data)[0];
+        return new Cartesian3(primitive.normals.get(0), primitive.normals.get(1), primitive.normals.get(2));
+    }
+
+    async function checkAxisConversion(inputUpAxis, outputUpAxis, position, normal) {
+        const sameAxis = (inputUpAxis === outputUpAxis);
+        options.inputUpAxis = inputUpAxis;
+        options.outputUpAxis = outputUpAxis;
+        const data = await loadObj(objRotatedUrl, options);
+        const rotatedPosition = getFirstPosition(data);
+        const rotatedNormal = getFirstNormal(data);
+        if (sameAxis) {
+            expect(rotatedPosition).toEqual(position);
+            expect(rotatedNormal).toEqual(normal);
+        } else {
+            expect(rotatedPosition).not.toEqual(position);
+            expect(rotatedNormal).not.toEqual(normal);
+        }
+    }
+
+    it('performs up axis conversion', async () => {
+        const data = await loadObj(objRotatedUrl, options);
+        const position = getFirstPosition(data);
+        const normal = getFirstNormal(data);
+
+        const axes = ['X', 'Y', 'Z'];
+        const axesLength = axes.length;
+        for (let i = 0; i < axesLength; ++i) {
+            for (let j = 0; j < axesLength; ++j) {
+                await checkAxisConversion(axes[i], axes[j], position, normal);
+            }
+        }
     });
 
     it('throws when file has invalid contents', async () => {

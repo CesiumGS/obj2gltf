@@ -3,7 +3,12 @@ Change Log
 
 ### 3.?.? ????-??-??
 
+* Added back `inputUpAxis` and `outputUpAxis`. [#211](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/211)
 * Fixed specular image not being decoded when referenced by other textures. [#217](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/217)
+
+### 3.0.4 - 2019-07-22
+
+* No longer printing texture decode warning if the diffuse and alpha textures are the same. [#205](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/205)
 
 ### 3.0.3 2019-06-26
 

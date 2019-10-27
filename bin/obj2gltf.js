@@ -122,6 +122,18 @@ const argv = yargs
             describe : 'The glTF will be saved with the KHR_materials_unlit extension.',
             type : 'boolean',
             default : defaults.unlit
+        },
+        inputUpAxis : {
+            describe: 'Up axis of the obj.',
+            choices: ['X', 'Y', 'Z'],
+            type: 'string',
+            default: 'Y'
+        },
+        outputUpAxis : {
+            describe: 'Up axis of the converted glTF.',
+            choices: ['X', 'Y', 'Z'],
+            type: 'string',
+            default: 'Y'
         }
     }).parse(args);
 
@@ -167,7 +179,9 @@ const options = {
     specularGlossiness : argv.specularGlossiness,
     unlit : argv.unlit,
     overridingTextures : overridingTextures,
-    outputDirectory : outputDirectory
+    outputDirectory : outputDirectory,
+    inputUpAxis : argv.inputUpAxis,
+    outputUpAxis : argv.outputUpAxis
 };
 
 console.time('Total');
