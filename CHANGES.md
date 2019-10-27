@@ -4,6 +4,7 @@ Change Log
 ### 3.?.? - 2019-??-??
 
 * Added back `inputUpAxis` and `outputUpAxis`. [#211](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/211)
+* Fixed handling of mtl and texture absolute paths. [#219](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/219)
 
 ### 3.0.4 - 2019-07-22
 
