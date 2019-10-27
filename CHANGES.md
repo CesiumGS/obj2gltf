@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### 3.?.? ????-??-??
+
+* Fixed specular image not being decoded when referenced by other textures. [#217](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/217)
+
 ### 3.0.3 2019-06-26
 
 * Fixed parsing of negative face indices. [#191](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/191)
