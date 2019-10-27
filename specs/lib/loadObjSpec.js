@@ -42,9 +42,9 @@ const objConcavePath = 'specs/data/concave/concave.obj';
 const objUnnormalizedPath = 'specs/data/box-unnormalized/box-unnormalized.obj';
 const objMixedAttributesPath = 'specs/data/box-mixed-attributes/box-mixed-attributes.obj';
 const objMissingAttributesPath = 'specs/data/box-missing-attributes/box-missing-attributes.obj';
-const objIncompletePositionsPath = 'specs/data/box-incomplete-attributes/box-incomplete-positions.obj'
-const objIncompleteNormalsPath = 'specs/data/box-incomplete-attributes/box-incomplete-normals.obj'
-const objIncompleteUvsPath = 'specs/data/box-incomplete-attributes/box-incomplete-uvs.obj'
+const objIncompletePositionsPath = 'specs/data/box-incomplete-attributes/box-incomplete-positions.obj';
+const objIncompleteNormalsPath = 'specs/data/box-incomplete-attributes/box-incomplete-normals.obj';
+const objIncompleteUvsPath = 'specs/data/box-incomplete-attributes/box-incomplete-uvs.obj';
 const objInvalidPath = 'invalid.obj';
 
 function getMeshes(data) {
@@ -500,7 +500,7 @@ describe('loadObj', () => {
         }
     });
 
-    it('does not add missing normals and uvs', async () => {
+    it('ignores missing normals and uvs', async () => {
         const data = await loadObj(objMissingAttributesPath, options);
         const primitive = getPrimitives(data)[0];
         expect(primitive.positions.length).toBeGreaterThan(0);
