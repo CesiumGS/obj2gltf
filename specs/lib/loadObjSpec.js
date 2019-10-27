@@ -42,6 +42,9 @@ const objConcavePath = 'specs/data/concave/concave.obj';
 const objUnnormalizedPath = 'specs/data/box-unnormalized/box-unnormalized.obj';
 const objMixedAttributesPath = 'specs/data/box-mixed-attributes/box-mixed-attributes.obj';
 const objMissingAttributesPath = 'specs/data/box-missing-attributes/box-missing-attributes.obj';
+const objIncompletePositionsPath = 'specs/data/box-incomplete-attributes/box-incomplete-positions.obj'
+const objIncompleteNormalsPath = 'specs/data/box-incomplete-attributes/box-incomplete-normals.obj'
+const objIncompleteUvsPath = 'specs/data/box-incomplete-attributes/box-incomplete-uvs.obj'
 const objInvalidPath = 'invalid.obj';
 
 function getMeshes(data) {
@@ -503,6 +506,36 @@ describe('loadObj', () => {
         expect(primitive.positions.length).toBeGreaterThan(0);
         expect(primitive.normals.length).toBe(0);
         expect(primitive.uvs.length).toBe(0);
+    });
+
+    it('throws when position index is out of bounds', async () => {
+        let thrownError;
+        try {
+            await loadObj(objIncompletePositionsPath, options);
+        } catch (e) {
+            thrownError = e;
+        }
+        expect(thrownError).toEqual(new RuntimeError('Position index 1 is out of bounds'));
+    });
+
+    it('throws when normal index is out of bounds', async () => {
+        let thrownError;
+        try {
+            await loadObj(objIncompleteNormalsPath, options);
+        } catch (e) {
+            thrownError = e;
+        }
+        expect(thrownError).toEqual(new RuntimeError('Normal index 1 is out of bounds'));
+    });
+
+    it('throws when uv index is out of bounds', async () => {
+        let thrownError;
+        try {
+            await loadObj(objIncompleteUvsPath, options);
+        } catch (e) {
+            thrownError = e;
+        }
+        expect(thrownError).toEqual(new RuntimeError('UV index 1 is out of bounds'));
     });
 
     it('throws when file has invalid contents', async () => {
