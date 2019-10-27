@@ -497,7 +497,7 @@ describe('loadObj', () => {
         }
     });
 
-    it('does not add missing normals and uvs', async() => {
+    it('does not add missing normals and uvs', async () => {
         const data = await loadObj(objMissingAttributesPath, options);
         const primitive = getPrimitives(data)[0];
         expect(primitive.positions.length).toBeGreaterThan(0);
