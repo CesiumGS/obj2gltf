@@ -1,6 +1,6 @@
 # Blender v2.78 (sub 0) OBJ File: ''
 # www.blender.org
-mtllib box.mtl
+mtllib /box.mtl
 o Cube
 v -1.000000 -1.000000 1.000000
 v -1.000000 1.000000 1.000000
