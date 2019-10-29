@@ -1,5 +1,6 @@
 'use strict';
 const Cesium = require('cesium');
+const path = require('path');
 
 const loadObj = require('../../lib/loadObj');
 const obj2gltf = require('../../lib/obj2gltf');
@@ -354,6 +355,7 @@ describe('loadObj', () => {
         const data = await loadObj(objMissingMtllibPath, options);
         expect(data.materials.length).toBe(0);
         expect(spy.calls.argsFor(0)[0].indexOf('ENOENT') >= 0).toBe(true);
+        expect(spy.calls.argsFor(0)[0].indexOf(path.resolve('/box.mtl')) >= 0).toBe(true);
         expect(spy.calls.argsFor(1)[0].indexOf('Attempting to read the material file from within the obj directory instead.') >= 0).toBe(true);
         expect(spy.calls.argsFor(2)[0].indexOf('ENOENT') >= 0).toBe(true);
         expect(spy.calls.argsFor(3)[0].indexOf('Could not read material file') >= 0).toBe(true);
@@ -431,6 +433,7 @@ describe('loadObj', () => {
         const baseColorTexture = data.materials[0].pbrMetallicRoughness.baseColorTexture;
         expect(baseColorTexture).toBeUndefined();
         expect(spy.calls.argsFor(0)[0].indexOf('ENOENT') >= 0).toBe(true);
+        expect(spy.calls.argsFor(0)[0].indexOf(path.resolve('/cesium.png')) >= 0).toBe(true);
         expect(spy.calls.argsFor(1)[0].indexOf('Attempting to read the texture file from within the obj directory instead.') >= 0).toBe(true);
         expect(spy.calls.argsFor(2)[0].indexOf('ENOENT') >= 0).toBe(true);
         expect(spy.calls.argsFor(3)[0].indexOf('Could not read texture file') >= 0).toBe(true);
