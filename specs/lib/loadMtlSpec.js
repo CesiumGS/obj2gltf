@@ -15,7 +15,8 @@ const externalMaterialPath = 'specs/data/box-external-resources/box-external-res
 const resourcesInRootMaterialPath = 'specs/data/box-resources-in-root/box-resources-in-root.mtl';
 const externalInRootMaterialPath = 'specs/data/box-external-resources-in-root/box-external-resources-in-root.mtl';
 const transparentMaterialPath = 'specs/data/box-transparent/box-transparent.mtl';
-const diffuseAmbientSameMaterialPath = 'specs/data/box-diffuse-ambient-same/box-diffuse-ambient-same.mtl';
+const sharedTexturesMaterialPath = 'specs/data/box-shared-textures/box-shared-textures.mtl';
+const sharedTexturesMaterial2Path = 'specs/data/box-shared-textures-2/box-shared-textures-2.mtl';
 
 const diffuseTexturePath = 'specs/data/box-textured/cesium.png';
 const transparentDiffuseTexturePath = 'specs/data/box-complex-material/diffuse.png';
@@ -204,12 +205,33 @@ describe('loadMtl', () => {
     });
 
     it('ambient texture is ignored if it is the same as the diffuse texture', async () => {
-        const materials = await loadMtl(diffuseAmbientSameMaterialPath, options);
+        const materials = await loadMtl(sharedTexturesMaterialPath, options);
         expect(materials.length).toBe(1);
         const material = materials[0];
         const pbr = material.pbrMetallicRoughness;
         expect(pbr.baseColorTexture).toBeDefined();
         expect(pbr.occlusionTexture).toBeUndefined();
+    });
+
+    it('texture referenced by specular is decoded', async () => {
+        const materials = await loadMtl(sharedTexturesMaterialPath, options);
+        expect(materials.length).toBe(1);
+        const material = materials[0];
+        const pbr = material.pbrMetallicRoughness;
+        expect(pbr.baseColorTexture.pixels).toBeDefined();
+        expect(pbr.baseColorTexture.source).toBeDefined();
+        expect(pbr.metallicRoughnessTexture.pixels).toBeDefined();
+        expect(pbr.metallicRoughnessTexture.source).toBeUndefined();
+    });
+
+    it('texture referenced by diffuse and emissive is not decoded', async () => {
+        const materials = await loadMtl(sharedTexturesMaterial2Path, options);
+        expect(materials.length).toBe(1);
+        const material = materials[0];
+        const pbr = material.pbrMetallicRoughness;
+        expect(pbr.baseColorTexture).toBe(material.emissiveTexture);
+        expect(pbr.baseColorTexture.pixels).toBeUndefined();
+        expect(pbr.baseColorTexture.source).toBeDefined();
     });
 
     describe('metallicRoughness', () => {

@@ -1,9 +1,10 @@
 Change Log
 ==========
 
-### 3.?.? - 2019-??-??
+### 3.?.? ????-??-??
 
 * Added back `inputUpAxis` and `outputUpAxis`. [#211](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/211)
+* Fixed specular image not being decoded when referenced by other textures. [#217](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/217)
 * Fixed parsing faces that reference non-existing attributes. [#218](https://github.com/AnalyticalGraphicsInc/obj2gltf/pull/218)
 
 ### 3.0.4 - 2019-07-22
