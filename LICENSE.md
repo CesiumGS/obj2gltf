@@ -1,4 +1,4 @@
-Copyright 2016-2017 Analytical Graphics, Inc. and Contributors
+Copyright 2016-2020 Cesium GS, Inc. and Contributors
 
                                  Apache License
                            Version 2.0, January 2004
@@ -188,7 +188,7 @@ Copyright 2016-2017 Analytical Graphics, Inc. and Contributors
       same "printed page" as the copyright notice for easier
       identification within third-party archives.
 
-   Copyright 2016-2017 Analytical Graphics, Inc. and Contributors
+   Copyright 2016-2020 Cesium GS, Inc. and Contributors
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -232,11 +232,11 @@ obj2gltf includes the following third-party code.
 > OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 > THE SOFTWARE.
 
-### Cesium
+### CesiumJS
 
-http://cesiumjs.org/
+https://github.com/CesiumGS/cesium
 
-> Copyright 2011-2016 Cesium Contributors
+> Copyright 2011-2020 CesiumJS Contributors
 >
 > Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 >
@@ -244,7 +244,7 @@ http://cesiumjs.org/
 >
 > Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md
+See https://github.com/CesiumGS/cesium/blob/master/LICENSE.md
 
 ### fs-extra
 
@@ -270,7 +270,7 @@ https://www.npmjs.com/package/fs-extra
 
 https://www.npmjs.com/package/gltf-pipeline
 
-> Copyright 2015-2016 Richard Lee, Analytical Graphics, Inc., and Contributors
+> Copyright 2015-2020 Richard Lee, Cesium GS, Inc., and Contributors
 >
 > Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 >
