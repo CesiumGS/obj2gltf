@@ -1,6 +1,6 @@
 # OBJ2GLTF
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/AnalyticalGraphicsInc/obj2gltf.svg)](https://greenkeeper.io/)
+[![Greenkeeper badge](https://badges.greenkeeper.io/CesiumGS/obj2gltf.svg)](https://greenkeeper.io/)
 
 Convert OBJ assets to [glTF](https://www.khronos.org/gltf) 2.0.
 
@@ -151,11 +151,11 @@ The documentation will be placed in the `doc` folder.
 
 ## Contributions
 
-Pull requests are appreciated.  Please use the same [Contributor License Agreement (CLA)](https://github.com/AnalyticalGraphicsInc/cesium/blob/master/CONTRIBUTING.md) used for [Cesium](http://cesiumjs.org/).
+Pull requests are appreciated.  Please use the same [Contributor License Agreement (CLA)](https://github.com/CesiumGS/cesium/blob/master/CONTRIBUTING.md) used for [CesiumJS](https://github.com/CesiumGS/cesium).
 
 ---
 
 Developed by the Cesium team.
 <p align="center">
-<a href="http://cesiumjs.org/"><img src="doc/cesium.png" onerror="this.src='cesium.png'"/></a>
+<a href="https://cesium.com/"><img src="doc/cesium.png" onerror="this.src='cesium.png'"/></a>
 </p>
