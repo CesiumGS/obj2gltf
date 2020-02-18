@@ -234,7 +234,7 @@ obj2gltf includes the following third-party code.
 
 ### CesiumJS
 
-https://github.com/CesiumGS/cesium
+https://cesium.com/cesiumjs/
 
 > Copyright 2011-2020 CesiumJS Contributors
 >
