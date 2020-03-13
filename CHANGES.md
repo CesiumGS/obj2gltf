@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-### 3.?.? ????-??-??
+### 3.1.0 - 2020-03-13
 
 * Added back `inputUpAxis` and `outputUpAxis`. [#211](https://github.com/CesiumGS/obj2gltf/pull/211)
 * Fixed handling of mtl and texture absolute paths. [#219](https://github.com/CesiumGS/obj2gltf/pull/219)
