@@ -4,6 +4,7 @@ Change Log
 ### 3.?.? - 2021-??-??
 
 * Removed `minFilter` and `magFilter` from generated samplers so that runtime engines can use their preferred texture filtering. [#240](https://github.com/CesiumGS/obj2gltf/pull/240)
+* Remove triangle winding order sanitization. [#236](https://github.com/CesiumGS/obj2gltf/pull/236)
 
 ### 3.1.1 - 2021-06-22
 
