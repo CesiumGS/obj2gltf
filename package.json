@@ -27,24 +27,24 @@
   },
   "dependencies": {
     "bluebird": "^3.7.2",
-    "cesium": "^1.68.0",
-    "fs-extra": "^9.0.0",
-    "jpeg-js": "^0.3.7",
-    "mime": "^2.4.4",
-    "pngjs": "^3.4.0",
-    "yargs": "^15.3.1"
+    "cesium": "^1.71.0",
+    "fs-extra": "^9.0.1",
+    "jpeg-js": "^0.4.1",
+    "mime": "^2.4.6",
+    "pngjs": "^5.0.0",
+    "yargs": "^15.4.1"
   },
   "devDependencies": {
     "cloc": "^2.5.1",
-    "coveralls": "^3.0.11",
-    "eslint": "^6.8.0",
+    "coveralls": "^3.1.0",
+    "eslint": "^7.5.0",
     "eslint-config-cesium": "^8.0.1",
     "gulp": "^4.0.2",
-    "jasmine": "^3.5.0",
-    "jasmine-spec-reporter": "^5.0.1",
-    "jsdoc": "^3.6.3",
-    "nyc": "^15.0.0",
-    "open": "^7.0.3"
+    "jasmine": "^3.6.1",
+    "jasmine-spec-reporter": "^5.0.2",
+    "jsdoc": "^3.6.5",
+    "nyc": "^15.1.0",
+    "open": "^7.1.0"
   },
   "scripts": {
     "jsdoc": "jsdoc ./lib -R ./README.md -d doc",
