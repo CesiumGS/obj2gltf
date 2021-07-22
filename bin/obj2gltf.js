@@ -25,6 +25,9 @@ const argv = yargs
             type : 'string',
             demandOption : true,
             coerce : function (p) {
+                if (!defined(p)) {
+                    return undefined;
+                }
                 if (p.length === 0) {
                     throw new Error('Input path must be a file name');
                 }
@@ -36,6 +39,9 @@ const argv = yargs
             describe : 'Path of the converted glTF or glb file.',
             type : 'string',
             coerce : function (p) {
+                if (!defined(p)) {
+                    return undefined;
+                }
                 if (p.length === 0) {
                     throw new Error('Output path must be a file name');
                 }
