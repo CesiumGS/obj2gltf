@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### 3.1.1 - 2021-06-22
+
+* Fixed security warnings by updating outdated npm dependencies. [#254](https://github.com/CesiumGS/obj2gltf/pull/254)
+
 ### 3.1.0 - 2020-03-13
 
 * Added back `inputUpAxis` and `outputUpAxis`. [#211](https://github.com/CesiumGS/obj2gltf/pull/211)
