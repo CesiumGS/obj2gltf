@@ -140,6 +140,10 @@ const argv = yargs
             choices: ['X', 'Y', 'Z'],
             type: 'string',
             default: 'Y'
+        },
+        materialOverrides : {
+          describe: 'A JSON string describing overriden textures for materials in the .mtl file. Allows specifying different overrides for each material in the .mtl file. Example: \'{\"material1Name\": \"diffuseTexture\": \"PATH_TO_TEXTURE\", \"alphaTexture\": \"PATH_TO_TEXTURE\"}, "material2Name": {...}}\'',
+            type: 'string'
         }
     }).parse(args);
 
@@ -187,7 +191,8 @@ const options = {
     overridingTextures : overridingTextures,
     outputDirectory : outputDirectory,
     inputUpAxis : argv.inputUpAxis,
-    outputUpAxis : argv.outputUpAxis
+    outputUpAxis : argv.outputUpAxis,
+    materialOverrides: JSON.parse(argv.materialOverrides || '{}')
 };
 
 console.time('Total');
