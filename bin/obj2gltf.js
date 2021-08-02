@@ -91,6 +91,11 @@ const argv = yargs
             type : 'boolean',
             default : defaults.specularGlossiness
         },
+        unlit : {
+            describe : 'The glTF will be saved with the KHR_materials_unlit extension.',
+            type : 'boolean',
+            default : defaults.unlit
+        },
         metallicRoughnessOcclusionTexture : {
             describe : 'Path to the metallic-roughness-occlusion texture that should override textures in the .mtl file, where occlusion is stored in the red channel, roughness is stored in the green channel, and metallic is stored in the blue channel. The model will be saved with a pbrMetallicRoughness material. This is often convenient in workflows where the .mtl does not exist or is not set up to use PBR materials. Intended for models with a single material',
             type : 'string',
@@ -124,11 +129,6 @@ const argv = yargs
         alphaTexture : {
             describe : 'Path to the alpha texture that should override textures in the .mtl file.'
         },
-        unlit : {
-            describe : 'The glTF will be saved with the KHR_materials_unlit extension.',
-            type : 'boolean',
-            default : defaults.unlit
-        },
         inputUpAxis : {
             describe: 'Up axis of the obj.',
             choices: ['X', 'Y', 'Z'],
@@ -140,6 +140,11 @@ const argv = yargs
             choices: ['X', 'Y', 'Z'],
             type: 'string',
             default: 'Y'
+        },
+        triangleWindingOrderSanitization : {
+            describe: 'Apply triangle winding order sanitization.',
+            type: 'boolean',
+            default: defaults.triangleWindingOrderSanitization
         }
     }).parse(args);
 
@@ -187,7 +192,8 @@ const options = {
     overridingTextures : overridingTextures,
     outputDirectory : outputDirectory,
     inputUpAxis : argv.inputUpAxis,
-    outputUpAxis : argv.outputUpAxis
+    outputUpAxis : argv.outputUpAxis,
+    triangleWindingOrderSanitization: argv.triangleWindingOrderSanitization
 };
 
 console.time('Total');

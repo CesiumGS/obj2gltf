@@ -46,6 +46,7 @@ const objMissingAttributesPath = 'specs/data/box-missing-attributes/box-missing-
 const objIncompletePositionsPath = 'specs/data/box-incomplete-attributes/box-incomplete-positions.obj';
 const objIncompleteNormalsPath = 'specs/data/box-incomplete-attributes/box-incomplete-normals.obj';
 const objIncompleteUvsPath = 'specs/data/box-incomplete-attributes/box-incomplete-uvs.obj';
+const objIncorrectWindingOrderPath = 'specs/data/box-incorrect-winding-order/box-incorrect-winding-order.obj';
 const objInvalidPath = 'invalid.obj';
 
 function getMeshes(data) {
@@ -509,6 +510,29 @@ describe('loadObj', () => {
         expect(primitive.positions.length).toBeGreaterThan(0);
         expect(primitive.normals.length).toBe(0);
         expect(primitive.uvs.length).toBe(0);
+    });
+
+    async function loadAndGetIndices(objPath, options) {
+        const data = await loadObj(objPath, options);
+        const primitive = getPrimitives(data)[0];
+        const indices = primitive.indices;
+        return new Uint16Array(indices.toUint16Buffer().buffer);
+    }
+
+    it('applies triangle winding order sanitization', async () => {
+        options.triangleWindingOrderSanitization = false;
+        const indicesIncorrect = await loadAndGetIndices(objIncorrectWindingOrderPath, options);
+
+        options.triangleWindingOrderSanitization = true;
+        const indicesCorrect = await loadAndGetIndices(objIncorrectWindingOrderPath, options);
+
+        expect(indicesIncorrect[0]).toBe(0);
+        expect(indicesIncorrect[2]).toBe(2);
+        expect(indicesIncorrect[1]).toBe(1);
+
+        expect(indicesCorrect[0]).toBe(0);
+        expect(indicesCorrect[2]).toBe(1);
+        expect(indicesCorrect[1]).toBe(2);
     });
 
     it('throws when position index is out of bounds', async () => {

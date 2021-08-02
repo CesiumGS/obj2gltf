@@ -112,6 +112,9 @@ As a convenience the PBR textures may be supplied directly to the command line.
 |`--baseColorTexture`|Path to the baseColor/diffuse texture that should override textures in the .mtl file.|No|
 |`--emissiveTexture`|Path to the emissive texture that should override textures in the .mtl file.|No|
 |`--alphaTexture`|Path to the alpha texture that should override textures in the .mtl file.|No|
+|`--input-up-axis`|Up axis of the obj.|No|
+|`--output-up-axis`|Up axis of the converted glTF.|No|
+|`--triangle-winding-order-sanitization`|Apply triangle winding order sanitization.|No|
 
 ## Build Instructions
 
