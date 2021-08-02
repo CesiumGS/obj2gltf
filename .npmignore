@@ -1,3 +1,4 @@
+/.vscode
 /.idea
 /coverage
 /doc/*
@@ -10,6 +11,7 @@
 .gitattributes
 .nyc_output
 .npmignore
+.prettierignore
 .travis.yml
 gulpfile.js
 *.tgz
