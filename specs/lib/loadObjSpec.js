@@ -66,6 +66,7 @@ const objIncompleteUvsPath =
   "specs/data/box-incomplete-attributes/box-incomplete-uvs.obj";
 const objIncorrectWindingOrderPath =
   "specs/data/box-incorrect-winding-order/box-incorrect-winding-order.obj";
+const objWithTabs = "specs/data/box-with-tabs/box-with-tabs.obj";
 const objInvalidPath = "invalid.obj";
 
 function getMeshes(data) {
@@ -533,6 +534,17 @@ describe("loadObj", () => {
       data.materials[0].pbrMetallicRoughness.baseColorTexture;
     expect(baseColorTexture.name).toBe("cesium");
     expect(baseColorTexture.source).toBeDefined();
+  });
+
+  it("loads an obj where coordinates are separated by tabs", async () => {
+    /**
+     * We know Tinkercad to produce files with coordinates separated by tabs.
+     */
+    const data = await loadObj(objWithTabs, options);
+    const primitive = getPrimitives(data)[0];
+    expect(primitive.positions.length / 3).toBe(24);
+    expect(primitive.normals.length / 3).toBe(24);
+    expect(primitive.uvs.length / 2).toBe(24);
   });
 
   it("separates faces that don't use the same attributes as other faces in the primitive", async () => {
