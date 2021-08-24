@@ -1,5 +1,5 @@
 {
-    "extends": "cesium/node",
+    "extends": ["@propelleraero/cesium/node", "prettier"],
     "rules": {
         "no-unused-vars": ["error", {"args": "none"}]
     }

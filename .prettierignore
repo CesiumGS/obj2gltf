@@ -1,0 +1,12 @@
+
+# Ignore everything
+*
+
+# Unignore directories (to all depths) and unignore code and style files in these directories
+!bin/**/
+!doc/**/
+!lib/**/
+!specs/**/
+
+!**/*.js
+!**/*.md

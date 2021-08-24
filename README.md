@@ -1,12 +1,11 @@
 # OBJ2GLTF
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/AnalyticalGraphicsInc/obj2gltf.svg)](https://greenkeeper.io/)
-
 Convert OBJ assets to [glTF](https://www.khronos.org/gltf) 2.0.
 
 ## Getting Started
 
 Install [Node.js](https://nodejs.org/en/) if you don't already have it, and then:
+
 ```
 npm install -g obj2gltf
 ```
@@ -24,27 +23,25 @@ npm install -g obj2gltf
 #### Converting an obj model to gltf:
 
 ```javascript
-const obj2gltf = require('obj2gltf');
-const fs = require('fs');
-obj2gltf('model.obj')
-    .then(function(gltf) {
-        const data = Buffer.from(JSON.stringify(gltf));
-        fs.writeFileSync('model.gltf', data);
-    });
+const obj2gltf = require("obj2gltf");
+const fs = require("fs");
+obj2gltf("model.obj").then(function (gltf) {
+  const data = Buffer.from(JSON.stringify(gltf));
+  fs.writeFileSync("model.gltf", data);
+});
 ```
 
 #### Converting an obj model to glb
 
 ```javascript
-const obj2gltf = require('obj2gltf');
-const fs = require('fs');
+const obj2gltf = require("obj2gltf");
+const fs = require("fs");
 const options = {
-    binary : true
-}
-obj2gltf('model.obj', options)
-    .then(function(glb) {
-        fs.writeFileSync('model.glb', glb);
-    });
+  binary: true,
+};
+obj2gltf("model.obj", options).then(function (glb) {
+  fs.writeFileSync("model.glb", glb);
+});
 ```
 
 ## Material types
@@ -54,13 +51,13 @@ materials.
 
 There are three shading models supported by `obj2gltf`:
 
-* Metallic roughness PBR
-* Specular glossiness PBR (via `KHR_materials_pbrSpecularGlossiness` extension)
-* Unlit materials (via `KHR_materials_unlit` extension)
+- Metallic roughness PBR
+- Specular glossiness PBR (via `KHR_materials_pbrSpecularGlossiness` extension)
+- Unlit materials (via `KHR_materials_unlit` extension)
 
 If the material type is known in advance, it should be specified with either the `metallicRoughness` or `specularGlossiness` flag.
 
-If lighting information is already present in the model, the `unlit` flag should be used. This will save the glTF with the `KHR_materials_unlit` extension. 
+If lighting information is already present in the model, the `unlit` flag should be used. This will save the glTF with the `KHR_materials_unlit` extension.
 
 If the model is created with PBR textures, either the `metallicRoughness` or `specularGlossiness` flag should be passed in.
 See the table below for more information about how to specify PBR values inside the .mtl file.
@@ -73,69 +70,79 @@ As a convenience the PBR textures may be supplied directly to the command line.
 
 **Mapping of mtl slots to shading models**
 
-|Slot| Metallic roughness|Specular glossiness|
-|----|-------------------|-------------------|
-|Ka|occlusion value|occlusion value|
-|Ke|emissive color|emissive color|
-|Kd|base color|diffuse color|
-|Ks|metallic value|specular color|
-|Ns|roughness value|glossiness value|
-|d|alpha|alpha|
-|Tr|1.0 - alpha|1.0 - alpha|
-|map_Ka|occlusion texture|occlusion texture|
-|map_Ke|emissive texture|emissive texture|
-|map_Kd|base color texture|diffuse texture|
-|map_Ks|metallic texture|specular texture|
-|map_Ns|roughness texture|glossiness texture|
-|map_Bump|normal texture|normal texture|
+| Slot     | Metallic roughness | Specular glossiness |
+| -------- | ------------------ | ------------------- |
+| Ka       | occlusion value    | occlusion value     |
+| Ke       | emissive color     | emissive color      |
+| Kd       | base color         | diffuse color       |
+| Ks       | metallic value     | specular color      |
+| Ns       | roughness value    | glossiness value    |
+| d        | alpha              | alpha               |
+| Tr       | 1.0 - alpha        | 1.0 - alpha         |
+| map_Ka   | occlusion texture  | occlusion texture   |
+| map_Ke   | emissive texture   | emissive texture    |
+| map_Kd   | base color texture | diffuse texture     |
+| map_Ks   | metallic texture   | specular texture    |
+| map_Ns   | roughness texture  | glossiness texture  |
+| map_Bump | normal texture     | normal texture      |
 
 ## Usage
 
 ### Command line flags:
 
-|Flag|Description|Required|
-|----|-----------|--------|
-|`-h`, `--help`|Display help.|No|
-|`-i`, `--input`|Path to the obj file.| :white_check_mark: Yes|
-|`-o`, `--output`|Path of the converted glTF or glb file.|No|
-|`-b`, `--binary`|Save as binary glTF (.glb).|No, default `false`|
-|`-s`, `--separate`|Writes out separate buffers and textures instead of embedding them in the glTF file.|No, default `false`|
-|`-t`, `--separateTextures`|Write out separate textures only.|No, default `false`|
-|`--checkTransparency`|Do a more exhaustive check for texture transparency by looking at the alpha channel of each pixel. By default textures are considered to be opaque.|No, default `false`|
-|`--secure`|Prevent the converter from reading texture or mtl files outside of the input obj directory.|No, default `false`|
-|`--packOcclusion`|Pack the occlusion texture in the red channel of metallic-roughness texture.|No, default `false`|
-|`--metallicRoughness`|The values in the mtl file are already metallic-roughness PBR values and no conversion step should be applied. Metallic is stored in the Ks and map_Ks slots and roughness is stored in the Ns and map_Ns slots.|No, default `false`|
-|`--specularGlossiness`|The values in the mtl file are already specular-glossiness PBR values and no conversion step should be applied. Specular is stored in the Ks and map_Ks slots and glossiness is stored in the Ns and map_Ns slots. The glTF will be saved with the `KHR_materials_pbrSpecularGlossiness` extension.|No, default `false`|
-|`--unlit`|The glTF will be saved with the KHR_materials_unlit extension.|No, default `false`|
-|`--metallicRoughnessOcclusionTexture`|Path to the metallic-roughness-occlusion texture that should override textures in the .mtl file, where occlusion is stored in the red channel, roughness is stored in the green channel, and metallic is stored in the blue channel. The model will be saved with a pbrMetallicRoughness material. This is often convenient in workflows where the .mtl does not exist or is not set up to use PBR materials. Intended for models with a single material.|No|
-|`--specularGlossinessTexture`|Path to the specular-glossiness texture that should override textures in the .mtl file, where specular color is stored in the red, green, and blue channels and specular glossiness is stored in the alpha channel. The model will be saved with a material using the KHR_materials_pbrSpecularGlossiness extension.|No|
-|`--occlusionTexture`|Path to the occlusion texture that should override textures in the .mtl file.|No|
-|`--normalTexture`|Path to the normal texture that should override textures in the .mtl file.|No|
-|`--baseColorTexture`|Path to the baseColor/diffuse texture that should override textures in the .mtl file.|No|
-|`--emissiveTexture`|Path to the emissive texture that should override textures in the .mtl file.|No|
-|`--alphaTexture`|Path to the alpha texture that should override textures in the .mtl file.|No|
+| Flag                                    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                               | Required               |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| `-h`, `--help`                          | Display help.                                                                                                                                                                                                                                                                                                                                                                                                                                             | No                     |
+| `-i`, `--input`                         | Path to the obj file.                                                                                                                                                                                                                                                                                                                                                                                                                                     | :white_check_mark: Yes |
+| `-o`, `--output`                        | Path of the converted glTF or glb file.                                                                                                                                                                                                                                                                                                                                                                                                                   | No                     |
+| `-b`, `--binary`                        | Save as binary glTF (.glb).                                                                                                                                                                                                                                                                                                                                                                                                                               | No, default `false`    |
+| `-s`, `--separate`                      | Writes out separate buffers and textures instead of embedding them in the glTF file.                                                                                                                                                                                                                                                                                                                                                                      | No, default `false`    |
+| `-t`, `--separateTextures`              | Write out separate textures only.                                                                                                                                                                                                                                                                                                                                                                                                                         | No, default `false`    |
+| `--checkTransparency`                   | Do a more exhaustive check for texture transparency by looking at the alpha channel of each pixel. By default textures are considered to be opaque.                                                                                                                                                                                                                                                                                                       | No, default `false`    |
+| `--secure`                              | Prevent the converter from reading texture or mtl files outside of the input obj directory.                                                                                                                                                                                                                                                                                                                                                               | No, default `false`    |
+| `--packOcclusion`                       | Pack the occlusion texture in the red channel of metallic-roughness texture.                                                                                                                                                                                                                                                                                                                                                                              | No, default `false`    |
+| `--metallicRoughness`                   | The values in the mtl file are already metallic-roughness PBR values and no conversion step should be applied. Metallic is stored in the Ks and map_Ks slots and roughness is stored in the Ns and map_Ns slots.                                                                                                                                                                                                                                          | No, default `false`    |
+| `--specularGlossiness`                  | The values in the mtl file are already specular-glossiness PBR values and no conversion step should be applied. Specular is stored in the Ks and map_Ks slots and glossiness is stored in the Ns and map_Ns slots. The glTF will be saved with the `KHR_materials_pbrSpecularGlossiness` extension.                                                                                                                                                       | No, default `false`    |
+| `--unlit`                               | The glTF will be saved with the KHR_materials_unlit extension.                                                                                                                                                                                                                                                                                                                                                                                            | No, default `false`    |
+| `--metallicRoughnessOcclusionTexture`   | Path to the metallic-roughness-occlusion texture that should override textures in the .mtl file, where occlusion is stored in the red channel, roughness is stored in the green channel, and metallic is stored in the blue channel. The model will be saved with a pbrMetallicRoughness material. This is often convenient in workflows where the .mtl does not exist or is not set up to use PBR materials. Intended for models with a single material. | No                     |
+| `--specularGlossinessTexture`           | Path to the specular-glossiness texture that should override textures in the .mtl file, where specular color is stored in the red, green, and blue channels and specular glossiness is stored in the alpha channel. The model will be saved with a material using the KHR_materials_pbrSpecularGlossiness extension.                                                                                                                                      | No                     |
+| `--occlusionTexture`                    | Path to the occlusion texture that should override textures in the .mtl file.                                                                                                                                                                                                                                                                                                                                                                             | No                     |
+| `--normalTexture`                       | Path to the normal texture that should override textures in the .mtl file.                                                                                                                                                                                                                                                                                                                                                                                | No                     |
+| `--baseColorTexture`                    | Path to the baseColor/diffuse texture that should override textures in the .mtl file.                                                                                                                                                                                                                                                                                                                                                                     | No                     |
+| `--emissiveTexture`                     | Path to the emissive texture that should override textures in the .mtl file.                                                                                                                                                                                                                                                                                                                                                                              | No                     |
+| `--alphaTexture`                        | Path to the alpha texture that should override textures in the .mtl file.                                                                                                                                                                                                                                                                                                                                                                                 | No                     |
+| `--input-up-axis`                       | Up axis of the obj.                                                                                                                                                                                                                                                                                                                                                                                                                                       | No                     |
+| `--output-up-axis`                      | Up axis of the converted glTF.                                                                                                                                                                                                                                                                                                                                                                                                                            | No                     |
+| `--triangle-winding-order-sanitization` | Apply triangle winding order sanitization.                                                                                                                                                                                                                                                                                                                                                                                                                | No                     |
 
 ## Build Instructions
 
 Run the tests:
+
 ```
 npm run test
 ```
+
 To run ESLint on the entire codebase, run:
+
 ```
 npm run eslint
 ```
+
 To run ESLint automatically when a file is saved, run the following and leave it open in a console window:
+
 ```
 npm run eslint-watch
 ```
 
 ## Running Test Coverage
 
-Coverage uses [nyc](https://github.com/istanbuljs/nyc).  Run:
+Coverage uses [nyc](https://github.com/istanbuljs/nyc). Run:
+
 ```
 npm run coverage
 ```
+
 For complete coverage details, open `coverage/lcov-report/index.html`.
 
 The tests and coverage covers the Node.js module; it does not cover the command-line interface, which is tiny.
@@ -143,6 +150,7 @@ The tests and coverage covers the Node.js module; it does not cover the command-
 ## Generating Documentation
 
 To generate the documentation:
+
 ```
 npm run jsdoc
 ```
@@ -151,11 +159,12 @@ The documentation will be placed in the `doc` folder.
 
 ## Contributions
 
-Pull requests are appreciated.  Please use the same [Contributor License Agreement (CLA)](https://github.com/AnalyticalGraphicsInc/cesium/blob/master/CONTRIBUTING.md) used for [Cesium](http://cesiumjs.org/).
+Pull requests are appreciated. Please use the same [Contributor License Agreement (CLA)](https://github.com/CesiumGS/cesium/blob/main/CONTRIBUTING.md) used for [CesiumJS](https://cesium.com/cesiumjs/).
 
 ---
 
 Developed by the Cesium team.
+
 <p align="center">
-<a href="http://cesiumjs.org/"><img src="doc/cesium.png" onerror="this.src='cesium.png'"/></a>
+<a href="https://cesium.com/"><img src="doc/cesium.png" onerror="this.src='cesium.png'"/></a>
 </p>
