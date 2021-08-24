@@ -1,5 +1,5 @@
 "use strict";
-const Cesium = require("cesium");
+const Cesium = require("@propelleraero/cesium");
 const fsExtra = require("fs-extra");
 const loadMtl = require("../../lib/loadMtl");
 const loadTexture = require("../../lib/loadTexture");

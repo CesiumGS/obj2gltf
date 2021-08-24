@@ -1,5 +1,5 @@
 "use strict";
-const Cesium = require("cesium");
+const Cesium = require("@propelleraero/cesium");
 const obj2gltf = require("../../lib/obj2gltf");
 const createGltf = require("../../lib/createGltf");
 const loadObj = require("../../lib/loadObj");
