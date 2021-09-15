@@ -3,6 +3,8 @@
 ### 3.1.3 - 2021-09-15
 
 - Fixed bug where missing .mtl files were no longer being handled gracefully in Node 16. [#268](https://github.com/CesiumGS/obj2gltf/pull/268)
+- Fixed parsing models with tab separated elements like those exported from Tinkercad. [#259](https://github.com/CesiumGS/obj2gltf/pull/259)
+- Locked CesiumJS to 1.84.0 to prevent "ReferenceError: Blob is not defined" error when running obj2gltf.
 
 ### 3.1.2 - 2021-08-02
 
