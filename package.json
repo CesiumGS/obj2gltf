@@ -23,11 +23,11 @@
   },
   "main": "index.js",
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=12.0.0"
   },
   "dependencies": {
     "bluebird": "^3.7.2",
-    "cesium": "^1.83.0",
+    "cesium": "1.84.0",
     "fs-extra": "^10.0.0",
     "jpeg-js": "^0.4.3",
     "mime": "^2.5.2",
