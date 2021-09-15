@@ -1,5 +1,9 @@
 # Change Log
 
+### 3.1.3 - 2021-09-15
+
+- Fixed bug where missing .mtl files were no longer being handled gracefully in Node 16. [#268](https://github.com/CesiumGS/obj2gltf/pull/268)
+
 ### 3.1.2 - 2021-08-02
 
 - Removed `minFilter` and `magFilter` from generated samplers so that runtime engines can use their preferred texture filtering. [#240](https://github.com/CesiumGS/obj2gltf/pull/240)
