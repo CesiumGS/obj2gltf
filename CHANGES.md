@@ -1,5 +1,9 @@
 # Change Log
 
+### 3.1.4 - 2021-10-15
+
+- Unlocked CesiumJS package now that CesiumJS 1.86.1 is released with a fix for Node 16. [#270](https://github.com/CesiumGS/obj2gltf/pull/270)
+
 ### 3.1.3 - 2021-09-15
 
 - Fixed bug where missing .mtl files were no longer being handled gracefully in Node 16. [#268](https://github.com/CesiumGS/obj2gltf/pull/268)
