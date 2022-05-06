@@ -65,7 +65,8 @@
     "cloc": "gulp cloc",
     "prettier": "prettier --write \"**/*\"",
     "prettier-check": "prettier --check \"**/*\"",
-    "pretty-quick": "pretty-quick"
+    "pretty-quick": "pretty-quick",
+    "generate-third-party": "gulp generate-third-party"
   },
   "bin": {
     "obj2gltf": "./bin/obj2gltf.js"
