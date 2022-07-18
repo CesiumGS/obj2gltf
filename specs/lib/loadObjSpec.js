@@ -692,7 +692,7 @@ describe("loadObj", () => {
     }
     expect(thrownError).toEqual(
       new RuntimeError(
-        objInvalidContentsPath + " does not have any geometry data"
+        `${objInvalidContentsPath} does not have any geometry data`
       )
     );
   });

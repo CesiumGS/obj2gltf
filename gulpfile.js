@@ -89,7 +89,7 @@ function cloc() {
 
   //Run cloc on primary Source files only
   const source = new Promise(function (resolve, reject) {
-    cmdLine = "perl " + clocPath + " --quiet --progress-rate=0" + " lib/ bin/";
+    cmdLine = `perl ${clocPath} --quiet --progress-rate=0` + ` lib/ bin/`;
 
     child_process.exec(cmdLine, function (error, stdout, stderr) {
       if (error) {
@@ -105,8 +105,7 @@ function cloc() {
   //If running cloc on source succeeded, also run it on the tests.
   return source.then(function () {
     return new Promise(function (resolve, reject) {
-      cmdLine =
-        "perl " + clocPath + " --quiet --progress-rate=0" + " specs/lib/";
+      cmdLine = `perl ${clocPath} --quiet --progress-rate=0` + ` specs/lib/`;
       child_process.exec(cmdLine, function (error, stdout, stderr) {
         if (error) {
           console.log(stderr);
