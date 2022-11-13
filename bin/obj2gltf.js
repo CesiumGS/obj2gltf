@@ -67,6 +67,11 @@ const argv = yargs
       type: "boolean",
       default: defaults.separateTextures,
     },
+    noCombineBuffers: {
+      describe: "Do not combine data buffers.",
+      type: "boolean",
+      default: defaults.noCombineBuffers,
+    },
     checkTransparency: {
       describe:
         "Do a more exhaustive check for texture transparency by looking at the alpha channel of each pixel. By default textures are considered to be opaque.",
@@ -205,6 +210,7 @@ const options = {
   binary: binary,
   separate: argv.separate,
   separateTextures: argv.separateTextures,
+  noCombineBuffers: argv.noCombineBuffers,
   checkTransparency: argv.checkTransparency,
   secure: argv.secure,
   packOcclusion: argv.packOcclusion,
