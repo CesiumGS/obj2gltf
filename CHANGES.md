@@ -1,5 +1,9 @@
 # Change Log
 
+### 3.1.5 - ????-??-??
+
+- Fixed crash when writing GLB files above 2GB. [#280](https://github.com/CesiumGS/obj2gltf/pull/280)
+
 ### 3.1.4 - 2021-10-15
 
 - Unlocked CesiumJS package now that CesiumJS 1.86.1 is released with a fix for Node 16. [#270](https://github.com/CesiumGS/obj2gltf/pull/270)
