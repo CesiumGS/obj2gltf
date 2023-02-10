@@ -37,7 +37,7 @@ module.exports = {
   "generate-third-party": generateThirdParty,
 };
 
-async function test(done) {
+async function test() {
   const jasmine = new Jasmine();
   jasmine.loadConfigFile("specs/jasmine.json");
   jasmine.exitOnCompletion = false;
