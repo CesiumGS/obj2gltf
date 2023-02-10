@@ -1,5 +1,9 @@
 # Change Log
 
+### 3.1.6 - 2023-02-10
+
+- Update npm module dependencies.
+
 ### 3.1.5 - 2023-01-25
 
 - Fixed crash when writing GLB files above 2GB. [#280](https://github.com/CesiumGS/obj2gltf/pull/280)

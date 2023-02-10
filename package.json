@@ -1,6 +1,6 @@
 {
   "name": "obj2gltf",
-  "version": "3.1.5",
+  "version": "3.1.6",
   "description": "Convert OBJ model format to glTF",
   "license": "Apache-2.0",
   "contributors": [
@@ -50,11 +50,6 @@
     "open": "^8.3.0",
     "prettier": "2.8.4",
     "pretty-quick": "^3.1.1"
-  },
-  "husky": {
-    "hooks": {
-      
-    }
   },
   "scripts": {
     "prepare": "husky install",

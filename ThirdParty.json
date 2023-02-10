@@ -12,7 +12,7 @@
     "license": [
       "Apache-2.0"
     ],
-    "version": "1.93.0",
+    "version": "1.102.0",
     "url": "https://www.npmjs.com/package/cesium"
   },
   {
@@ -20,7 +20,7 @@
     "license": [
       "MIT"
     ],
-    "version": "10.1.0",
+    "version": "11.1.0",
     "url": "https://www.npmjs.com/package/fs-extra"
   },
   {
@@ -28,7 +28,7 @@
     "license": [
       "BSD-3-Clause"
     ],
-    "version": "0.4.3",
+    "version": "0.4.4",
     "url": "https://www.npmjs.com/package/jpeg-js"
   },
   {
@@ -36,7 +36,7 @@
     "license": [
       "MIT"
     ],
-    "version": "2.6.0",
+    "version": "3.0.0",
     "url": "https://www.npmjs.com/package/mime"
   },
   {
@@ -52,7 +52,7 @@
     "license": [
       "MIT"
     ],
-    "version": "17.4.1",
+    "version": "17.6.2",
     "url": "https://www.npmjs.com/package/yargs"
   }
 ]
