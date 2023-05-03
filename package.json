@@ -31,7 +31,7 @@
     "fs-extra": "^11.0.0",
     "jpeg-js": "^0.4.3",
     "mime": "^3.0.0",
-    "pngjs": "^6.0.0",
+    "pngjs": "^7.0.0",
     "yargs": "^17.2.1"
   },
   "devDependencies": {
@@ -47,8 +47,7 @@
     "jasmine-spec-reporter": "^7.0.0",
     "jsdoc": "^4.0.0",
     "nyc": "^15.1.0",
-    "open": "^8.3.0",
-    "prettier": "2.8.4",
+    "prettier": "2.8.8",
     "pretty-quick": "^3.1.1"
   },
   "scripts": {
