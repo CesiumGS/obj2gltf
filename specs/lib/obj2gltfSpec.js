@@ -168,8 +168,8 @@ describe("obj2gltf", () => {
     }
     expect(thrownError).toEqual(
       new DeveloperError(
-        "Either options.writer or options.outputDirectory must be defined when writing separate resources."
-      )
+        "Either options.writer or options.outputDirectory must be defined when writing separate resources.",
+      ),
     );
   });
 
@@ -187,8 +187,8 @@ describe("obj2gltf", () => {
     }
     expect(thrownError).toEqual(
       new DeveloperError(
-        "Only one material type may be set from [metallicRoughness, specularGlossiness, unlit]."
-      )
+        "Only one material type may be set from [metallicRoughness, specularGlossiness, unlit].",
+      ),
     );
   });
 
@@ -208,8 +208,8 @@ describe("obj2gltf", () => {
     }
     expect(thrownError).toEqual(
       new DeveloperError(
-        "metallicRoughnessOcclusionTexture and specularGlossinessTexture cannot both be defined."
-      )
+        "metallicRoughnessOcclusionTexture and specularGlossinessTexture cannot both be defined.",
+      ),
     );
   });
 });

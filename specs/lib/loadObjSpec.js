@@ -151,14 +151,14 @@ describe("loadObj", () => {
         normalX,
         normalY,
         normalZ,
-        scratchNormal
+        scratchNormal,
       );
       expect(
         CesiumMath.equalsEpsilon(
           Cartesian3.magnitude(normal),
           1.0,
-          CesiumMath.EPSILON5
-        )
+          CesiumMath.EPSILON5,
+        ),
       ).toBe(true);
     }
   });
@@ -177,7 +177,7 @@ describe("loadObj", () => {
       await loadObj(objNegativeIndicesPath, options),
     ];
     const positionsReference = getPrimitives(
-      results[0]
+      results[0],
     )[0].positions.toFloatBuffer();
     const positions = getPrimitives(results[1])[0].positions.toFloatBuffer();
     expect(positions).toEqual(positionsReference);
@@ -402,18 +402,18 @@ describe("loadObj", () => {
     expect(data.materials.length).toBe(0);
     expect(spy.calls.argsFor(0)[0].indexOf("ENOENT") >= 0).toBe(true);
     expect(spy.calls.argsFor(0)[0].indexOf(path.resolve("/box.mtl")) >= 0).toBe(
-      true
+      true,
     );
     expect(
       spy.calls
         .argsFor(1)[0]
         .indexOf(
-          "Attempting to read the material file from within the obj directory instead."
-        ) >= 0
+          "Attempting to read the material file from within the obj directory instead.",
+        ) >= 0,
     ).toBe(true);
     expect(spy.calls.argsFor(2)[0].indexOf("ENOENT") >= 0).toBe(true);
     expect(
-      spy.calls.argsFor(3)[0].indexOf("Could not read material file") >= 0
+      spy.calls.argsFor(3)[0].indexOf("Could not read material file") >= 0,
     ).toBe(true);
   });
 
@@ -454,12 +454,12 @@ describe("loadObj", () => {
       spy.calls
         .argsFor(0)[0]
         .indexOf(
-          "The material file is outside of the obj directory and the secure flag is true. Attempting to read the material file from within the obj directory instead."
-        ) >= 0
+          "The material file is outside of the obj directory and the secure flag is true. Attempting to read the material file from within the obj directory instead.",
+        ) >= 0,
     ).toBe(true);
     expect(spy.calls.argsFor(1)[0].indexOf("ENOENT") >= 0).toBe(true);
     expect(
-      spy.calls.argsFor(2)[0].indexOf("Could not read material file") >= 0
+      spy.calls.argsFor(2)[0].indexOf("Could not read material file") >= 0,
     ).toBe(true);
   });
 
@@ -505,18 +505,18 @@ describe("loadObj", () => {
     expect(baseColorTexture).toBeUndefined();
     expect(spy.calls.argsFor(0)[0].indexOf("ENOENT") >= 0).toBe(true);
     expect(
-      spy.calls.argsFor(0)[0].indexOf(path.resolve("/cesium.png")) >= 0
+      spy.calls.argsFor(0)[0].indexOf(path.resolve("/cesium.png")) >= 0,
     ).toBe(true);
     expect(
       spy.calls
         .argsFor(1)[0]
         .indexOf(
-          "Attempting to read the texture file from within the obj directory instead."
-        ) >= 0
+          "Attempting to read the texture file from within the obj directory instead.",
+        ) >= 0,
     ).toBe(true);
     expect(spy.calls.argsFor(2)[0].indexOf("ENOENT") >= 0).toBe(true);
     expect(
-      spy.calls.argsFor(3)[0].indexOf("Could not read texture file") >= 0
+      spy.calls.argsFor(3)[0].indexOf("Could not read texture file") >= 0,
     ).toBe(true);
   });
 
@@ -562,7 +562,7 @@ describe("loadObj", () => {
     return new Cartesian3(
       primitive.positions.get(0),
       primitive.positions.get(1),
-      primitive.positions.get(2)
+      primitive.positions.get(2),
     );
   }
 
@@ -571,7 +571,7 @@ describe("loadObj", () => {
     return new Cartesian3(
       primitive.normals.get(0),
       primitive.normals.get(1),
-      primitive.normals.get(2)
+      primitive.normals.get(2),
     );
   }
 
@@ -579,7 +579,7 @@ describe("loadObj", () => {
     inputUpAxis,
     outputUpAxis,
     position,
-    normal
+    normal,
   ) {
     const sameAxis = inputUpAxis === outputUpAxis;
     options.inputUpAxis = inputUpAxis;
@@ -629,13 +629,13 @@ describe("loadObj", () => {
     options.triangleWindingOrderSanitization = false;
     const indicesIncorrect = await loadAndGetIndices(
       objIncorrectWindingOrderPath,
-      options
+      options,
     );
 
     options.triangleWindingOrderSanitization = true;
     const indicesCorrect = await loadAndGetIndices(
       objIncorrectWindingOrderPath,
-      options
+      options,
     );
 
     expect(indicesIncorrect[0]).toBe(0);
@@ -655,7 +655,7 @@ describe("loadObj", () => {
       thrownError = e;
     }
     expect(thrownError).toEqual(
-      new RuntimeError("Position index 1 is out of bounds")
+      new RuntimeError("Position index 1 is out of bounds"),
     );
   });
 
@@ -667,7 +667,7 @@ describe("loadObj", () => {
       thrownError = e;
     }
     expect(thrownError).toEqual(
-      new RuntimeError("Normal index 1 is out of bounds")
+      new RuntimeError("Normal index 1 is out of bounds"),
     );
   });
 
@@ -679,7 +679,7 @@ describe("loadObj", () => {
       thrownError = e;
     }
     expect(thrownError).toEqual(
-      new RuntimeError("UV index 1 is out of bounds")
+      new RuntimeError("UV index 1 is out of bounds"),
     );
   });
 
@@ -692,8 +692,8 @@ describe("loadObj", () => {
     }
     expect(thrownError).toEqual(
       new RuntimeError(
-        `${objInvalidContentsPath} does not have any geometry data`
-      )
+        `${objInvalidContentsPath} does not have any geometry data`,
+      ),
     );
   });
 
@@ -705,7 +705,7 @@ describe("loadObj", () => {
       thrownError = e;
     }
     expect(
-      thrownError.message.startsWith("ENOENT: no such file or directory")
+      thrownError.message.startsWith("ENOENT: no such file or directory"),
     ).toBe(true);
   });
 });

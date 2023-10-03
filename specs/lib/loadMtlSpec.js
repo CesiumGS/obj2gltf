@@ -61,7 +61,7 @@ describe("loadMtl", () => {
     diffuseTexture = await loadTexture(diffuseTexturePath, decodeOptions);
     transparentDiffuseTexture = await loadTexture(
       transparentDiffuseTexturePath,
-      checkTransparencyOptions
+      checkTransparencyOptions,
     );
     alphaTexture = await loadTexture(alphaTexturePath, decodeOptions);
     ambientTexture = await loadTexture(ambientTexturePath);
@@ -70,7 +70,7 @@ describe("loadMtl", () => {
     specularTexture = await loadTexture(specularTexturePath, decodeOptions);
     specularShininessTexture = await loadTexture(
       specularShininessTexturePath,
-      decodeOptions
+      decodeOptions,
     );
   });
 
@@ -196,12 +196,12 @@ describe("loadMtl", () => {
       spy.calls
         .argsFor(0)[0]
         .indexOf(
-          "Texture file is outside of the mtl directory and the secure flag is true. Attempting to read the texture file from within the obj directory instead"
-        ) >= 0
+          "Texture file is outside of the mtl directory and the secure flag is true. Attempting to read the texture file from within the obj directory instead",
+        ) >= 0,
     ).toBe(true);
     expect(spy.calls.argsFor(1)[0].indexOf("ENOENT") >= 0).toBe(true);
     expect(
-      spy.calls.argsFor(2)[0].indexOf("Could not read texture file") >= 0
+      spy.calls.argsFor(2)[0].indexOf("Could not read texture file") >= 0,
     ).toBe(true);
   });
 
@@ -294,7 +294,7 @@ describe("loadMtl", () => {
           specularTexture: specularTexture,
           specularShininessTexture: specularShininessTexture,
         },
-        options
+        options,
       );
 
       const pbr = material.pbrMetallicRoughness;
@@ -321,7 +321,7 @@ describe("loadMtl", () => {
           specularTexture: specularTexture,
           specularShininessTexture: specularShininessTexture,
         },
-        options
+        options,
       );
 
       const pbr = material.pbrMetallicRoughness;
@@ -339,7 +339,7 @@ describe("loadMtl", () => {
           specularTexture: specularTexture,
           specularShininessTexture: specularShininessTexture,
         },
-        options
+        options,
       );
 
       const pbr = material.pbrMetallicRoughness;
@@ -354,7 +354,7 @@ describe("loadMtl", () => {
         {
           diffuseTexture: transparentDiffuseTexture,
         },
-        options
+        options,
       );
       expect(material.alphaMode).toBe("BLEND");
       expect(material.doubleSided).toBe(true);
@@ -368,7 +368,7 @@ describe("loadMtl", () => {
           diffuseTexture: diffuseTexture,
           alphaTexture: alphaTexture,
         },
-        options
+        options,
       );
 
       const pbr = material.pbrMetallicRoughness;
@@ -398,7 +398,7 @@ describe("loadMtl", () => {
           diffuseTexture: diffuseTexture,
           alphaTexture: diffuseTexture,
         },
-        options
+        options,
       );
 
       const pbr = material.pbrMetallicRoughness;
@@ -446,7 +446,7 @@ describe("loadMtl", () => {
           specularTexture: specularTexture,
           specularShininessTexture: specularShininessTexture,
         },
-        options
+        options,
       );
 
       const pbr = material.extensions.KHR_materials_pbrSpecularGlossiness;
@@ -471,7 +471,7 @@ describe("loadMtl", () => {
           specularTexture: ambientTexture, // Is a .gif which can't be decoded
           specularShininessTexture: specularShininessTexture,
         },
-        options
+        options,
       );
 
       const pbr = material.extensions.KHR_materials_pbrSpecularGlossiness;
@@ -485,7 +485,7 @@ describe("loadMtl", () => {
         {
           diffuseTexture: transparentDiffuseTexture,
         },
-        options
+        options,
       );
 
       expect(material.alphaMode).toBe("BLEND");
@@ -500,7 +500,7 @@ describe("loadMtl", () => {
           diffuseTexture: diffuseTexture,
           alphaTexture: alphaTexture,
         },
-        options
+        options,
       );
 
       const pbr = material.extensions.KHR_materials_pbrSpecularGlossiness;
@@ -530,7 +530,7 @@ describe("loadMtl", () => {
           diffuseTexture: diffuseTexture,
           alphaTexture: diffuseTexture,
         },
-        options
+        options,
       );
 
       const pbr = material.extensions.KHR_materials_pbrSpecularGlossiness;
