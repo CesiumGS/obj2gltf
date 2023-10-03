@@ -406,6 +406,14 @@ describe("loadMtl", () => {
       expect(material.alphaMode).toBe("BLEND");
       expect(material.doubleSided).toBe(true);
     });
+
+    it("uses doubleSidedMaterial option", () => {
+      options.metallicRoughness = true;
+      options.doubleSidedMaterial = true;
+
+      const material = loadMtl._createMaterial(undefined, options);
+      expect(material.doubleSided).toBe(true);
+    });
   });
 
   describe("specularGlossiness", () => {
@@ -528,6 +536,14 @@ describe("loadMtl", () => {
       const pbr = material.extensions.KHR_materials_pbrSpecularGlossiness;
       expect(pbr.diffuseTexture).toEqual(diffuseTexture);
       expect(material.alphaMode).toBe("BLEND");
+      expect(material.doubleSided).toBe(true);
+    });
+
+    it("uses doubleSidedMaterial option", () => {
+      options.specularGlossiness = true;
+      options.doubleSidedMaterial = true;
+
+      const material = loadMtl._createMaterial(undefined, options);
       expect(material.doubleSided).toBe(true);
     });
   });

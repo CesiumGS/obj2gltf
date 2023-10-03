@@ -160,6 +160,11 @@ const argv = yargs
       type: "boolean",
       default: defaults.triangleWindingOrderSanitization,
     },
+    doubleSidedMaterial: {
+      describe: "Allow the material properties to be double-sided",
+      type: "boolean",
+      default: defaults.doubleSidedMaterial,
+    },
   })
   .parse(args);
 
@@ -216,6 +221,7 @@ const options = {
   inputUpAxis: argv.inputUpAxis,
   outputUpAxis: argv.outputUpAxis,
   triangleWindingOrderSanitization: argv.triangleWindingOrderSanitization,
+  doubleSidedMaterial: argv.doubleSidedMaterial,
 };
 
 console.time("Total");

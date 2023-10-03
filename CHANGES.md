@@ -1,5 +1,9 @@
 # Change Log
 
+### 3.2.0 - 2023-??-??
+
+- Added `doubleSidedMaterial` option to force materials to be rendered double sided. [#294](https://github.com/CesiumGS/obj2gltf/pull/294)
+
 ### 3.1.6 - 2023-02-10
 
 - Update npm module dependencies.
