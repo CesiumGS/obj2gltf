@@ -170,9 +170,10 @@ const argv = yargs
 
 if (argv.metallicRoughness + argv.specularGlossiness > 1) {
   console.error(
-    "Only one material type may be set from [--metallicRoughness, --specularGlossiness]."
+    "Only one material type may be set from [--metallicRoughness, --specularGlossiness].",
   );
-  process.exit(1);
+  process.exitCode = 1;
+  return;
 }
 
 if (
@@ -180,9 +181,10 @@ if (
   defined(argv.specularGlossinessTexture)
 ) {
   console.error(
-    "--metallicRoughnessOcclusionTexture and --specularGlossinessTexture cannot both be set."
+    "--metallicRoughnessOcclusionTexture and --specularGlossinessTexture cannot both be set.",
   );
-  process.exit(1);
+  process.exitCode = 1;
+  return;
 }
 
 const objPath = argv.input;
@@ -242,5 +244,5 @@ obj2gltf(objPath, options)
   })
   .catch(function (error) {
     console.log(error.message);
-    process.exit(1);
+    process.exitCode = 1;
   });

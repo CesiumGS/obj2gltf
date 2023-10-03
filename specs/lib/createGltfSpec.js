@@ -121,7 +121,7 @@ describe("createGltf", () => {
         .map((texture) => {
           return texture.index;
         })
-        .sort()
+        .sort(),
     ).toEqual([0, 1, 2, 3, 4]);
     expect(gltf.samplers[0]).toBeDefined();
   });
@@ -255,7 +255,7 @@ describe("createGltf", () => {
         const material = materials[primitive.material];
         if (!defined(primitive.attributes.TEXCOORD_0)) {
           expect(
-            material.pbrMetallicRoughness.baseColorTexture
+            material.pbrMetallicRoughness.baseColorTexture,
           ).toBeUndefined();
         }
       }
