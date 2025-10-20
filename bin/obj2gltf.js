@@ -6,7 +6,7 @@ const path = require("path");
 const yargs = require("yargs");
 const obj2gltf = require("../lib/obj2gltf");
 
-const defaultValue = Cesium.defaultValue;
+const defaultValue = (a, b) => a ?? b;
 const defined = Cesium.defined;
 
 const defaults = obj2gltf.defaults;
