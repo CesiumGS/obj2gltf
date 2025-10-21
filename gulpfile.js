@@ -10,7 +10,7 @@ const JasmineSpecReporter = require("jasmine-spec-reporter").SpecReporter;
 const path = require("path");
 const yargs = require("yargs");
 
-const defaultValue = Cesium.defaultValue;
+const defaultValue = (a, b) => a ?? b;
 const defined = Cesium.defined;
 const argv = yargs.argv;
 
@@ -119,7 +119,7 @@ function cloc() {
 }
 
 function getLicenseDataFromPackage(packageName, override) {
-  override = defaultValue(override, defaultValue.EMPTY_OBJECT);
+  override = defaultValue(override, Cesium.Frozen.EMPTY_OBJECT);
   const packagePath = path.join("node_modules", packageName, "package.json");
 
   if (!fsExtra.existsSync(packagePath)) {
